@@ -17,16 +17,30 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+/*
+import org.springframework.http.HttpAuthentication;
+import org.springframework.http.HttpBasicAuthentication;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+*/
+
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
+    public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +74,7 @@ public class MainActivity extends ActionBarActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 final String item = (String) parent.getItemAtPosition(position);
 
                 Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
@@ -77,14 +90,36 @@ public class MainActivity extends ActionBarActivity {
                                 view.setAlpha(1);
                             }
                         });*/
-            }
-        });
-    }
+                }
+            });
+        }
 
     @Override
     protected void onStart() {
         super.onStart();
-        new HttpRequestTask().execute();
+
+        RestClient.get().singIn("s.iv@notifie.ru", "123456", new Callback<AuthResponce>() {
+            @Override
+            public void success(AuthResponce authResponce, Response response) {
+                // success!
+                String auth_token = authResponce.getAuthentication_token();
+                Log.i("App", auth_token);
+
+                Notifie app = ((Notifie)getApplicationContext());
+                app.setAuth_token(auth_token);
+                // you get the point...
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error" + error);
+            }
+        });
+
+        // new SignInTask().execute();
+
+        //new HttpRequestTask().execute();
     }
 
 
@@ -161,11 +196,27 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected Greeting doInBackground(Void... params) {
             try {
-                final String url = "http://rest-service.guides.spring.io/greeting";
+                final String url = "http://192.168.1.39:3000/api/v1/me?access_token=wdzKp1tyDnpubHpzzL8D";
+
+                // Set the Accept header
+
+                /*
+                HttpHeaders requestHeaders = new HttpHeaders();
+                requestHeaders.setAccept(Collections.singletonList(new MediaType("application", "json")));
+                HttpAuthentication authHeader = new HttpBasicAuthentication("s.iv@notifie.ru", "123456");
+                requestHeaders.setAuthorization(authHeader);
+                HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
+
                 RestTemplate restTemplate = new RestTemplate();
+
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                Greeting greeting = restTemplate.getForObject(url, Greeting.class);
-                return greeting;
+
+                ResponseEntity<Greeting> responseEntity = restTemplate.exchange(url, GET, requestEntity, Greeting.class);
+                Greeting greeting = responseEntity.getBody();
+                //Greeting greeting = restTemplate.getForObject(url, Greeting.class);
+
+                return greeting; */
+                return null;
             } catch (Exception e) {
                 Log.e("MainActivity", e.getMessage(), e);
             }
@@ -179,8 +230,10 @@ public class MainActivity extends ActionBarActivity {
             //TextView greetingContentText = (TextView) findViewById(R.id.content_value);
             //greetingIdText.setText(greeting.getId());
             //greetingContentText.setText(greeting.getContent());
-            Log.w("onPostExecute", "id:" + greeting.getId());
-            Log.w("onPostExecute", "content:" + greeting.getContent());
+            if (greeting != null) {
+                Log.w("onPostExecute", "id:" + greeting.getId());
+                Log.w("onPostExecute", "content:" + greeting.getAvatar_content_type());
+            }
         }
 
     }

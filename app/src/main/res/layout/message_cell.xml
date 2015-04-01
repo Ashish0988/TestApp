@@ -14,9 +14,9 @@
             android:id="@+id/icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="4px"
+            android:layout_marginLeft="4dp"
             android:layout_marginRight="10px"
-            android:layout_marginTop="4px"
+            android:layout_marginTop="4dp"
             android:src="@drawable/ic_action_call" >
         </ImageView>
 
@@ -38,7 +38,7 @@
             android:id="@+id/message_text"
             android:layout_width="wrap_content"
             android:layout_height="70dp"
-            android:text="@+id/label"
+            android:text="@+id/message_text"
             android:layout_marginLeft="60dp"
             android:textSize="10dp" >
         </TextView>

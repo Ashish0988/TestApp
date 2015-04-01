@@ -3,7 +3,7 @@ package co.notifie.testapp;
 /**
  * Created by thunder on 01.04.15.
  */
-public class Greeting {
+public class User {
     private String id;
     private String avatar_file_name;
     private String avatar_content_type;

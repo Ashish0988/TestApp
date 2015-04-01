@@ -2,19 +2,23 @@ package co.notifie.testapp;
 
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.app.Fragment;
+
+import com.squareup.picasso.Picasso;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+import static co.notifie.testapp.MainActivity.NOTIFIE_HOST;
 
 public class DisplayMessageActivity extends ActionBarActivity {
+    public ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +31,56 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
         TextView textView = (TextView) this.findViewById(R.id.detail_message_text_view);
 
-        Log.w("Detail_message_id = ", " " + R.id.detail_message);
-
         if (textView != null) {
             textView.setTextSize(16);
             textView.setText(message);
         }
 
+        // Display auth_token
+
+        TextView authTokenText = (TextView) this.findViewById(R.id.token);
+
+        imageView = (ImageView) this.findViewById(R.id.user_icon);
+
+        if (authTokenText != null) {
+
+            Notifie app = ((Notifie)getApplicationContext());
+            String auth_token = app.getAuth_token();
+
+            authTokenText.setText(auth_token);
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Notifie app = ((Notifie)getApplicationContext());
+        String auth_token = app.getAuth_token();
+
+        RestClient.get().getMe(auth_token, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                // success!
+                String avatar_url = NOTIFIE_HOST + user.getAvatar_url();
+                Log.i("App", avatar_url);
+
+                Picasso.with(imageView.getContext())
+                        .load(avatar_url)
+                        .transform(new CircleTransform())
+                        .resize(100, 100)
+                        .centerCrop()
+                        .into(imageView);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error" + error);
+            }
+        });
     }
 
     @Override
