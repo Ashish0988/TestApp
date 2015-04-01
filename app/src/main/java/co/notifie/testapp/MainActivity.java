@@ -1,21 +1,24 @@
 package co.notifie.testapp;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import 	android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +79,12 @@ public class MainActivity extends ActionBarActivity {
                         });*/
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        new HttpRequestTask().execute();
     }
 
 
@@ -146,6 +155,34 @@ public class MainActivity extends ActionBarActivity {
 
             return rowView;
         }
+    }
+
+    private class HttpRequestTask extends AsyncTask<Void, Void, Greeting> {
+        @Override
+        protected Greeting doInBackground(Void... params) {
+            try {
+                final String url = "http://rest-service.guides.spring.io/greeting";
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                Greeting greeting = restTemplate.getForObject(url, Greeting.class);
+                return greeting;
+            } catch (Exception e) {
+                Log.e("MainActivity", e.getMessage(), e);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Greeting greeting) {
+            //TextView greetingIdText = (TextView) findViewById(R.id.id_value);
+            //TextView greetingContentText = (TextView) findViewById(R.id.content_value);
+            //greetingIdText.setText(greeting.getId());
+            //greetingContentText.setText(greeting.getContent());
+            Log.w("onPostExecute", "id:" + greeting.getId());
+            Log.w("onPostExecute", "content:" + greeting.getContent());
+        }
+
     }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
