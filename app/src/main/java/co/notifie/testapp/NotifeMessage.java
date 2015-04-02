@@ -1,7 +1,6 @@
 package co.notifie.testapp;
 
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
@@ -27,7 +26,6 @@ public class NotifeMessage extends RealmObject {
     private String updated_at;
     private String unread_comments_sum;
 
-    @Ignore
     private NotifieClient client;
 
     public String getClient_id() {

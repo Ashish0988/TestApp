@@ -11,16 +11,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -45,8 +47,7 @@ public class MainActivity extends ActionBarActivity {
     public static String AUTH_TOKEN;
 
     ArrayList<String> list = new ArrayList<String>();
-    MySimpleArrayAdapter adapter;
-    Realm realm;
+    public static Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,51 +56,32 @@ public class MainActivity extends ActionBarActivity {
 
         final ListView listview = (ListView) findViewById(R.id.listview);
 
-        /*
-        String[] values = new String[] { "Android порождённый русскоязычной версией Windows (вернее, программой fontview.exe, которая входит в дефолтную поставку, начиная аж с незапамятных времён Windows 95). Таким хитроумным способом Винда демонстрирует юзеру", "iPhone", "WindowsMobile",
-                "BlackberryСъешь ещё этих мягких французских булок, да выпей чаю",
-                "WebOS", "Ubuntu", "Windows7", "Max OS X"
-        };
-
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }*/
-
         //realm = Realm.getInstance(this);
-        realm = Realm.getInstance(this, "test1.realm");
+        realm = Realm.getInstance(this, "test3.realm");
 
         // Sign in and get Token
         signIn();
 
-        adapter = new MySimpleArrayAdapter(this, list);
+        RealmResults<NotifeMessage> messages = realm.where(NotifeMessage.class)
+                .findAll();
 
-        //final StableArrayAdapter adapter = new StableArrayAdapter(this,
-        //        R.layout.message_cell, R.id.label, list);
 
-        //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.message_cell, R.id.label, list);
-        //setListAdapter(adapter);
+        final MyAdapter my_adapter = new MyAdapter(this, R.layout.message_cell,
+                messages, true);
 
-        listview.setAdapter(adapter);
+        listview.setAdapter(my_adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
+
+                final NotifeMessage item = my_adapter.getRealmResults().get(position);
 
                 Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
-                intent.putExtra(EXTRA_MESSAGE, item);
+                intent.putExtra(EXTRA_MESSAGE, item.getId());
                 startActivity(intent);
 
-                /*view.animate().setDuration(2000).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            }
-                        });*/
                 }
             });
         }
@@ -154,7 +136,7 @@ public class MainActivity extends ActionBarActivity {
                 //
 
                 realm.beginTransaction();
-                realm.copyToRealm(messages);
+                realm.copyToRealmOrUpdate(messages);
                 realm.commitTransaction();
 
                 RealmResults<NotifeMessage> result2 = realm.where(NotifeMessage.class).findAll();
@@ -165,7 +147,7 @@ public class MainActivity extends ActionBarActivity {
                     Log.i("App message = ", message.getShort_title());
                 }
 
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -199,77 +181,53 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /** Called when the user clicks the Send button */
-    public void sendMessage(View view) {
-        // Do something in response to button
-        /*
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-        */
-    }
+    public class MyAdapter extends RealmBaseAdapter<NotifeMessage> implements ListAdapter {
 
-    public class MySimpleArrayAdapter extends ArrayAdapter<String> {
-        private final Context context;
-        private final List<String> values;
-
-        public MySimpleArrayAdapter(Context context, List<String> values) {
-            super(context, R.layout.message_cell, values);
-            this.context = context;
-            this.values = values;
+        public MyAdapter(Context context, int resId,
+                         RealmResults<NotifeMessage> realmResults,
+                         boolean automaticUpdate) {
+            super(context, realmResults, automaticUpdate);
         }
+
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+
+            NotifeMessage item = realmResults.get(position);
+
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.message_cell, parent, false);
             TextView textView = (TextView) rowView.findViewById(R.id.label);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            textView.setText(values.get(position));
+            textView.setText(item.getShort_title());
 
             TextView messageText = (TextView) rowView.findViewById(R.id.message_text);
-            messageText.setText(values.get(position));
+            messageText.setText(item.getText());
 
-            // Change the icon for Windows and iPhone
-            String s = values.get(position);
-            if (s.startsWith("Windows7") || s.startsWith("iPhone")
-                    || s.startsWith("Solaris")) {
-                imageView.setImageResource(R.drawable.ic_action_call);
-            } else {
-                imageView.setImageResource(R.drawable.ic_action_refresh);
+            String image_url = item.getClient().getImage();
+
+
+
+            try {
+                if (image_url != null && image_url.length() != 0) {
+                    Picasso.with(getBaseContext())
+                            .load(image_url)
+                            .transform(new CircleTransform())
+                            .resize(60, 60)
+                            .centerCrop()
+                            .into(imageView);
+                }
+            } catch (IllegalArgumentException e) {
+                Log.v("Path", image_url);
             }
 
             return rowView;
         }
-    }
 
-
-    private class StableArrayAdapter extends ArrayAdapter<String> {
-
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-        public StableArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
-            }
+        public RealmResults<NotifeMessage> getRealmResults() {
+            return realmResults;
         }
-
-        @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.get(item);
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
     }
 
 }

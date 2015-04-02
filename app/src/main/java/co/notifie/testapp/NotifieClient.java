@@ -1,13 +1,17 @@
 package co.notifie.testapp;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
+
 /**
  * Created by thunder on 02.04.15.
  */
 
-//@RealmClass
-public class NotifieClient { //extends RealmObject
+@RealmClass
+public class NotifieClient extends RealmObject {
 
-    //@PrimaryKey
+    @PrimaryKey
     private String id;
 
     private String access_token;
