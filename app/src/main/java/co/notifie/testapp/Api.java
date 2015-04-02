@@ -21,7 +21,7 @@ public interface Api {
                 Callback<User> callback);
 
     @GET("/api/v1/messages.json")
-    void getMessages(@Header("Authorization") String authorization, @Query("page") int page,
+    void getMessages(@Header("Authorization") String authorization, @Query("page") int page, @Query("per_page") int per_page,
                Callback<MessagesResponce> callback);
 
     @GET("/api/v1/messages/{id}")

@@ -43,7 +43,7 @@ import org.springframework.web.client.RestTemplate;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://192.168.1.39:3000"; //192.168.1.39:3000
+    public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
     public static String AUTH_TOKEN;
 
     ArrayList<String> list = new ArrayList<String>();
@@ -57,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
         final ListView listview = (ListView) findViewById(R.id.listview);
 
         //realm = Realm.getInstance(this);
-        realm = Realm.getInstance(this, "test3.realm");
+        realm = Realm.getInstance(this, "test4.realm");
 
         // Sign in and get Token
         signIn();
@@ -125,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
     //
     public void loadMessages() {
 
-        RestClient.get().getMessages(AUTH_TOKEN, 1, new Callback<MessagesResponce>() {
+        RestClient.get().getMessages(AUTH_TOKEN, 1, 100, new Callback<MessagesResponce>() {
             @Override
             public void success(MessagesResponce messagesResponce, Response response) {
                 // success!
