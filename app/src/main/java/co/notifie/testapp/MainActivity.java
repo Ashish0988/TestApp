@@ -2,7 +2,6 @@ package co.notifie.testapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -40,7 +41,12 @@ import org.springframework.web.client.RestTemplate;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
+    public final static String NOTIFIE_HOST = "http://192.168.1.39:3000"; //192.168.1.39:3000
+    public static String AUTH_TOKEN;
+
+    ArrayList<String> list = new ArrayList<String>();
+    MySimpleArrayAdapter adapter;
+    Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,25 +55,29 @@ public class MainActivity extends ActionBarActivity {
 
         final ListView listview = (ListView) findViewById(R.id.listview);
 
-        String[] values = new String[] { "Android Съешь ещё этих мягких французских булок, да выпей чаю. — мем, порождённый русскоязычной версией Windows (вернее, программой fontview.exe, которая входит в дефолтную поставку, начиная аж с незапамятных времён Windows 95). Таким хитроумным способом Винда демонстрирует юзеру, каким образом выглядят буквы в кириллических шрифтах для пользователей перевода Windows для России", "iPhone", "WindowsMobile",
-                "BlackberryСъешь ещё этих мягких французских булок, да выпей чаю. — мем, порождённый русскоязычной версией Windows (вернее, программой fontview.exe, которая входит в дефолтную поставку, начиная аж с незапамятных времён Windows 95). Таким хитроумным способом Винда демонстрирует юзеру, каким образом выглядят буквы в кириллических шрифтах для пользователей перевода Windows для России", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2 Самый православный. Залезть в папку Windows/Fonts и открыть любой находящийся там файл кириллического шрифта (Arial сойдёт).\n" +
-                "Самый кулхацкерный. Открыть Microsoft Word, набрать =rand() и нажать ENTER. Вуаля, добрый Ворд угостит нас сразу несколькими порциями любимой нямки. Вообще, там можно задавать ещё два параметра, чтобы варьиро", "Ubuntu", "Windows7", "Max OS X", "Linux",
-                "OS/2", "Ubuntu", "Windows7", "Max OS X", "Linux", "OS/2",
-                "Android", "iPhone", "WindowsMobile" };
+        /*
+        String[] values = new String[] { "Android порождённый русскоязычной версией Windows (вернее, программой fontview.exe, которая входит в дефолтную поставку, начиная аж с незапамятных времён Windows 95). Таким хитроумным способом Винда демонстрирует юзеру", "iPhone", "WindowsMobile",
+                "BlackberryСъешь ещё этих мягких французских булок, да выпей чаю",
+                "WebOS", "Ubuntu", "Windows7", "Max OS X"
+        };
 
-        final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < values.length; ++i) {
             list.add(values[i]);
-        }
+        }*/
+
+        //realm = Realm.getInstance(this);
+        realm = Realm.getInstance(this, "test1.realm");
+
+        // Sign in and get Token
+        signIn();
+
+        adapter = new MySimpleArrayAdapter(this, list);
 
         //final StableArrayAdapter adapter = new StableArrayAdapter(this,
         //        R.layout.message_cell, R.id.label, list);
 
         //final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.message_cell, R.id.label, list);
         //setListAdapter(adapter);
-
-        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, values);
 
         listview.setAdapter(adapter);
 
@@ -98,6 +108,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
+        // new SignInTask().execute();
+
+        //new HttpRequestTask().execute();
+    }
+
+    public void signIn() {
         RestClient.get().singIn("s.iv@notifie.ru", "123456", new Callback<AuthResponce>() {
             @Override
             public void success(AuthResponce authResponce, Response response) {
@@ -105,9 +121,51 @@ public class MainActivity extends ActionBarActivity {
                 String auth_token = authResponce.getAuthentication_token();
                 Log.i("App", auth_token);
 
-                Notifie app = ((Notifie)getApplicationContext());
+                Notifie app = ((Notifie) getApplicationContext());
                 app.setAuth_token(auth_token);
                 // you get the point...
+
+                AUTH_TOKEN = auth_token;
+
+                loadMessages();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error" + error);
+            }
+        });
+    }
+
+    //
+    // Load Messages From Server
+    //
+    public void loadMessages() {
+
+        RestClient.get().getMessages(AUTH_TOKEN, 1, new Callback<MessagesResponce>() {
+            @Override
+            public void success(MessagesResponce messagesResponce, Response response) {
+                // success!
+                List<NotifeMessage> messages = messagesResponce.getMessages();
+
+                //
+                // Store At Database
+                //
+
+                realm.beginTransaction();
+                realm.copyToRealm(messages);
+                realm.commitTransaction();
+
+                RealmResults<NotifeMessage> result2 = realm.where(NotifeMessage.class).findAll();
+                Log.i("RealmResults = ", result2.toString());
+
+                for (NotifeMessage message : messages) {
+                    list.add(message.getShort_title());
+                    Log.i("App message = ", message.getShort_title());
+                }
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -117,11 +175,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-        // new SignInTask().execute();
-
-        //new HttpRequestTask().execute();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,9 +213,9 @@ public class MainActivity extends ActionBarActivity {
 
     public class MySimpleArrayAdapter extends ArrayAdapter<String> {
         private final Context context;
-        private final String[] values;
+        private final List<String> values;
 
-        public MySimpleArrayAdapter(Context context, String[] values) {
+        public MySimpleArrayAdapter(Context context, List<String> values) {
             super(context, R.layout.message_cell, values);
             this.context = context;
             this.values = values;
@@ -174,13 +228,13 @@ public class MainActivity extends ActionBarActivity {
             View rowView = inflater.inflate(R.layout.message_cell, parent, false);
             TextView textView = (TextView) rowView.findViewById(R.id.label);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            textView.setText(values[position]);
+            textView.setText(values.get(position));
 
             TextView messageText = (TextView) rowView.findViewById(R.id.message_text);
-            messageText.setText(values[position]);
+            messageText.setText(values.get(position));
 
             // Change the icon for Windows and iPhone
-            String s = values[position];
+            String s = values.get(position);
             if (s.startsWith("Windows7") || s.startsWith("iPhone")
                     || s.startsWith("Solaris")) {
                 imageView.setImageResource(R.drawable.ic_action_call);
@@ -192,51 +246,6 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private class HttpRequestTask extends AsyncTask<Void, Void, Greeting> {
-        @Override
-        protected Greeting doInBackground(Void... params) {
-            try {
-                final String url = "http://192.168.1.39:3000/api/v1/me?access_token=wdzKp1tyDnpubHpzzL8D";
-
-                // Set the Accept header
-
-                /*
-                HttpHeaders requestHeaders = new HttpHeaders();
-                requestHeaders.setAccept(Collections.singletonList(new MediaType("application", "json")));
-                HttpAuthentication authHeader = new HttpBasicAuthentication("s.iv@notifie.ru", "123456");
-                requestHeaders.setAuthorization(authHeader);
-                HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
-
-                RestTemplate restTemplate = new RestTemplate();
-
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-                ResponseEntity<Greeting> responseEntity = restTemplate.exchange(url, GET, requestEntity, Greeting.class);
-                Greeting greeting = responseEntity.getBody();
-                //Greeting greeting = restTemplate.getForObject(url, Greeting.class);
-
-                return greeting; */
-                return null;
-            } catch (Exception e) {
-                Log.e("MainActivity", e.getMessage(), e);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Greeting greeting) {
-            //TextView greetingIdText = (TextView) findViewById(R.id.id_value);
-            //TextView greetingContentText = (TextView) findViewById(R.id.content_value);
-            //greetingIdText.setText(greeting.getId());
-            //greetingContentText.setText(greeting.getContent());
-            if (greeting != null) {
-                Log.w("onPostExecute", "id:" + greeting.getId());
-                Log.w("onPostExecute", "content:" + greeting.getAvatar_content_type());
-            }
-        }
-
-    }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
 

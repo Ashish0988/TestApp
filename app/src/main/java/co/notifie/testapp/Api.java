@@ -4,6 +4,7 @@ import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
@@ -18,5 +19,13 @@ public interface Api {
     @GET("/api/v1/me")
     void getMe(@Header("Authorization") String authorization,
                 Callback<User> callback);
+
+    @GET("/api/v1/messages.json")
+    void getMessages(@Header("Authorization") String authorization, @Query("page") int page,
+               Callback<MessagesResponce> callback);
+
+    @GET("/api/v1/messages/{id}")
+    void getMessage(@Header("Authorization") String authorization, @Path("id") int id,
+                     Callback<MessagesResponce> callback);
 
 }
