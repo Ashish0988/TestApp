@@ -7,4 +7,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_display_message">Message</string>
     <string name="action_call">Call</string>
+    <string name="delete_all">Delete All</string>
+    <string name="compose_message">Compose Message</string>
 </resources>

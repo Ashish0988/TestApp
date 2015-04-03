@@ -1,5 +1,6 @@
 package co.notifie.testapp;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -27,6 +28,7 @@ public class NotifeMessage extends RealmObject {
     private String unread_comments_sum;
 
     private NotifieClient client;
+    private RealmList<NotifieComment> comments;
 
     public String getClient_id() {
         return client_id;
@@ -130,5 +132,13 @@ public class NotifeMessage extends RealmObject {
 
     public void setClient(NotifieClient client) {
         this.client = client;
+    }
+
+    public RealmList<NotifieComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(RealmList<NotifieComment> comments) {
+        this.comments = comments;
     }
 }

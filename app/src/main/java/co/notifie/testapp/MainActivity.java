@@ -3,6 +3,7 @@ package co.notifie.testapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,6 +49,13 @@ public class MainActivity extends ActionBarActivity {
 
     ArrayList<String> list = new ArrayList<String>();
     public static Realm realm;
+    public static SwipeRefreshLayout mSwipeRefreshLayout;
+
+    /*
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +64,36 @@ public class MainActivity extends ActionBarActivity {
 
         final ListView listview = (ListView) findViewById(R.id.listview);
 
+        /*
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath("fonts/MuseoSansCyrl-300.ttf")
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
+        */
+
         //realm = Realm.getInstance(this);
-        realm = Realm.getInstance(this, "test4.realm");
+        realm = Realm.getInstance(this, "test5.realm");
+
+        // Create Swipe Refresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         // Sign in and get Token
         signIn();
 
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    loadMessages();
+                }
+            });
+        }
+
         RealmResults<NotifeMessage> messages = realm.where(NotifeMessage.class)
                 .findAll();
 
+        messages.sort("id", RealmResults.SORT_ORDER_DESCENDING);
 
         final MyAdapter my_adapter = new MyAdapter(this, R.layout.message_cell,
                 messages, true);
@@ -96,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void signIn() {
-        RestClient.get().singIn("s.iv@notifie.ru", "123456", new Callback<AuthResponce>() {
+        RestClient.get().singIn("stas.bedunkevich@gmail.com", "123456", new Callback<AuthResponce>() {
             @Override
             public void success(AuthResponce authResponce, Response response) {
                 // success!
@@ -139,7 +168,12 @@ public class MainActivity extends ActionBarActivity {
                 realm.copyToRealmOrUpdate(messages);
                 realm.commitTransaction();
 
-                RealmResults<NotifeMessage> result2 = realm.where(NotifeMessage.class).findAll();
+                RealmResults<NotifeMessage> result2 =
+                        realm.where(NotifeMessage.class)
+                        .findAll();
+
+                result2.sort("id", RealmResults.SORT_ORDER_DESCENDING);
+
                 Log.i("RealmResults = ", result2.toString());
 
                 for (NotifeMessage message : messages) {
@@ -147,6 +181,9 @@ public class MainActivity extends ActionBarActivity {
                     Log.i("App message = ", message.getShort_title());
                 }
 
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
                 //adapter.notifyDataSetChanged();
             }
 
@@ -175,6 +212,16 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == R.id.action_delete_all) {
+            realm.beginTransaction();
+            RealmResults<NotifeMessage> result = realm.where(NotifeMessage.class).findAll();
+            result.clear();
+            RealmResults<NotifieComment> result2 = realm.where(NotifieComment.class).findAll();
+            result2.clear();
+            realm.commitTransaction();
             return true;
         }
 
