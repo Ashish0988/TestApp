@@ -4,48 +4,35 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <ScrollView
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
         android:layout_weight="1"
-        >
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/message_swipe_refresh_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/user_icon"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="4dp"
-                android:src="@drawable/ic_user_icon" >
-            </ImageView>
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/comments_list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="5dp"
+            android:background="@color/white"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:paddingBottom="10dp"
+            android:clipToPadding="false"
+            />
 
-            <TextView android:text="Token" android:id="@+id/token"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="80dp"/>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-            <TextView android:text="@+id/detail_message_text_view"
-                android:id="@+id/detail_message_text_view"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginLeft="80dp"
-                android:layout_height="wrap_content" />
+    </LinearLayout>
 
-            <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/comments_list_view"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingRight="0dp"
-                />
-
-        </LinearLayout>
-    </ScrollView>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"

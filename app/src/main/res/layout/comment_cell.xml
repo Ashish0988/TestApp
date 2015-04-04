@@ -17,10 +17,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5px"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_user_icon" >
-        </ImageView>
+            android:src="@drawable/ic_user_icon" />
 
-        <TextView
+        <com.rockerhieu.emojicon.EmojiconTextView
             android:id="@+id/comment_text_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,8 +31,8 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:layout_marginRight="10px"
-            android:textSize="13dp" >
-        </TextView>
+            android:textSize="15dp" />
+
     </LinearLayout>
 
 </LinearLayout>

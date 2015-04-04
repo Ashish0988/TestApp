@@ -4,6 +4,7 @@ package co.notifie.testapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spanned;
@@ -33,6 +34,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
     private final static String TAG = "TestImageGetter";
     public ImageView imageView;
+    private static SwipeRefreshLayout mSwipeRefreshLayout;
+    NotifeMessage message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +46,37 @@ public class DisplayMessageActivity extends ActionBarActivity {
         Intent intent = getIntent();
         String message_id = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
-        NotifeMessage message = MainActivity.realm.where(NotifeMessage.class)
+        message = MainActivity.realm.where(NotifeMessage.class)
                 .equalTo("id", message_id)
                 .findFirst();
 
         if (message != null) {
+
+            //
+            // Setup Refresh
+            //
+            mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.message_swipe_refresh_layout);
+
+            if (mSwipeRefreshLayout != null) {
+                mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        loadComments(message.getId());
+                    }
+                });
+            }
+
+
             //
             // Loading message comments
             //
             loadComments(message.getId());
 
             final ListView listview = (ListView) findViewById(R.id.comments_list_view);
+
+            LayoutInflater inflater = getLayoutInflater();
+            final ViewGroup header = (ViewGroup)inflater.inflate(R.layout.message_list_header, listview, false);
+            listview.addHeaderView(header, null, false);
 
             RealmResults<NotifieComment> comments = MainActivity.realm
                             .where(NotifieComment.class)
@@ -67,7 +90,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
             listview.setAdapter(my_adapter);
 
-            setListViewHeightBasedOnChildren(listview);
         }
 
         TextView textView = (TextView) this.findViewById(R.id.detail_message_text_view);
@@ -114,6 +136,10 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 MainActivity.realm.beginTransaction();
                 MainActivity.realm.copyToRealmOrUpdate(comments);
                 MainActivity.realm.commitTransaction();
+
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
 
             }
 

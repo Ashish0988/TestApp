@@ -2,6 +2,7 @@ package co.notifie.testapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -17,8 +18,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,11 +48,18 @@ public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
     public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
+    public final static String TAG = "Notifie";
+    public final static String PROJECT_NUMBER = "981231673984";
     public static String AUTH_TOKEN;
 
     ArrayList<String> list = new ArrayList<String>();
     public static Realm realm;
-    public static SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private static SwipeRefreshLayout mSwipeRefreshLayout;
+    private Context context;
+
+    GoogleCloudMessaging gcm;
+    String regid;
 
     /*
     @Override
@@ -57,12 +67,42 @@ public class MainActivity extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }*/
 
+    public void getRegId(){
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                String msg = "";
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                    }
+                    regid = gcm.register(PROJECT_NUMBER);
+                    msg = "Device registered, registration ID=" + regid;
+                    Log.i("GCM",  msg);
+
+                } catch (IOException ex) {
+                    msg = "Error :" + ex.getMessage();
+
+                }
+                return msg;
+            }
+
+            @Override
+            protected void onPostExecute(String msg) {
+                Log.i("GCM", msg + "\n");
+            }
+        }.execute(null, null, null);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         final ListView listview = (ListView) findViewById(R.id.listview);
+
+        getRegId();
 
         /*
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
@@ -77,6 +117,7 @@ public class MainActivity extends ActionBarActivity {
 
         // Create Swipe Refresh
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorScheme(R.color.actionbar_background);
 
         // Sign in and get Token
         signIn();
@@ -125,7 +166,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void signIn() {
-        RestClient.get().singIn("stas.bedunkevich@gmail.com", "123456", new Callback<AuthResponce>() {
+        RestClient.get().singIn("s.iv@notifie.ru", "123456", new Callback<AuthResponce>() {
             @Override
             public void success(AuthResponce authResponce, Response response) {
                 // success!

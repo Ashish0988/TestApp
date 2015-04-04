@@ -18,8 +18,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10px"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_user_icon" >
-        </ImageView>
+            android:src="@drawable/ic_user_icon" />
 
         <TextView
             android:id="@+id/label"
@@ -27,8 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@+id/label"
             android:textColor="@color/black"
-            android:textSize="14dp" >
-        </TextView>
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,8 +40,7 @@
             android:layout_height="70dp"
             android:text="@+id/message_text"
             android:layout_marginLeft="60dp"
-            android:textSize="10dp" >
-        </TextView>
+            android:textSize="10dp" />
     </LinearLayout>
 
 </LinearLayout>

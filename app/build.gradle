@@ -36,4 +36,6 @@ dependencies {
     compile 'com.squareup.okio:okio:1.0.1'
     compile 'io.realm:realm-android:0.80.0'
     compile 'uk.co.chrisjenx:calligraphy:2.0.2'
+    compile 'com.rockerhieu.emojicon:library:1.0'
+    compile 'com.google.android.gms:play-services:7.0.0'
 }
