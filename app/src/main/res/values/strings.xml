@@ -5,7 +5,7 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_display_message">Message</string>
+    <string name="title_activity_display_message">Сообщение</string>
     <string name="action_call">Call</string>
     <string name="delete_all">Delete All</string>
     <string name="compose_message">Compose Message</string>

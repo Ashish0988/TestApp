@@ -3,11 +3,12 @@ package co.notifie.testapp;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -49,12 +50,19 @@ public class GcmMessageHandler extends IntentService {
     public void showToast(){
         handler.post(new Runnable() {
             public void run() {
-                Toast.makeText(getApplicationContext(), mes, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), mes, Toast.LENGTH_LONG).show();
+
+                Context context = getApplicationContext();
+                Intent intent =   new Intent(context, MainActivity.class);
+                PendingIntent contentIntent =  PendingIntent.getActivity(context, 0, intent, 0);
+
+                DisplayMessageActivity.reloadComments();
 
                 Notification noti = new Notification.Builder(getApplicationContext())
                         .setContentTitle("Notifie")
                         .setContentText(mes)
                         .setAutoCancel(true)
+                        .setContentIntent(contentIntent)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .build();
 

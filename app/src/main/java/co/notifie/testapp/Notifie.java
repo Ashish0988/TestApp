@@ -1,6 +1,7 @@
 package co.notifie.testapp;
 
 import android.app.Application;
+import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
  * Created by thunder on 02.04.15.
@@ -15,5 +16,11 @@ public class Notifie extends Application {
 
     public void setAuth_token(String auth_token) {
         this.auth_token = auth_token;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        JodaTimeAndroid.init(this);
     }
 }

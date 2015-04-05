@@ -35,7 +35,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
     private final static String TAG = "TestImageGetter";
     public ImageView imageView;
     private static SwipeRefreshLayout mSwipeRefreshLayout;
-    NotifeMessage message;
+    public static NotifeMessage message;
+    public static commentAdapter my_adapter;
+    public static ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        loadComments(message.getId());
+                        loadComments(message.getId(), true);
                     }
                 });
             }
@@ -70,9 +72,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
             //
             // Loading message comments
             //
-            loadComments(message.getId());
+            loadComments(message.getId(), false);
 
-            final ListView listview = (ListView) findViewById(R.id.comments_list_view);
+            listview = (ListView) findViewById(R.id.comments_list_view);
 
             LayoutInflater inflater = getLayoutInflater();
             final ViewGroup header = (ViewGroup)inflater.inflate(R.layout.message_list_header, listview, false);
@@ -83,9 +85,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
                             .equalTo("message_id", message_id)
                             .findAll();
 
-            comments.sort("id", RealmResults.SORT_ORDER_DESCENDING);
+            //comments.sort("id", RealmResults.SORT_ORDER_DESCENDING);
 
-            final commentAdapter my_adapter = new commentAdapter(this, R.layout.comment_cell,
+            my_adapter = new commentAdapter(this, R.layout.comment_cell,
                     comments, true);
 
             listview.setAdapter(my_adapter);
@@ -118,10 +120,16 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
     }
 
+    public static void reloadComments() {
+        if (message != null) {
+            loadComments(message.getId(), true);
+        }
+    }
+
     //
     // Load Messages From Server
     //
-    public void loadComments(String comment_id) {
+    public static void loadComments(String comment_id, final Boolean scroll_down) {
 
         RestClient.get().getMessageComments(MainActivity.AUTH_TOKEN, comment_id, new Callback<CommentsResponce>() {
             @Override
@@ -139,6 +147,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
                 if (mSwipeRefreshLayout != null) {
                     mSwipeRefreshLayout.setRefreshing(false);
+                    if (scroll_down) {
+                        listview.setSelection(my_adapter.getCount() - 1);
+                    }
                 }
 
             }
@@ -234,12 +245,28 @@ public class DisplayMessageActivity extends ActionBarActivity {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View rowView = inflater.inflate(R.layout.comment_cell, parent, false);
+            View rowView;
+
+            if (item.getReply().equals("true")) {
+                rowView = inflater.inflate(R.layout.comment_cell, parent, false);
+            } else {
+                rowView = inflater.inflate(R.layout.my_comment_cell, parent, false);
+            }
 
             TextView textView = (TextView) rowView.findViewById(R.id.comment_text_label);
+            TextView textUserName = (TextView) rowView.findViewById(R.id.user_name);
+            TextView textCreatedAt = (TextView) rowView.findViewById(R.id.created_at);
+
             ImageView imageView = (ImageView) rowView.findViewById(R.id.comment_user_icon);
 
             textView.setText(item.getText());
+            textCreatedAt.setText(item.getCreated_at());
+
+            if (item.getReply().equals("true")) {
+                textUserName.setText(item.getFrom_user_name());
+            } else {
+                textUserName.setVisibility(View.GONE);
+            }
 
             String image_url = item.getFrom_user_avatar();
 

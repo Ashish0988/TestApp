@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <com.rockerhieu.emojicon.EmojiconTextView
+            android:id="@+id/comment_text_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:text="My Comment"
+            android:gravity="left"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="5dp"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User name"
+            android:gravity="right"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/black_alpha50"
+            android:maxLines="1"
+            android:textStyle="normal"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/created_at"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Created at time date"
+            android:gravity="right"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#ccc"
+            android:maxLines="1"
+            android:textStyle="normal"
+            android:textSize="9dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/comment_user_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5px"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/ic_user_icon" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

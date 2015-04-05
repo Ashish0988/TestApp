@@ -21,9 +21,15 @@ import android.widget.TextView;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTime;
+
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
@@ -31,18 +37,8 @@ import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
-/*
-import org.springframework.http.HttpAuthentication;
-import org.springframework.http.HttpBasicAuthentication;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
-*/
 
 public class MainActivity extends ActionBarActivity {
 
@@ -104,16 +100,15 @@ public class MainActivity extends ActionBarActivity {
 
         getRegId();
 
-        /*
+
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/MuseoSansCyrl-300.ttf")
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
-        */
 
         //realm = Realm.getInstance(this);
-        realm = Realm.getInstance(this, "test5.realm");
+        realm = Realm.getInstance(this, "test7.realm");
 
         // Create Swipe Refresh
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -134,7 +129,8 @@ public class MainActivity extends ActionBarActivity {
         RealmResults<NotifeMessage> messages = realm.where(NotifeMessage.class)
                 .findAll();
 
-        messages.sort("id", RealmResults.SORT_ORDER_DESCENDING);
+        //messages.sort("id");
+        messages.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
 
         final MyAdapter my_adapter = new MyAdapter(this, R.layout.message_cell,
                 messages, true);
@@ -166,7 +162,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void signIn() {
-        RestClient.get().singIn("s.iv@notifie.ru", "123456", new Callback<AuthResponce>() {
+        RestClient.get().singIn("stas.bedunkevich@gmail.com", "123456", new Callback<AuthResponce>() {
             @Override
             public void success(AuthResponce authResponce, Response response) {
                 // success!
@@ -286,23 +282,44 @@ public class MainActivity extends ActionBarActivity {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.message_cell, parent, false);
-            TextView textView = (TextView) rowView.findViewById(R.id.label);
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-            textView.setText(item.getShort_title());
 
+            TextView textView = (TextView) rowView.findViewById(R.id.label);
+            TextView textSubView = (TextView) rowView.findViewById(R.id.sub_label);
             TextView messageText = (TextView) rowView.findViewById(R.id.message_text);
-            messageText.setText(item.getText());
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+            SimpleDateFormat short_format = new SimpleDateFormat("dd MMMM HH:mm");
+            String short_date = "?";
+
+            try {
+                Date date = format.parse(item.getCreated_at());
+                short_date = short_format.format(date);
+
+                TextView createdAtTextView = (TextView) rowView.findViewById(R.id.created_at);
+
+                DateTime date2 = DateTime.now();
+
+                String frenchShortName = date2.monthOfYear().getAsShortText(Locale.US);
+
+                createdAtTextView.setText(short_date + " " + frenchShortName);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            textView.setText(item.getClient().getName());
+            messageText.setText(item.getShort_title());
+            textSubView.setText(item.getIn_reply_to_screen_name());
 
             String image_url = item.getClient().getImage();
-
-
 
             try {
                 if (image_url != null && image_url.length() != 0) {
                     Picasso.with(getBaseContext())
                             .load(image_url)
                             .transform(new CircleTransform())
-                            .resize(60, 60)
+                            .resize(80, 80)
                             .centerCrop()
                             .into(imageView);
                 }
