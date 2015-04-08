@@ -39,4 +39,6 @@ dependencies {
     compile 'com.rockerhieu.emojicon:library:1.0'
     compile 'com.google.android.gms:play-services:7.0.0'
     compile 'net.danlew:android.joda:2.7.1'
+    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }

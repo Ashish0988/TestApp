@@ -5,5 +5,7 @@
     <color name="black_alpha10">#0F000000</color>
     <color name="black_alpha50">#88000000</color>
     <color name="white">#fff</color>
+    <color name="white_alpha50">#55FFFFFF</color>
+    <color name="white_alpha10">#2FFFFFFF</color>
     <color name="light_gray">#ddd</color>
 </resources>

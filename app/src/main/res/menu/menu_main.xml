@@ -4,12 +4,21 @@
 
     <!-- Search, should appear as action button -->
     <item android:id="@+id/action_delete_all"
-        android:icon="@drawable/ic_action_call"
+        android:icon="@drawable/ic_action_refresh"
         android:title="@string/delete_all"
+        app:showAsAction="never"
     />
 
+    <item android:id="@+id/sing_in_action"
+        android:icon="@drawable/ic_action_wifi"
+        android:title="Sing In"
+        app:showAsAction="always"
+        />
+
+
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:icon="@drawable/ic_action_dots"
+       android:orderInCategory="100" app:showAsAction="always" />
 
 
 </menu>

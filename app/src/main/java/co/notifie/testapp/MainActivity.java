@@ -7,37 +7,23 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.squareup.picasso.Picasso;
-
-import org.joda.time.DateTime;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import io.realm.Realm;
-import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -94,18 +80,20 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         final ListView listview = (ListView) findViewById(R.id.listview);
 
         getRegId();
 
-
+        /*
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/MuseoSansCyrl-300.ttf")
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
+        */
 
         //realm = Realm.getInstance(this);
         realm = Realm.getInstance(this, "test7.realm");
@@ -129,11 +117,11 @@ public class MainActivity extends ActionBarActivity {
         RealmResults<NotifeMessage> messages = realm.where(NotifeMessage.class)
                 .findAll();
 
-        //messages.sort("id");
         messages.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
 
-        final MyAdapter my_adapter = new MyAdapter(this, R.layout.message_cell,
-                messages, true);
+        //final MyAdapter my_adapter = new MyAdapter(this, R.layout.message_cell, messages, true);
+
+        final FeedAdapter my_adapter = new FeedAdapter(this, R.layout.message_cell, messages, true);
 
         listview.setAdapter(my_adapter);
 
@@ -162,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void signIn() {
-        RestClient.get().singIn("stas.bedunkevich@gmail.com", "123456", new Callback<AuthResponce>() {
+        RestClient.get().singIn("s.iv@notifie.ru", "123456", new Callback<AuthResponce>() {
             @Override
             public void success(AuthResponce authResponce, Response response) {
                 // success!
@@ -249,7 +237,15 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
+        }
+
+
+        if (id == R.id.sing_in_action) {
+            Intent intent = new Intent(this, SwipeActivity.class);
+            startActivity(intent);
         }
 
         if (id == R.id.action_delete_all) {
@@ -265,6 +261,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
     public class MyAdapter extends RealmBaseAdapter<NotifeMessage> implements ListAdapter {
 
         public MyAdapter(Context context, int resId,
@@ -302,7 +299,7 @@ public class MainActivity extends ActionBarActivity {
 
                 String frenchShortName = date2.monthOfYear().getAsShortText(Locale.US);
 
-                createdAtTextView.setText(short_date + " " + frenchShortName);
+                createdAtTextView.setText(short_date);
 
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -333,6 +330,6 @@ public class MainActivity extends ActionBarActivity {
         public RealmResults<NotifeMessage> getRealmResults() {
             return realmResults;
         }
-    }
+    }*/
 
 }

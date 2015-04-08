@@ -20,6 +20,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.RealmBaseAdapter;
@@ -260,7 +263,20 @@ public class DisplayMessageActivity extends ActionBarActivity {
             ImageView imageView = (ImageView) rowView.findViewById(R.id.comment_user_icon);
 
             textView.setText(item.getText());
-            textCreatedAt.setText(item.getCreated_at());
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+            SimpleDateFormat short_format = new SimpleDateFormat("dd MMMM HH:mm");
+            String short_date = "?";
+
+            try {
+                Date date = format.parse(item.getCreated_at());
+                short_date = short_format.format(date);
+                textCreatedAt.setText(short_date);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
 
             if (item.getReply().equals("true")) {
                 textUserName.setText(item.getFrom_user_name());

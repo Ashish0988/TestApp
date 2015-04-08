@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        app:pstsShouldExpand="false"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        android:background="@color/actionbar_background"
+        app:pstsDividerColor="@color/white_alpha10"
+        app:pstsIndicatorColor="@color/white_alpha50"
+        app:pstsUnderlineColor="@color/white"
+        app:pstsIndicatorHeight="4dp"
+        app:pstsUnderlineHeight="0.5dp"
+        app:pstsTabPaddingLeftRight="15dp">
+    </com.astuetz.PagerSlidingTabStrip>
+
+    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/pager"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        tools:context="co.notifie.testapp.SwipeActivity">
+
+        <!--
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pager_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp" />
+         -->
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
