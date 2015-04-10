@@ -17,16 +17,23 @@ public class NotifieClient extends RealmObject {
     @PrimaryKey
     private String id;
 
+    @Expose
     private String access_token;
     private String category_id;
+    @Expose
     private String created_at;
     private String greetings_message;
+    @Expose
     private String image;
+    @Expose
     private String legal;
+    @Expose
     private String name;
     private String password;
+    @Expose
     private String unread_message_count;
     private String updated_at;
+    @Expose
     private String url;
     @Expose
     private String username;

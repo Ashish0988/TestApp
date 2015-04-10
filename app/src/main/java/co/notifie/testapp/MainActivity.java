@@ -1,23 +1,18 @@
 package co.notifie.testapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.Button;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -29,16 +24,13 @@ import retrofit.client.Response;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://192.168.1.34:3000"; //192.168.1.39:3000
+    public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public static String AUTH_TOKEN;
 
-    ArrayList<String> list = new ArrayList<String>();
     public static Realm realm;
-
-    private static SwipeRefreshLayout mSwipeRefreshLayout;
-    private Context context;
+    //private Context context;
 
     GoogleCloudMessaging gcm;
     String regid;
@@ -83,7 +75,15 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        final ListView listview = (ListView) findViewById(R.id.listview);
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
+            }
+        });
+
+        //final ListView listview = (ListView) findViewById(R.id.listview);
 
         getRegId();
 
@@ -98,22 +98,10 @@ public class MainActivity extends ActionBarActivity {
         //realm = Realm.getInstance(this);
         realm = Realm.getInstance(this, "test10.realm");
 
-        // Create Swipe Refresh
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
-        mSwipeRefreshLayout.setColorScheme(R.color.actionbar_background);
-
         // Sign in and get Token
         signIn();
 
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    loadMessages();
-                }
-            });
-        }
-
+        /*
         RealmResults<NotifeMessage> messages = realm.where(NotifeMessage.class)
                 .findAll();
 
@@ -137,7 +125,8 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(intent);
 
                 }
-            });
+            });*/
+
         }
 
     @Override
@@ -163,7 +152,6 @@ public class MainActivity extends ActionBarActivity {
 
                 AUTH_TOKEN = auth_token;
 
-                loadMessages();
             }
 
             @Override
@@ -174,51 +162,9 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    //
-    // Load Messages From Server
-    //
-    public void loadMessages() {
-
-        RestClient.get().getMessages(AUTH_TOKEN, 1, 1, new Callback<MessagesResponce>() {
-            @Override
-            public void success(MessagesResponce messagesResponce, Response response) {
-                // success!
-                List<NotifeMessage> messages = messagesResponce.getMessages();
-
-                //
-                // Store At Database
-                //
-
-                realm.beginTransaction();
-                realm.copyToRealmOrUpdate(messages);
-                realm.commitTransaction();
-
-                RealmResults<NotifeMessage> result2 =
-                        realm.where(NotifeMessage.class)
-                        .findAll();
-
-                result2.sort("id", RealmResults.SORT_ORDER_DESCENDING);
-
-                Log.i("RealmResults = ", result2.toString());
-
-                for (NotifeMessage message : messages) {
-                    //list.add(message.getShort_title());
-                    Log.i("App message = ", message.getId());
-                }
-
-                if (mSwipeRefreshLayout != null) {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
-                //adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                // something went wrong
-                Log.e("App", "Error body:" + error.getBody());
-            }
-        });
-
+    public void attemptLogin() {
+        Intent intent = new Intent(this, SwipeActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -244,8 +190,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         if (id == R.id.sing_in_action) {
-            Intent intent = new Intent(this, SwipeActivity.class);
-            startActivity(intent);
+            attemptLogin();
         }
 
         if (id == R.id.action_delete_all) {
@@ -261,75 +206,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*
-    public class MyAdapter extends RealmBaseAdapter<NotifeMessage> implements ListAdapter {
 
-        public MyAdapter(Context context, int resId,
-                         RealmResults<NotifeMessage> realmResults,
-                         boolean automaticUpdate) {
-            super(context, realmResults, automaticUpdate);
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            NotifeMessage item = realmResults.get(position);
-
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.message_cell, parent, false);
-
-            TextView textView = (TextView) rowView.findViewById(R.id.label);
-            TextView textSubView = (TextView) rowView.findViewById(R.id.sub_label);
-            TextView messageText = (TextView) rowView.findViewById(R.id.message_text);
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-            SimpleDateFormat short_format = new SimpleDateFormat("dd MMMM HH:mm");
-            String short_date = "?";
-
-            try {
-                Date date = format.parse(item.getCreated_at());
-                short_date = short_format.format(date);
-
-                TextView createdAtTextView = (TextView) rowView.findViewById(R.id.created_at);
-
-                DateTime date2 = DateTime.now();
-
-                String frenchShortName = date2.monthOfYear().getAsShortText(Locale.US);
-
-                createdAtTextView.setText(short_date);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            textView.setText(item.getClient().getName());
-            messageText.setText(item.getShort_title());
-            textSubView.setText(item.getIn_reply_to_screen_name());
-
-            String image_url = item.getClient().getImage();
-
-            try {
-                if (image_url != null && image_url.length() != 0) {
-                    Picasso.with(getBaseContext())
-                            .load(image_url)
-                            .transform(new CircleTransform())
-                            .resize(80, 80)
-                            .centerCrop()
-                            .into(imageView);
-                }
-            } catch (IllegalArgumentException e) {
-                Log.v("Path", image_url);
-            }
-
-            return rowView;
-        }
-
-        public RealmResults<NotifeMessage> getRealmResults() {
-            return realmResults;
-        }
-    }*/
 
 }

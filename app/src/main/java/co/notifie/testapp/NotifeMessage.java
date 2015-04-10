@@ -20,19 +20,25 @@ public class NotifeMessage extends RealmObject {
 
     @Expose
     private String client_id;
+    @Expose
     private String created_at;
     private String favorited;
+    @Expose
     private String in_reply_to_screen_name;
     private String open_at;
     private String read;
     private String request;
+    @Expose
     private String short_title;
+    @Expose
     private String text;
     private String updated_at;
+    @Expose
     private String unread_comments_sum;
 
     @Expose
     private NotifieClient client;
+    @Expose
     private RealmList<NotifieComment> comments;
 
     public String getClient_id() {

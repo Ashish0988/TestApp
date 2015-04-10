@@ -7,5 +7,6 @@
     <color name="white">#fff</color>
     <color name="white_alpha50">#55FFFFFF</color>
     <color name="white_alpha10">#2FFFFFFF</color>
+    <color name="white_alpha80">#99FFFFFF</color>
     <color name="light_gray">#ddd</color>
 </resources>

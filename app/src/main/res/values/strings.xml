@@ -10,11 +10,13 @@
     <string name="delete_all">Delete All</string>
     <string name="compose_message">Compose Message</string>
     <string name="title_activity_tab">TabActivity</string>
-
-
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="title_activity_swipe">SwipeActivity</string>
     <string name="title_activity_spinner">SpinnerActivity</string>
+    <string name="already_registered">Already Registered?</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="notifie_slogan">Better way to communicate</string>
+    <string name="login">Log In</string>
 </resources>

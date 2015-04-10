@@ -17,7 +17,8 @@ import com.astuetz.PagerSlidingTabStrip;
 import java.util.Locale;
 
 
-public class SwipeActivity extends ActionBarActivity implements FeedFragment.OnFragmentInteractionListener {
+public class SwipeActivity extends ActionBarActivity implements
+        FeedFragment.OnFragmentInteractionListener, ClientFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -105,7 +106,7 @@ public class SwipeActivity extends ActionBarActivity implements FeedFragment.OnF
                 case 0: // Fragment # 0 - This will show FirstFragment
                     return FeedFragment.newInstance(0);
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return FeedFragment.newInstance(1);
+                    return ClientFragment.newInstance(1);
                 case 2: // Fragment # 1 - This will show SecondFragment
                     return FeedFragment.newInstance(2);
                 case 3: // Fragment # 1 - This will show SecondFragment

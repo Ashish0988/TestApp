@@ -1,5 +1,7 @@
 package co.notifie.testapp;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  */
 public class CommentsResponce {
 
+    @Expose
     private List<NotifieComment> comments;
 
     public List<NotifieComment> getComments() {

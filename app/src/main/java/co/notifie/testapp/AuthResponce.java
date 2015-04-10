@@ -10,7 +10,9 @@ public class AuthResponce {
     @Expose
     private String authentication_token;
 
+    @Expose
     private String user_id;
+    @Expose
     private User user;
 
     public String getAuthentication_token() {

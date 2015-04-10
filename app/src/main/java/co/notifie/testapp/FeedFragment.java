@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,12 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 import io.realm.RealmResults;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * A fragment representing a list of Items.
@@ -35,6 +42,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
     private String title;
 
     private OnFragmentInteractionListener mListener;
+    private static SwipeRefreshLayout mSwipeRefreshLayout;
 
     /**
      * The fragment's ListView/GridView.
@@ -94,8 +102,21 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
+        // Create Swipe Refresh
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.activity_main_swipe_refresh_layout);
+
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setColorScheme(R.color.actionbar_background);
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    loadMessages();
+                }
+            });
+        }
+
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
+        mListView = (AbsListView) view.findViewById(R.id.listview);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
@@ -165,6 +186,57 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
+    }
+
+    //
+    // Load Messages From Server
+    //
+    public void loadMessages() {
+
+        RestClient.get().getMessages(MainActivity.AUTH_TOKEN, 1, 50, new Callback<MessagesResponce>() {
+            @Override
+            public void success(MessagesResponce messagesResponce, Response response) {
+                // success!
+                List<NotifeMessage> messages = messagesResponce.getMessages();
+
+                //
+                // Store At Database
+                //
+
+                MainActivity.realm.beginTransaction();
+                MainActivity.realm.copyToRealmOrUpdate(messages);
+                MainActivity.realm.commitTransaction();
+
+                /*
+                RealmResults<NotifeMessage> result2 =
+                        realm.where(NotifeMessage.class)
+                                .findAll();
+
+                result2.sort("id", RealmResults.SORT_ORDER_DESCENDING);
+
+                Log.i("RealmResults = ", result2.toString());
+                */
+
+                /*
+                for (NotifeMessage message : messages) {
+                    //list.add(message.getShort_title());
+                    Log.i("App message = ", message.getId());
+                }
+                */
+
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+                //adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error body:" + error.getBody());
+            }
+        });
+
     }
 
 }
