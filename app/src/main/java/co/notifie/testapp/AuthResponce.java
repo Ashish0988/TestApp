@@ -1,10 +1,15 @@
 package co.notifie.testapp;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by thunder on 01.04.15.
  */
 public class AuthResponce {
+
+    @Expose
     private String authentication_token;
+
     private String user_id;
     private User user;
 

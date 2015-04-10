@@ -1,5 +1,7 @@
 package co.notifie.testapp;
 
+import com.google.gson.annotations.Expose;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -11,6 +13,7 @@ import io.realm.annotations.RealmClass;
 @RealmClass
 public class NotifieClient extends RealmObject {
 
+    @Expose
     @PrimaryKey
     private String id;
 
@@ -25,6 +28,7 @@ public class NotifieClient extends RealmObject {
     private String unread_message_count;
     private String updated_at;
     private String url;
+    @Expose
     private String username;
 
     //private RealmList<NotifeMessage> messages;

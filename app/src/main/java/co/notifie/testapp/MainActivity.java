@@ -29,7 +29,7 @@ import retrofit.client.Response;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
+    public final static String NOTIFIE_HOST = "http://192.168.1.34:3000"; //192.168.1.39:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public static String AUTH_TOKEN;
@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
         */
 
         //realm = Realm.getInstance(this);
-        realm = Realm.getInstance(this, "test7.realm");
+        realm = Realm.getInstance(this, "test10.realm");
 
         // Create Swipe Refresh
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -179,7 +179,7 @@ public class MainActivity extends ActionBarActivity {
     //
     public void loadMessages() {
 
-        RestClient.get().getMessages(AUTH_TOKEN, 1, 100, new Callback<MessagesResponce>() {
+        RestClient.get().getMessages(AUTH_TOKEN, 1, 1, new Callback<MessagesResponce>() {
             @Override
             public void success(MessagesResponce messagesResponce, Response response) {
                 // success!
@@ -202,8 +202,8 @@ public class MainActivity extends ActionBarActivity {
                 Log.i("RealmResults = ", result2.toString());
 
                 for (NotifeMessage message : messages) {
-                    list.add(message.getShort_title());
-                    Log.i("App message = ", message.getShort_title());
+                    //list.add(message.getShort_title());
+                    Log.i("App message = ", message.getId());
                 }
 
                 if (mSwipeRefreshLayout != null) {
@@ -215,7 +215,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void failure(RetrofitError error) {
                 // something went wrong
-                Log.e("App", "Error" + error);
+                Log.e("App", "Error body:" + error.getBody());
             }
         });
 

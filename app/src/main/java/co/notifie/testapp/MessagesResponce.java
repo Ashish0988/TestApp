@@ -1,5 +1,7 @@
 package co.notifie.testapp;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
 public class MessagesResponce {
 
     //private Pagitation pagitation;
+    @Expose
     private List<NotifeMessage> messages;
 
     /*
