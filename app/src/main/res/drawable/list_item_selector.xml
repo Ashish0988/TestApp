@@ -17,7 +17,7 @@
     </item>
     <item>
         <shape>
-            <solid android:color="#FEFEFE" />
+            <solid android:color="@color/actionbar_background_alpha05" />
         </shape>
     </item>
 </selector>

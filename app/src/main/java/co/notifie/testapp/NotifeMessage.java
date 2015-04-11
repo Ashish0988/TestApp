@@ -22,11 +22,15 @@ public class NotifeMessage extends RealmObject {
     private String client_id;
     @Expose
     private String created_at;
+    @Expose
     private String favorited;
     @Expose
     private String in_reply_to_screen_name;
+    @Expose
     private String open_at;
+    @Expose
     private String read;
+    @Expose
     private String request;
     @Expose
     private String short_title;

@@ -1,6 +1,8 @@
 package co.notifie.testapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,8 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.List;
 
@@ -89,18 +95,48 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
                 */
 
-        RealmResults<NotifeMessage> messages = MainActivity.realm.where(NotifeMessage.class)
-                .findAll();
+        RealmResults<NotifeMessage> messages;
+
+        if (page == 1) { // Favorites
+            messages = MainActivity.realm.where(NotifeMessage.class)
+                    .equalTo("favorited", "true")
+                    .findAll();
+
+        } else { // Feed
+            messages = MainActivity.realm.where(NotifeMessage.class)
+                    .findAll();
+        }
 
         messages.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
 
         mAdapter = new FeedAdapter(getActivity(), R.layout.message_cell, messages, true);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
+
+        //
+        // Add Header To View
+        //
+        /*
+        ListView listview = (ListView) view.findViewById(R.id.listview);
+        final ViewGroup header = (ViewGroup)inflater.inflate(R.layout.feed_segment, listview, false);
+        listview.addHeaderView(header, null, false);
+        */
+
+        final FloatingActionsMenu actionsMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
+
+        FloatingActionButton filterButton = (FloatingActionButton) view.findViewById(R.id.action_filter);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actionsMenu.collapse();
+                showFilterDialog();
+            }
+        });
 
         // Create Swipe Refresh
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -118,6 +154,9 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
         // Set the adapter
         mListView = (AbsListView) view.findViewById(R.id.listview);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+
+        View empty_view = view.findViewById(R.id.empty_list);
+        mListView.setEmptyView(empty_view);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -237,6 +276,50 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
             }
         });
 
+    }
+
+    public void showFilterDialog() {
+        //CharSequence[] array = {"Все сообщения", "Новые сообщения", "С новыми комментариями"};
+
+        final ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.select_dialog_singlechoice, android.R.id.text1, new String[] {
+                "Все сообщения (124)", "Новые сообщения (нет)", "С новыми комментариями (3)"
+        });
+
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setSingleChoiceItems(adapter,
+                        -1,
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
+
+                            }
+                        })
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                    /* User clicked Yes so do some stuff */
+                            }
+                        })
+                .setNegativeButton("ОТМЕНА",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                    /* User clicked No so do some stuff */
+                            }
+                        })
+                .show();
+
+        // Change the title divider
+        /*
+        final Resources res = getResources();
+        final int titleDividerId = res.getIdentifier("titleDivider", "id", "android");
+        final View titleDivider = dialog.findViewById(titleDividerId);
+        titleDivider.setBackgroundColor(res.getColor(R.color.actionbar_background));
+        */
     }
 
 }

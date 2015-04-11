@@ -139,7 +139,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void signIn() {
-        RestClient.get().singIn("s.iv@notifie.ru", "123456", new Callback<AuthResponce>() {
+        RestClient.get().singIn("stas.bedunkevich@gmail.com", "123456", new Callback<AuthResponce>() {
             @Override
             public void success(AuthResponce authResponce, Response response) {
                 // success!

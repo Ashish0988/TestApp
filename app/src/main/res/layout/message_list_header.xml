@@ -12,22 +12,45 @@
             android:id="@+id/user_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/ic_user_icon" >
         </ImageView>
 
-        <TextView android:text="Token" android:id="@+id/token"
+        <TextView android:text="Message From" android:id="@+id/msg_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"/>
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"
+            android:layout_marginLeft="16dp"/>
+
+        <TextView android:text="Created At" android:id="@+id/msg_created_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_alpha50"
+            android:layout_marginTop="5dp"
+            android:textSize="14dp"
+            android:layout_marginLeft="16dp"/>
+
+        <TextView android:text="Message Subject" android:id="@+id/msg_subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"
+            android:layout_marginLeft="16dp"/>
+
+
 
         <TextView android:text="@+id/detail_message_text_view"
             android:id="@+id/detail_message_text_view"
             android:layout_width="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="80dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="14dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>

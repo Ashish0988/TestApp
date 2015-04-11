@@ -44,7 +44,6 @@ public class SwipeActivity extends ActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe);
 
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -90,7 +89,7 @@ public class SwipeActivity extends ActionBarActivity implements
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
 
-        private int tabIcons[] = {R.drawable.ic_action_clock, R.drawable.ic_action_wifi, R.drawable.ic_action_heart, R.drawable.ic_action_dots};
+        private int tabIcons[] = {R.drawable.ic_action_clock, R.drawable.ic_action_wifi, R.drawable.ic_action_heart, R.drawable.ic_action_filter};
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -106,9 +105,9 @@ public class SwipeActivity extends ActionBarActivity implements
                 case 0: // Fragment # 0 - This will show FirstFragment
                     return FeedFragment.newInstance(0);
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return ClientFragment.newInstance(1);
+                    return ClientFragment.newInstance(0);
                 case 2: // Fragment # 1 - This will show SecondFragment
-                    return FeedFragment.newInstance(2);
+                    return FeedFragment.newInstance(1);
                 case 3: // Fragment # 1 - This will show SecondFragment
                     return FeedFragment.newInstance(3);
                 default:

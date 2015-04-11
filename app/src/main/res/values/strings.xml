@@ -19,4 +19,7 @@
     <string name="action_sign_up">Sign Up</string>
     <string name="notifie_slogan">Better way to communicate</string>
     <string name="login">Log In</string>
+    <string name="filter">Filter</string>
+    <string name="favorites_empty_title">Hearts is for favorites</string>
+    <string name="favorites_empty_sub_title">You can store here important conversations to faster access</string>
 </resources>

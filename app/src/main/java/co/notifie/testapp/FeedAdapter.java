@@ -1,15 +1,12 @@
 package co.notifie.testapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
@@ -71,6 +68,14 @@ public class FeedAdapter extends RealmBaseAdapter<NotifeMessage> implements List
         messageText.setText(item.getShort_title());
         textSubView.setText(item.getIn_reply_to_screen_name());
 
+        if (item.getOpen_at().length() == 0) {
+            // Not opeded
+            imageView.setVisibility(View.VISIBLE);
+        } else {
+            imageView.setVisibility(View.INVISIBLE);
+        }
+
+        /*
         String image_url = item.getClient().getImage();
 
         try {
@@ -85,6 +90,7 @@ public class FeedAdapter extends RealmBaseAdapter<NotifeMessage> implements List
         } catch (IllegalArgumentException e) {
             Log.v("Path", image_url);
         }
+        */
 
         return rowView;
     }
@@ -92,4 +98,5 @@ public class FeedAdapter extends RealmBaseAdapter<NotifeMessage> implements List
     public RealmResults<NotifeMessage> getRealmResults() {
         return realmResults;
     }
+
 }

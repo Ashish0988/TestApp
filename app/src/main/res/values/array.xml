@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filterArray">
+        <item>All</item>
+        <item>New</item>
+        <item>New Comments</item>
+    </string-array>
+</resources>

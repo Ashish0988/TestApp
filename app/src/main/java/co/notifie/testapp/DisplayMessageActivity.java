@@ -31,8 +31,6 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import static co.notifie.testapp.MainActivity.NOTIFIE_HOST;
-
 public class DisplayMessageActivity extends ActionBarActivity {
 
     private final static String TAG = "TestImageGetter";
@@ -109,17 +107,31 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
         // Display auth_token
 
-        TextView authTokenText = (TextView) this.findViewById(R.id.token);
+        TextView msgFrom = (TextView) this.findViewById(R.id.msg_from);
+        TextView msgSubject = (TextView) this.findViewById(R.id.msg_subject);
+        TextView msgCreatedAt = (TextView) this.findViewById(R.id.msg_created_at);
 
         imageView = (ImageView) this.findViewById(R.id.user_icon);
 
-        if (authTokenText != null) {
+        msgFrom.setText(message.getClient().getName());
+        msgSubject.setText(message.getIn_reply_to_screen_name());
+        msgCreatedAt.setText(message.getCreated_at());
 
-            Notifie app = ((Notifie)getApplicationContext());
-            String auth_token = app.getAuth_token();
+        String image_url = message.getClient().getImage();
 
-            authTokenText.setText(auth_token);
+        try {
+            if (image_url != null && image_url.length() != 0) {
+                Picasso.with(this) // getBaseContext()
+                        .load(image_url)
+                        .transform(new CircleTransform())
+                        .resize(80, 80)
+                        .centerCrop()
+                        .into(imageView);
+            }
+        } catch (IllegalArgumentException e) {
+            Log.v("Path", image_url);
         }
+
 
     }
 
@@ -170,6 +182,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
 
+        /*
         Notifie app = ((Notifie)getApplicationContext());
         String auth_token = app.getAuth_token();
 
@@ -195,6 +208,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 Log.e("App", "Error" + error);
             }
         });
+        */
     }
 
     @Override
