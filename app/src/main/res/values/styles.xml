@@ -1,8 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar"> //Theme.AppCompat.Light.DarkActionBar
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Base.ThemeOverlay.AppCompat.Dark.ActionBar -->
         <!-- Customize your theme here. -->
+
+    </style>
+
+    <style name="white_control" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!--
+        <item name="colorControlNormal">@color/white_alpha50</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+        -->
     </style>
 
     <style name="menu_labels_style">
@@ -23,6 +33,33 @@
 
     <style name="MyRadioButtonStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
         <item name="android:button">@drawable/your_radio_button</item>
+    </style>
+
+    <style name="ThemeActionBar">
+        <item name="android:background">@null</item>
+        <!-- Support library compatibility -->
+        <item name="background">@null</item>
+    </style>
+
+    <style name="AnimationTransitionSlide">
+        <item name="android:windowEnterAnimation">@anim/left_to_right</item>
+        <item name="android:windowExitAnimation">@anim/right_to_left</item>
+    </style>
+
+
+    <style name="TransparentActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ThemeActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/ThemeActionBar</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="TransparentActionBarWithSlide" parent="TransparentActionBar">
+        <!--
+        <item name="android:windowAnimationStyle">@style/AnimationTransitionSlide</item>
+        -->
+        <item name="android:windowBackground">@drawable/login_gradient</item>
     </style>
 
 </resources>

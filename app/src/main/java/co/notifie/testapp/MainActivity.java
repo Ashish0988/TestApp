@@ -24,7 +24,7 @@ import retrofit.client.Response;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
+    public final static String NOTIFIE_HOST = "http://192.168.1.52:3000"; //192.168.1.39:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public static String AUTH_TOKEN;
@@ -82,6 +82,16 @@ public class MainActivity extends ActionBarActivity {
                 attemptLogin();
             }
         });
+
+
+        Button signUpButton = (Button) findViewById(R.id.singup_button);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goSignUp();
+            }
+        });
+
 
         //final ListView listview = (ListView) findViewById(R.id.listview);
 
@@ -164,6 +174,11 @@ public class MainActivity extends ActionBarActivity {
 
     public void attemptLogin() {
         Intent intent = new Intent(this, SwipeActivity.class);
+        startActivity(intent);
+    }
+
+    public void goSignUp() {
+        Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
 

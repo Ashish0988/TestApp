@@ -22,4 +22,7 @@
     <string name="filter">Filter</string>
     <string name="favorites_empty_title">Hearts is for favorites</string>
     <string name="favorites_empty_sub_title">You can store here important conversations to faster access</string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="title_activity_confirmation">ConfirmationActivity</string>
+    <string name="title_activity_upload_photo">UploadPhotoActivity</string>
 </resources>

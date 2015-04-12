@@ -1,0 +1,138 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/abc_action_bar_progress_bar_size"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    tools:context="co.notifie.testapp.SignUpActivity">
+
+    <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
+            android:padding="16dp"
+            android:layout_height="wrap_content" android:orientation="vertical">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/email_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_baseColor="@color/white"
+                app:met_floatingLabel="highlight"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:inputType="textEmailAddress"
+                app:met_primaryColor="@color/white"
+                app:met_floatingLabelText="Email"
+                app:met_errorColor="#ddaa00"
+                android:hint="Email"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_baseColor="@color/white"
+                app:met_floatingLabel="highlight"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:inputType="phone"
+                app:met_primaryColor="@color/white"
+                app:met_floatingLabelText="Phone format +7 900 900-00-00"
+                app:met_errorColor="#ddaa00"
+                android:hint="Phone"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:met_baseColor="@color/white"
+                app:met_floatingLabel="highlight"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                app:met_primaryColor="@color/white"
+                app:met_floatingLabelText="Password length is minimum 6 chart"
+                app:met_errorColor="#ddaa00"
+                android:hint="Password"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom
+                    ="16dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:gravity="center"
+                    android:paddingTop="16dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/login_text_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Siging up you are accept our terms of service and privacy"
+                        android:textColor="@color/white_alpha80"
+                        android:textStyle="normal"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+
+                    <Button android:id="@+id/terms"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Terms Of Service"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:textSize="12dp"
+                        android:minHeight="12dp"
+                        android:textColor="@color/white"
+                        android:textStyle="normal" />
+
+
+                    <Button android:id="@+id/privacy"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Privacy"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:textSize="12dp"
+                        android:minHeight="12dp"
+                        android:textColor="@color/white"
+                        android:textStyle="normal" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/sign_up_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="9dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="9dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                fancy:borderColor="#FFFFFF"
+                fancy:borderWidth="1dp"
+                fancy:defaultColor="@color/clear"
+                fancy:focusColor="@color/black_alpha10"
+                fancy:iconPosition="left"
+                fancy:radius="2dp"
+                fancy:text="SIGN UP"
+                fancy:textColor="#FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

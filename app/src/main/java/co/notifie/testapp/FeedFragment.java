@@ -129,14 +129,22 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
 
         final FloatingActionsMenu actionsMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
 
-        FloatingActionButton filterButton = (FloatingActionButton) view.findViewById(R.id.action_filter);
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                actionsMenu.collapse();
-                showFilterDialog();
-            }
-        });
+
+        if (page == 1) { // Favorites
+            actionsMenu.setVisibility(View.INVISIBLE);
+
+        } else { // Feed
+
+            FloatingActionButton filterButton = (FloatingActionButton) view.findViewById(R.id.action_filter);
+            filterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    actionsMenu.collapse();
+                    showFilterDialog();
+                }
+            });
+
+        }
 
         // Create Swipe Refresh
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.activity_main_swipe_refresh_layout);

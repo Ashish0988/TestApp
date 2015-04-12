@@ -1,6 +1,7 @@
 package co.notifie.testapp;
 
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
@@ -15,6 +16,10 @@ public interface Api {
     @POST("/users/sign_in.json")
     void singIn(@Query("email") String userEmail, @Query("password") String userPassword,
                     Callback<AuthResponce> callback);
+
+    @POST("/users.json")
+    void singUp(@Body UserRequestWrapper user,
+                Callback<AuthResponce> callback);
 
     @GET("/api/v1/me")
     void getMe(@Header("Authorization") String authorization,

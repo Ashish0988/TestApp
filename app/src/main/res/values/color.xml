@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="actionbar_background">#AF0D7C</color>
-    <color name="actionbar_background_alpha05">#09AF0D7C</color>
+    <color name="actionbar_background_pressed">#bbaf0d7c</color>
+    <color name="actionbar_background_alpha05">#FDF9FC</color>
     <color name="black">#000000</color>
     <color name="black_alpha10">#0F000000</color>
     <color name="black_alpha50">#88000000</color>
@@ -10,5 +11,6 @@
     <color name="white_alpha10">#2FFFFFFF</color>
     <color name="white_alpha80">#99FFFFFF</color>
     <color name="light_gray">#ddd</color>
+    <color name="gray">#888</color>
     <color name="clear">#00000000</color>
 </resources>

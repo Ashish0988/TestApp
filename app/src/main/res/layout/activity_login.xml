@@ -5,6 +5,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/login_gradient"
     tools:context="co.notifie.testapp.LoginActivity">
 
     <!-- Login progress -->
@@ -34,6 +35,36 @@
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" android:text="@string/action_sign_in"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="30dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:id="@+id/login_text_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/already_registered"
+                    android:textColor="@color/white_alpha80"
+                    android:textStyle="normal"
+                    android:layout_marginRight="5dp"
+                    android:textSize="12dp" />
+
+                <Button android:id="@+id/email_sign_in_button"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="@string/login"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:textSize="12dp"
+                    android:minHeight="12dp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

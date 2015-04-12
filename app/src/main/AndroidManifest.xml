@@ -87,7 +87,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
+            android:theme="@style/CustomActionBarTheme"
+            android:windowSoftInputMode="stateHidden" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.notifie.testapp.MainActivity" />
         </activity>
         <activity
             android:name=".TabActivity"
@@ -100,16 +104,42 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.notifie.testapp.MainActivity" />
         </activity>
-
         <activity
-            android:theme="@style/Theme.NoActionBar"
             android:name=".SwipeActivity"
-            android:label="@string/title_activity_swipe" >
+            android:label="@string/title_activity_swipe"
+            android:theme="@style/Theme.NoActionBar" >
         </activity>
-
         <activity
             android:name=".SpinnerActivity"
             android:label="@string/title_activity_spinner" >
+        </activity>
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/TransparentActionBarWithSlide" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.notifie.testapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ConfirmationActivity"
+            android:label="@string/title_activity_confirmation"
+            android:parentActivityName=".SignUpActivity"
+            android:theme="@style/TransparentActionBarWithSlide" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.notifie.testapp.SignUpActivity" />
+        </activity>
+
+        <activity
+            android:name=".UploadPhotoActivity"
+            android:label="@string/title_activity_upload_photo"
+            android:theme="@style/TransparentActionBarWithSlide"
+            android:parentActivityName=".ConfirmationActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.notifie.testapp.ConfirmationActivity" />
         </activity>
     </application>
 

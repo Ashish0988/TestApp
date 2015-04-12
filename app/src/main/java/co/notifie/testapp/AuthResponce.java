@@ -15,6 +15,9 @@ public class AuthResponce {
     @Expose
     private User user;
 
+    @Expose
+    private String phone_confirm_code;
+
     public String getAuthentication_token() {
         return authentication_token;
     }
@@ -37,5 +40,13 @@ public class AuthResponce {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getPhone_confirm_code() {
+        return phone_confirm_code;
+    }
+
+    public void setPhone_confirm_code(String phone_confirm_code) {
+        this.phone_confirm_code = phone_confirm_code;
     }
 }

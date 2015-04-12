@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="10dp"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="co.notifie.testapp.UploadPhotoActivity">
+
+    <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
+            android:padding="20dp"
+            android:layout_height="wrap_content" android:orientation="vertical">
+
+
+            <ImageButton
+                android:layout_width="80dp"
+                android:id="@+id/avatar"
+                android:background="@drawable/ic_action_heart"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:layout_height="80dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/email_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:gravity="center"
+                    android:textColor="@color/white_alpha80"
+                    android:paddingRight="5dp"
+                    android:textSize="16dp" />
+
+                <EditText android:id="@+id/full_name" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:hint="Full Name"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:textColorHint="@color/white_alpha10"
+                    android:backgroundTint="@color/white_alpha80"
+                    android:maxLines="1" android:singleLine="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:gravity="center"
+                    android:paddingTop="16dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/login_text_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Almost Done. We're suggest upload your photo to make conversation more personal"
+                        android:textColor="@color/white_alpha80"
+                        android:textStyle="normal"
+                        android:gravity="center"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <info.hoang8f.widget.FButton android:id="@+id/confirmation_button"
+                android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:minHeight="35dp"
+                fbutton:buttonColor="@color/white_alpha50"
+                fbutton:shadowColor="@color/black_alpha10"
+                fbutton:shadowEnabled="true"
+                fbutton:shadowHeight="2dp"
+                android:textSize="16dp"
+                fbutton:cornerRadius="2dp"
+                android:layout_marginTop="16dp" android:text="DONE"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
