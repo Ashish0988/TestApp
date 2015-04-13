@@ -85,15 +85,6 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
-            android:theme="@style/CustomActionBarTheme"
-            android:windowSoftInputMode="stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="co.notifie.testapp.MainActivity" />
-        </activity>
-        <activity
             android:name=".TabActivity"
             android:label="@string/title_activity_tab" >
         </activity>
@@ -131,15 +122,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.notifie.testapp.SignUpActivity" />
         </activity>
-
         <activity
             android:name=".UploadPhotoActivity"
             android:label="@string/title_activity_upload_photo"
-            android:theme="@style/TransparentActionBarWithSlide"
-            android:parentActivityName=".ConfirmationActivity" >
+            android:parentActivityName=".ConfirmationActivity"
+            android:theme="@style/TransparentActionBarWithSlide" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.notifie.testapp.ConfirmationActivity" />
+        </activity>
+        <activity
+            android:name=".SignInActivity"
+            android:label="@string/title_activity_sign_in"
+            android:theme="@style/TransparentActionBarWithSlide"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.notifie.testapp.MainActivity" />
         </activity>
     </application>
 

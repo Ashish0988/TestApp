@@ -33,8 +33,16 @@ public interface Api {
     void getMessage(@Header("Authorization") String authorization, @Path("id") int id,
                      Callback<MessagesResponce> callback);
 
+    @POST("/api/v1/messages")
+    void postMessage(@Header("Authorization") String authorization, @Body MessagePostWrapper message,
+                    Callback<MessagesResponce> callback);
+
     @GET("/api/v1/messages/{id}/comments")
     void getMessageComments(@Header("Authorization") String authorization, @Path("id") String id,
                     Callback<CommentsResponce> callback);
+
+    @POST("/api/v1/messages/{id}/comments")
+    void postComment(@Header("Authorization") String authorization, @Path("id") String id, @Body CommentPostWrapper comment,
+                     Callback<CommentsResponce> callback);
 
 }

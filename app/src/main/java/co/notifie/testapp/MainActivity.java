@@ -1,6 +1,7 @@
 package co.notifie.testapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -8,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -16,17 +16,16 @@ import java.io.IOException;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import mehdi.sakout.fancybuttons.FancyButton;
 
 
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://192.168.1.52:3000"; //192.168.1.39:3000
+    public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
+    public final static String AUTH_TOKEN_STRING = "notifie_auth_token";
     public static String AUTH_TOKEN;
 
     public static Realm realm;
@@ -75,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        FancyButton mEmailSignInButton = (FancyButton) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
 
-        Button signUpButton = (Button) findViewById(R.id.singup_button);
+        FancyButton signUpButton = (FancyButton) findViewById(R.id.singup_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,8 +107,17 @@ public class MainActivity extends ActionBarActivity {
         //realm = Realm.getInstance(this);
         realm = Realm.getInstance(this, "test10.realm");
 
+        SharedPreferences sPref = getPreferences(MODE_PRIVATE);
+        String token = sPref.getString(MainActivity.AUTH_TOKEN_STRING, "");
+
+        if (token != null && token.length() > 0) {
+            AUTH_TOKEN = token;
+            Intent intent = new Intent(this, SwipeActivity.class);
+            startActivity(intent);
+        }
+
         // Sign in and get Token
-        signIn();
+        // signIn();
 
         /*
         RealmResults<NotifeMessage> messages = realm.where(NotifeMessage.class)
@@ -148,6 +156,7 @@ public class MainActivity extends ActionBarActivity {
         //new HttpRequestTask().execute();
     }
 
+    /*
     public void signIn() {
         RestClient.get().singIn("stas.bedunkevich@gmail.com", "123456", new Callback<AuthResponce>() {
             @Override
@@ -171,9 +180,10 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
+    */
 
     public void attemptLogin() {
-        Intent intent = new Intent(this, SwipeActivity.class);
+        Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
     }
 
@@ -214,6 +224,8 @@ public class MainActivity extends ActionBarActivity {
             result.clear();
             RealmResults<NotifieComment> result2 = realm.where(NotifieComment.class).findAll();
             result2.clear();
+            RealmResults<NotifieClient> result3 = realm.where(NotifieClient.class).findAll();
+            result3.clear();
             realm.commitTransaction();
             return true;
         }

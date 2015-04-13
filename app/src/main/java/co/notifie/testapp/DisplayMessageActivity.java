@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -27,6 +30,7 @@ import java.util.List;
 
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
+import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -39,12 +43,28 @@ public class DisplayMessageActivity extends ActionBarActivity {
     public static NotifeMessage message;
     public static commentAdapter my_adapter;
     public static ListView listview;
+    MaterialEditText composeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_display_message);
+
+        composeText = (MaterialEditText) findViewById(R.id.compose_message);
+        composeText.setHideUnderline(true);
+
+        FancyButton sendMessageButton = (FancyButton) findViewById(R.id.send_button);
+        sendMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comment_to_send = composeText.getText().toString();
+
+                if (comment_to_send.length() > 0) {
+                    postComment(comment_to_send);
+                }
+            }
+        });
 
         Intent intent = getIntent();
         String message_id = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
@@ -134,6 +154,80 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
 
     }
+
+    //
+    // Post Comment
+    //
+    public void postComment(String comment_text) {
+
+        CommentPostWrapper params = new CommentPostWrapper();
+        NotifieComment new_comment = new NotifieComment();
+
+        new_comment.setText(comment_text);
+
+        params.setComment(new_comment);
+
+        RestClient.get().postComment(MainActivity.AUTH_TOKEN, message.getId(), params, new Callback<CommentsResponce>() {
+            @Override
+            public void success(CommentsResponce commentsResponce, Response response) {
+                // success!
+
+                // you get the point...
+                List<NotifieComment> comments = commentsResponce.getComments();
+
+                MainActivity.realm.beginTransaction();
+                MainActivity.realm.copyToRealmOrUpdate(comments);
+                MainActivity.realm.commitTransaction();
+
+                listview.setSelection(my_adapter.getCount() - 1);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error" + error);
+
+                Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
+
+    }
+
+    /*
+    public void sendMessage() {
+
+        String message_text = composeText.getText().toString();
+
+        MessagePostWrapper params = new MessagePostWrapper();
+        NotifeMessage new_message = new NotifeMessage();
+
+        new_message.setText(message_text);
+
+        params.setMessage(new_message);
+
+        RestClient.get().postMessage(MainActivity.AUTH_TOKEN, params, new Callback<MessagesResponce>() {
+            @Override
+            public void success(MessagesResponce messageResponce, Response response) {
+                // success!
+
+                // you get the point...
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error" + error);
+
+                Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
+
+    }*/
 
     public static void reloadComments() {
         if (message != null) {

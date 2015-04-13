@@ -31,7 +31,6 @@ public class SignUpActivity extends ActionBarActivity {
 
         emailText = (EditText) findViewById(R.id.email_text);
         passwordText = (EditText) findViewById(R.id.password);
-
         phoneText = (EditText) findViewById(R.id.phone);
         //phoneText.setText("+7");
         phoneText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
