@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -107,8 +108,8 @@ public class MainActivity extends ActionBarActivity {
         //realm = Realm.getInstance(this);
         realm = Realm.getInstance(this, "test10.realm");
 
-        SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-        String token = sPref.getString(MainActivity.AUTH_TOKEN_STRING, "");
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String token = pref.getString(MainActivity.AUTH_TOKEN_STRING, "");
 
         if (token != null && token.length() > 0) {
             AUTH_TOKEN = token;

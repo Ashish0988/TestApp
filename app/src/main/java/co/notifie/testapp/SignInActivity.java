@@ -3,6 +3,7 @@ package co.notifie.testapp;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -79,10 +80,10 @@ public class SignInActivity extends ActionBarActivity {
 
                 MainActivity.AUTH_TOKEN = auth_token;
 
-                SharedPreferences sPref = getPreferences(MODE_PRIVATE);
-                SharedPreferences.Editor ed = sPref.edit();
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor ed = pref.edit();
                 ed.putString(MainActivity.AUTH_TOKEN_STRING, auth_token);
-                ed.commit();
+                ed.apply();
 
                 Intent intent = new Intent(getBaseContext(), SwipeActivity.class);
                 startActivity(intent);
