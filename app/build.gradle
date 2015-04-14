@@ -57,4 +57,5 @@ dependencies {
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.github.medyo:fancybuttons:1.2@aar'
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
+    compile 'com.pnikosis:materialish-progress:1.5'
 }

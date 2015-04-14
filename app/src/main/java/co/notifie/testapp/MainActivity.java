@@ -23,7 +23,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://notifie.ru"; //192.168.1.39:3000
+    public final static String NOTIFIE_HOST = "http://192.168.1.52:3000"; //192.168.1.39:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public final static String AUTH_TOKEN_STRING = "notifie_auth_token";

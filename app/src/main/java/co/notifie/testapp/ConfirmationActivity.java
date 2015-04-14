@@ -1,13 +1,23 @@
 package co.notifie.testapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedByteArray;
 
 
 public class ConfirmationActivity extends ActionBarActivity {
@@ -32,10 +42,51 @@ public class ConfirmationActivity extends ActionBarActivity {
 
     public void confirmAction(String code) {
         if (code.length() > 0) {
-            Intent intent = new Intent(getBaseContext(), UploadPhotoActivity.class);
+
+            /*Intent intent = new Intent(getBaseContext(), UploadPhotoActivity.class);
             intent.putExtra("confirmation_code_message", "1234");
-            startActivity(intent);
+            startActivity(intent);*/
+            confirmCode();
         }
+    }
+
+    public void confirmCode() {
+        RestClient.get().postCode(codeText.getText().toString(), new Callback<AuthResponce>() {
+            @Override
+            public void success(AuthResponce authResponce, Response response) {
+                // success!
+                String auth_token = authResponce.getAuthentication_token();
+                Log.i("App", auth_token);
+
+                Notifie app = ((Notifie) getApplicationContext());
+                app.setAuth_token(auth_token);
+                // you get the point...
+
+                MainActivity.AUTH_TOKEN = auth_token;
+
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor ed = pref.edit();
+                ed.putString(MainActivity.AUTH_TOKEN_STRING, auth_token);
+                ed.apply();
+
+                Intent intent = new Intent(getBaseContext(), UploadPhotoActivity.class);
+                intent.putExtra("confirmation_code_message", auth_token);
+                startActivity(intent);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+
+                String json = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
+                Log.e("App", "Error" + json);
+
+                Toast toast = Toast.makeText(getApplicationContext(), json, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
     }
 
 

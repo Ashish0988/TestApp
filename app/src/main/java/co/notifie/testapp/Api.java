@@ -17,6 +17,14 @@ public interface Api {
     void singIn(@Query("email") String userEmail, @Query("password") String userPassword,
                     Callback<AuthResponce> callback);
 
+    @POST("/api/v1/confirm")
+    void postCode(@Query("code") String userPassword,
+                Callback<AuthResponce> callback);
+
+    @GET("/api/v1/search_for_clients")
+    void searchForClient(@Header("Authorization") String authorization,
+               Callback<SearchClientsResponce> callback);
+
     @POST("/users.json")
     void singUp(@Body UserRequestWrapper user,
                 Callback<AuthResponce> callback);

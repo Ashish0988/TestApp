@@ -1,17 +1,49 @@
 package co.notifie.testapp;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.pnikosis.materialishprogress.ProgressWheel;
+
+import java.util.List;
+
+import mehdi.sakout.fancybuttons.FancyButton;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class UploadPhotoActivity extends ActionBarActivity {
+
+    EditText userName;
+    ProgressWheel progress;
+    FancyButton signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_photo);
+
+        signUpButton = (FancyButton) findViewById(R.id.final_button);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveAction();
+            }
+        });
+
+        progress = (ProgressWheel) findViewById(R.id.progress_wheel);
+        userName = (EditText)  findViewById(R.id.full_name);
+
+        signUpButton.setVisibility(View.INVISIBLE);
+        searchForClients();
     }
 
 
@@ -35,5 +67,38 @@ public class UploadPhotoActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void saveAction() {
+
+    }
+
+    public void searchForClients() {
+        RestClient.get().searchForClient(MainActivity.AUTH_TOKEN, new Callback<SearchClientsResponce>() {
+            @Override
+            public void success(SearchClientsResponce responce, Response response) {
+                // success!
+                List <NotifieCustomer> names = responce.getFound();
+                Log.i("searchForClients", names.toString());
+
+                if (names != null && names.size() > 0) {
+                    NotifieCustomer first = names.get(0);
+                    userName.setText(first.getFullname());
+                }
+
+                progress.setVisibility(View.GONE);
+                signUpButton.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+
+                Toast toast = Toast.makeText(getBaseContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
     }
 }
