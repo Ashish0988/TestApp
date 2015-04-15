@@ -85,6 +85,10 @@ public class ConfirmationActivity extends ActionBarActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), json, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
                 toast.show();
+
+                Intent intent = new Intent(getBaseContext(), UploadPhotoActivity.class);
+                intent.putExtra("confirmation_code_message", "none");
+                startActivity(intent);
             }
         });
     }

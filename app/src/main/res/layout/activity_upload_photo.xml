@@ -22,7 +22,7 @@
             <ImageButton
                 android:layout_width="80dp"
                 android:id="@+id/avatar"
-                android:background="@drawable/ic_action_heart"
+                android:background="@drawable/circle"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:layout_height="80dp" />
@@ -31,6 +31,7 @@
                 android:id="@+id/full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 app:met_baseColor="@color/white"
                 app:met_floatingLabel="highlight"
                 android:maxLines="1"
@@ -60,7 +61,7 @@
                 android:textColor="@color/white_alpha80"
                 android:textStyle="normal"
                 android:gravity="center"
-                android:paddingTop="12dp"
+                android:paddingTop="16dp"
                 android:paddingBottom="12dp"
                 android:textSize="12dp" />
 

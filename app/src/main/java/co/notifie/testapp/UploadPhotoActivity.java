@@ -1,5 +1,7 @@
 package co.notifie.testapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -8,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -25,6 +29,7 @@ public class UploadPhotoActivity extends ActionBarActivity {
     EditText userName;
     ProgressWheel progress;
     FancyButton signUpButton;
+    ImageButton avatarButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,16 @@ public class UploadPhotoActivity extends ActionBarActivity {
 
         progress = (ProgressWheel) findViewById(R.id.progress_wheel);
         userName = (EditText)  findViewById(R.id.full_name);
+        avatarButton = (ImageButton) findViewById(R.id.avatar);
+
+        avatarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, 1);//one can be replaced with any action code
+            }
+        });
 
         signUpButton.setVisibility(View.INVISIBLE);
         searchForClients();
@@ -71,6 +86,30 @@ public class UploadPhotoActivity extends ActionBarActivity {
 
     public void saveAction() {
 
+    }
+
+    Uri outputUri;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        if (resultCode == RESULT_OK)
+        {
+            Uri imageUri = imageReturnedIntent.getData();
+            try {
+                //Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+
+                Picasso.with(this) // getBaseContext()
+                        .load(imageUri)
+                        .transform(new CircleTransform())
+                        .resize(160, 160)
+                        .centerCrop()
+                        .into(avatarButton);
+
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     public void searchForClients() {

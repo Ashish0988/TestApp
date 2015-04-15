@@ -58,4 +58,5 @@ dependencies {
     compile 'com.github.medyo:fancybuttons:1.2@aar'
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
     compile 'com.pnikosis:materialish-progress:1.5'
+    compile 'com.soundcloud.android:android-crop:0.9.10@aar'
 }
