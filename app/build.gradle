@@ -1,11 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'anroid_key'
+            keyPassword '055945'
+            storeFile file('/Users/thunder/AndroidStudioProjects/signature.jks')
+            storePassword '055945'
+        }
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
-        applicationId "co.notifie.testapp"
+        applicationId "co.notifie.app"
         minSdkVersion 18
         targetSdkVersion 18
         versionCode 1
@@ -15,6 +22,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
     packagingOptions {
@@ -29,19 +39,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.0.0'
-
     compile 'com.squareup.okhttp:okhttp:2.1.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
     compile 'com.squareup:otto:1.3.5'
-
     compile 'com.squareup.okio:okio:1.0.1'
-
-    //compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
-
-
     compile 'io.realm:realm-android:0.80.0'
     compile 'uk.co.chrisjenx:calligraphy:2.0.2'
     compile 'com.rockerhieu.emojicon:library:1.0'
@@ -49,14 +53,13 @@ dependencies {
     compile 'net.danlew:android.joda:2.7.1'
     compile 'com.android.support:support-v4:22.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-
     //compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'info.hoang8f:android-segmented:1.0.4'
-
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.github.medyo:fancybuttons:1.2@aar'
     compile 'com.rengwuxian.materialedittext:library:2.0.3'
     compile 'com.pnikosis:materialish-progress:1.5'
-    compile 'com.soundcloud.android:android-crop:0.9.10@aar'
+    // compile 'com.soundcloud.android:android-crop:0.9.10@aar'
+    compile 'com.facebook.android:facebook-android-sdk:3.22.0'
 }

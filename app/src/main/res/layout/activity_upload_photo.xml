@@ -8,7 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
     xmlns:fancy="http://schemas.android.com/apk/res-auto"
-    tools:context="co.notifie.testapp.UploadPhotoActivity">
+    tools:context="co.notifie.app.UploadPhotoActivity">
 
 
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
@@ -65,24 +65,55 @@
                 android:paddingBottom="12dp"
                 android:textSize="12dp" />
 
-            <mehdi.sakout.fancybuttons.FancyButton
-                android:id="@+id/final_button"
+            <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="9dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="9dp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                fancy:borderColor="#FFFFFF"
-                fancy:borderWidth="1dp"
-                fancy:defaultColor="@color/clear"
-                fancy:focusColor="@color/black_alpha10"
-                fancy:iconPosition="left"
-                fancy:radius="2dp"
-                fancy:text="SAVE"
-                fancy:textColor="#FFFFFF" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_height="wrap_content">
+
+                <mehdi.sakout.fancybuttons.FancyButton
+                    android:id="@+id/facebook_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="9dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="9dp"
+                    android:textStyle="bold"
+                    fancy:textSize="12px"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center"
+                    fancy:borderColor="@color/white_alpha10"
+                    fancy:borderWidth="1dp"
+                    fancy:defaultColor="@color/clear"
+                    fancy:focusColor="@color/black_alpha10"
+                    fancy:iconPosition="left"
+                    fancy:radius="2dp"
+                    fancy:text="Get Facebook Photo"
+                    fancy:textColor="#FFFFFF" />
+
+                <mehdi.sakout.fancybuttons.FancyButton
+                    android:id="@+id/final_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="9dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="9dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    fancy:borderColor="#FFFFFF"
+                    fancy:borderWidth="1dp"
+                    fancy:defaultColor="@color/clear"
+                    fancy:focusColor="@color/black_alpha10"
+                    fancy:iconPosition="left"
+                    fancy:radius="2dp"
+                    fancy:text="SAVE"
+                    fancy:textColor="#FFFFFF" />
+
+             </LinearLayout>
+
+
 
         </LinearLayout>
     </ScrollView>
