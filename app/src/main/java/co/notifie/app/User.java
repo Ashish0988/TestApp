@@ -1,9 +1,13 @@
 package co.notifie.app;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by thunder on 01.04.15.
  */
 public class User {
+
+    @Expose
     private String id;
     private String avatar_file_name;
     private String avatar_content_type;
@@ -11,13 +15,19 @@ public class User {
     private String avatar_updated_at;
     private String created_at;
     private String device_token;
+    @Expose
     private String email;
+    @Expose
     private String full_name;
+    @Expose
     private String global_phone;
+    @Expose
     private String phone;
     private String phone_confirm_code;
+    @Expose
     private String role_id;
     private String updated_at;
+    @Expose
     private String avatar_url;
 
     public String getId() {

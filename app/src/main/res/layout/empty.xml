@@ -9,21 +9,23 @@
         android:background="@drawable/notfound"
         android:layout_height="wrap_content" />
 
+
     <TextView
         android:layout_width="wrap_content"
         android:text="@string/favorites_empty_title"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:paddingTop="0dp"
-        android:textColor="@color/black"
+        android:textColor="@color/gray"
         android:layout_height="wrap_content" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:gravity="center"
-        android:paddingTop="10dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:textSize="16dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="80dp"
+        android:paddingRight="80dp"
+        android:textSize="12dp"
         android:textColor="@color/gray"
         android:paddingBottom="0dp"
         android:text="@string/favorites_empty_sub_title"

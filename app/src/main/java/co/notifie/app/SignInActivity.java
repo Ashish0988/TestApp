@@ -76,6 +76,7 @@ public class SignInActivity extends ActionBarActivity {
 
                 Notifie app = ((Notifie) getApplicationContext());
                 app.setAuth_token(auth_token);
+                app.setCurrentUser(authResponce.getUser());
                 // you get the point...
 
                 MainActivity.AUTH_TOKEN = auth_token;

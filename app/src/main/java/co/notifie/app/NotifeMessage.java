@@ -2,6 +2,8 @@ package co.notifie.app;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -20,8 +22,10 @@ public class NotifeMessage extends RealmObject {
 
     @Expose
     private String client_id;
+
     @Expose
-    private String created_at;
+    private Date created_at;
+
     @Expose
     private String favorited;
     @Expose
@@ -38,7 +42,7 @@ public class NotifeMessage extends RealmObject {
     private String text;
     private String updated_at;
     @Expose
-    private String unread_comments_sum;
+    private int unread_comments_sum;
 
     @Expose
     private NotifieClient client;
@@ -53,11 +57,11 @@ public class NotifeMessage extends RealmObject {
         this.client_id = client_id;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
@@ -133,11 +137,11 @@ public class NotifeMessage extends RealmObject {
         this.updated_at = updated_at;
     }
 
-    public String getUnread_comments_sum() {
+    public int getUnread_comments_sum() {
         return unread_comments_sum;
     }
 
-    public void setUnread_comments_sum(String unread_comments_sum) {
+    public void setUnread_comments_sum(int unread_comments_sum) {
         this.unread_comments_sum = unread_comments_sum;
     }
 

@@ -9,6 +9,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 public class Notifie extends Application {
 
     private String auth_token;
+    private User currentUser;
 
     public String getAuth_token() {
         return auth_token;
@@ -18,9 +19,18 @@ public class Notifie extends Application {
         this.auth_token = auth_token;
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         JodaTimeAndroid.init(this);
     }
+
 }

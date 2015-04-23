@@ -15,7 +15,7 @@
         android:background="@color/actionbar_background"
         app:pstsDividerColor="@color/white_alpha10"
         app:pstsIndicatorColor="@color/white_alpha50"
-        app:pstsUnderlineColor="@color/white"
+        app:pstsUnderlineColor="@color/actionbar_background"
         app:pstsIndicatorHeight="4dp"
         app:pstsUnderlineHeight="0.5dp"
         app:pstsTabPaddingLeftRight="15dp">

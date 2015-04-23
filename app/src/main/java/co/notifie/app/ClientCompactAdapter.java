@@ -5,28 +5,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
-import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 
 /**
- * Created by thunder on 09.04.15.
+ * Created by thunder on 16.04.15.
  */
-public class ClientAdapter extends RealmBaseAdapter<NotifieClient> implements ListAdapter {
+public class ClientCompactAdapter extends ClientAdapter {
 
-    public ClientAdapter(Context context, int resId,
-                       RealmResults<NotifieClient> realmResults,
-                       boolean automaticUpdate) {
-        super(context, realmResults, automaticUpdate);
+    public ClientCompactAdapter(Context context, int resId, RealmResults<NotifieClient> realmResults, boolean automaticUpdate) {
+        super(context, resId, realmResults, automaticUpdate);
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -35,50 +32,44 @@ public class ClientAdapter extends RealmBaseAdapter<NotifieClient> implements Li
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.client_cell, parent, false);
+        View rowView = inflater.inflate(R.layout.client_cell_compact, parent, false);
 
         TextView textView = (TextView) rowView.findViewById(R.id.label);
         TextView textSubView = (TextView) rowView.findViewById(R.id.client_legal);
         TextView messageText = (TextView) rowView.findViewById(R.id.message_text);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
-        TextView newMessagesCount = (TextView) rowView.findViewById(R.id.client_new_messages_count);
-        TextView newCommentsCount = (TextView) rowView.findViewById(R.id.client_new_comments_count);
-
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         SimpleDateFormat short_format = new SimpleDateFormat("dd MMMM HH:mm");
         String short_date = "?";
 
+        CheckBox check_box =  (CheckBox) rowView.findViewById(R.id.checkBox);
 
-        RealmResults<NotifeMessage> messages = MainActivity.realm.where(NotifeMessage.class)
-                .equalTo("client_id", item.getId())
-                .findAll();
+        check_box.setTag(position);
 
-        Integer unread_comments = 0;
-        Integer unread_messages = 0;
-        RealmResults<NotifieComment> comments;
+        check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                 @Override
+                                                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                    int position = (int) buttonView.getTag();
+                                                     NotifieClient item = realmResults.get(position);
 
-        for ( NotifeMessage message : messages) {
+                                                     MainActivity.realm.beginTransaction();
+                                                     if (isChecked) {
+                                                        item.setCheck_for_notifie("1");
+                                                     } else {
+                                                        item.setCheck_for_notifie("0");
+                                                     }
+                                                     MainActivity.realm.commitTransaction();
+                                                 }
+                                             }
+        );
 
-            if (message.getOpen_at().length() == 0) {
-                unread_messages += 1;
-            }
-            comments = MainActivity.realm.where(NotifieComment.class)
-                    .equalTo("message_id", message.getId())
-                    .findAll();
-
-            for ( NotifieComment comment : comments) {
-                if (comment.getReaded_at().length() == 0) {
-                    unread_comments += 1;
-                }
-            }
-
+        if (item.getCheck_for_notifie().equals("1")) {
+            check_box.setChecked(true);
+        } else {
+            check_box.setChecked(false);
         }
 
-        String total_messages = "(" + messages.size() + ")";
-
-        newMessagesCount.setText("Сообщений " + unread_messages);
-        newCommentsCount.setText("Комментариев " + unread_comments);
 
         /*
         try {
@@ -123,5 +114,4 @@ public class ClientAdapter extends RealmBaseAdapter<NotifieClient> implements Li
     public RealmResults<NotifieClient> getRealmResults() {
         return realmResults;
     }
-
 }

@@ -4,21 +4,25 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import io.realm.RealmQuery;
+import com.squareup.picasso.Picasso;
+
 import io.realm.RealmResults;
 
 /**
- * Created by thunder on 09.04.15.
+ * Created by thunder on 20.04.15.
  */
-public class ClientFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class SettingsFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +40,8 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
      */
     private AbsListView mListView;
 
+    ImageButton avatarButton;
+
     /**
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
@@ -45,8 +51,8 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
     private ClientAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static ClientFragment newInstance(int page) {
-        ClientFragment fragment = new ClientFragment();
+    public static SettingsFragment newInstance(int page) {
+        SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, page);
         //args.putString(ARG_PARAM2, title);
@@ -58,7 +64,7 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ClientFragment() {
+    public SettingsFragment() {
     }
 
     @Override
@@ -76,24 +82,13 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
                 */
 
-        // Build the query looking at all clients:
-        RealmQuery<NotifieClient> query = MainActivity.realm.where(NotifieClient.class);
+        RealmResults<NotifieClient> clients = MainActivity.realm.where(NotifieClient.class)
+                .findAll();
 
-        // Add query conditions:
-        query.equalTo("check_for_notifie", "1");
-        //query.or().equalTo("id", "2");
-        //query.or().equalTo("id", "3");
+        clients.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
 
-        // Execute the query:
-        RealmResults<NotifieClient> clients = query.findAll();
+        mAdapter = new ClientCompactAdapter(getActivity(), R.layout.message_cell, clients, true);
 
-        //clients.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
-
-        if (page == 1) {
-            mAdapter = new ClientCompactAdapter(getActivity(), R.layout.message_cell, clients, true);
-        } else {
-            mAdapter = new ClientAdapter(getActivity(), R.layout.message_cell, clients, true);
-        }
     }
 
     @Override
@@ -103,6 +98,42 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(R.id.listview);
+
+        final ListView listview = (ListView) view.findViewById(R.id.listview);
+
+        final ViewGroup header = (ViewGroup)inflater.inflate(R.layout.header_for_settings, listview, false);
+        listview.addHeaderView(header, null, false);
+
+        Notifie app = ((Notifie) getActivity().getApplicationContext());
+        User currentUser = app.getCurrentUser();
+
+        TextView userNameText = (TextView) header.findViewById(R.id.user_full_name_in_settings);
+        TextView userPhoneText = (TextView) header.findViewById(R.id.user_global_phone);
+        avatarButton = (ImageButton) header.findViewById(R.id.avatar);
+
+        if (userNameText != null) {
+            userNameText.setText(currentUser.getFull_name());
+        }
+
+        if (userPhoneText != null) {
+            userPhoneText.setText(currentUser.getGlobal_phone());
+        }
+
+        String image_url = MainActivity.NOTIFIE_HOST + currentUser.getAvatar_url();
+
+        try {
+            if (image_url != null && image_url.length() != 0) {
+                Picasso.with(getActivity()) // getBaseContext()
+                        .load(image_url)
+                        .transform(new CircleTransform())
+                        .resize(avatarButton.getLayoutParams().width, avatarButton.getLayoutParams().height)
+                        .centerCrop()
+                        .into(avatarButton);
+            }
+        } catch (IllegalArgumentException e) {
+            Log.v("Path", image_url);
+        }
+
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
@@ -140,9 +171,9 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
 
             final NotifieClient item = mAdapter.getRealmResults().get(position);
 
-            Intent intent = new Intent(getActivity(), DisplayClientActivity.class);
+            Intent intent = new Intent(getActivity(), DisplayMessageActivity.class);
             intent.putExtra(EXTRA_MESSAGE, item.getId());
-            startActivity(intent);
+            //startActivity(intent);
         }
     }
 

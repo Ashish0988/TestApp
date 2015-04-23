@@ -49,6 +49,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
 
     private OnFragmentInteractionListener mListener;
     private static SwipeRefreshLayout mSwipeRefreshLayout;
+    private static RealmResults<NotifeMessage> new_messages;
 
     /**
      * The fragment's ListView/GridView.
@@ -62,6 +63,8 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
 
     //private ListAdapter mAdapter;
     private FeedAdapter mAdapter;
+
+    RealmResults<NotifeMessage> messages;
 
     // TODO: Rename and change types of parameters
     public static FeedFragment newInstance(int page) {
@@ -95,7 +98,6 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
                 */
 
-        RealmResults<NotifeMessage> messages;
 
         if (page == 1) { // Favorites
             messages = MainActivity.realm.where(NotifeMessage.class)
@@ -103,8 +105,35 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                     .findAll();
 
         } else { // Feed
+
+            /*
+            RealmQuery<NotifieClient> query = MainActivity.realm.where(NotifieClient.class);
+            query.equalTo("check_for_notifie", "1");
+            //query.or().equalTo("id", "2");
+            //query.or().equalTo("id", "3");
+            RealmResults<NotifieClient> clients = query.findAll();
+
+            RealmQuery<NotifeMessage> msg_query = MainActivity.realm.where(NotifeMessage.class);
+            */
+
             messages = MainActivity.realm.where(NotifeMessage.class)
+                    .equalTo("client.check_for_notifie", "1")
                     .findAll();
+
+            /*
+            if (clients.size() >= 1) {
+                msg_query.equalTo("client_id", clients.get(0).getId());
+
+                for (int i = 1; i < clients.size(); i++) {
+                    msg_query.or().equalTo("client_id", clients.get(i).getId());
+                }
+
+                messages = msg_query.findAll();
+            } else {
+                messages = MainActivity.realm.where(NotifeMessage.class)
+                        .equalTo("favorited", "never_found_any")
+                        .findAll();
+            }*/
         }
 
         messages.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
@@ -289,34 +318,62 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
     public void showFilterDialog() {
         //CharSequence[] array = {"Все сообщения", "Новые сообщения", "С новыми комментариями"};
 
+        long total_count = messages.size();
+        long count = messages.where().greaterThan("unread_comments_sum", 0).findAll().size();
+        long new_count = messages.where().equalTo("open_at", "").findAll().size();
+
         final ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.select_dialog_singlechoice, android.R.id.text1, new String[] {
-                "Все сообщения (124)", "Новые сообщения (нет)", "С новыми комментариями (3)"
+                "Все сообщения (" + total_count + ")", "Новые сообщения (" + new_count + ")", "С новыми комментариями (" + count + ")"
         });
 
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setSingleChoiceItems(adapter,
-                        -1,
+                        MainActivity.filter_option,
                         new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // TODO Auto-generated method stub
-
+                                MainActivity.filter_option = which;
                             }
                         })
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
 
-                    /* User clicked Yes so do some stuff */
+                                switch (MainActivity.filter_option) {
+                                    case 0:
+                                        new_messages = MainActivity.realm.where(NotifeMessage.class)
+                                                    .equalTo("client.check_for_notifie", "1")
+                                                    .findAll();
+                                        mAdapter.updateRealmResults(new_messages);
+                                        mAdapter.notifyDataSetChanged();
+                                        break;
+                                    case 1:
+                                        new_messages = MainActivity.realm.where(NotifeMessage.class)
+                                                .equalTo("client.check_for_notifie", "1")
+                                                .equalTo("open_at", "")
+                                                .findAll();
+                                        mAdapter.updateRealmResults(new_messages);
+                                        mAdapter.notifyDataSetChanged();
+                                        break;
+                                    case 2:
+                                        new_messages = MainActivity.realm.where(NotifeMessage.class)
+                                                .equalTo("client.check_for_notifie", "1")
+                                                .greaterThan("unread_comments_sum", 0)
+                                                .findAll();
+                                        mAdapter.updateRealmResults(new_messages);
+                                        mAdapter.notifyDataSetChanged();
+                                        break;
+                                }
+
                             }
                         })
                 .setNegativeButton("ОТМЕНА",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
 
-                    /* User clicked No so do some stuff */
                             }
                         })
                 .show();

@@ -24,13 +24,14 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://192.168.1.52:3000"; //192.168.1.39:3000
+    public final static String NOTIFIE_HOST = "http://192.168.1.40:3000"; //http://192.168.1.40:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public final static String AUTH_TOKEN_STRING = "notifie_auth_token";
     public static String AUTH_TOKEN;
 
     public static Realm realm;
+    public static int filter_option;
     //private Context context;
 
     GoogleCloudMessaging gcm;
@@ -115,6 +116,8 @@ public class MainActivity extends ActionBarActivity {
 
         getRegId();
 
+        filter_option = 0;
+
         /*
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/MuseoSansCyrl-300.ttf")
@@ -123,12 +126,21 @@ public class MainActivity extends ActionBarActivity {
         );
         */
 
-        realm = Realm.getInstance(this, "test10.realm");
+        realm = Realm.getInstance(this, "test16.realm");
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String token = pref.getString(MainActivity.AUTH_TOKEN_STRING, "");
 
         if (token != null && token.length() > 0) {
+
+            RealmResults<NotifieClient> clients = MainActivity.realm.where(NotifieClient.class).findAll();
+
+            MainActivity.realm.beginTransaction();
+            for (int i = 0; i < clients.size(); i++) {
+                clients.get(i).setCheck_for_notifie("1");
+            }
+            MainActivity.realm.commitTransaction();
+
             AUTH_TOKEN = token;
             Intent intent = new Intent(this, SwipeActivity.class);
             startActivity(intent);

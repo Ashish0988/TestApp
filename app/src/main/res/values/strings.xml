@@ -20,11 +20,13 @@
     <string name="notifie_slogan">Better way to communicate</string>
     <string name="login">Log In</string>
     <string name="filter">Filter</string>
-    <string name="favorites_empty_title">Hearts is for favorites</string>
+    <string name="favorites_empty_title">No results found</string>
     <string name="favorites_empty_sub_title">You can store here important conversations to faster access</string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_confirmation">ConfirmationActivity</string>
     <string name="title_activity_upload_photo">UploadPhotoActivity</string>
     <string name="title_activity_sign_in">SignInActivity</string>
     <string name="facebook_app_id">1432645900347134</string>
+    <string name="title_activity_display_client">DisplayClientActivity</string>
+    <string name="client_feed">Feed</string>
 </resources>

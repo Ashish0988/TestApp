@@ -9,10 +9,10 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
+        android:paddingBottom="9dp">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
@@ -21,11 +21,11 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="9dp"
                 android:src="@drawable/circle" />
         </LinearLayout>
 
@@ -62,14 +62,61 @@
                 android:textStyle="normal"
                 android:textSize="12dp" />
 
-            <CheckBox
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Получать уведомления"
-                android:textColor="@color/black_alpha50"
-                android:textSize="12dp"
-                android:id="@+id/checkBox"
-                android:layout_gravity="left" />
+                >
+
+                <ImageView
+                    android:id="@+id/new_comments_icon"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="5.5dp"
+                    android:src="@drawable/unread_message" />
+
+                <TextView
+                    android:id="@+id/client_new_messages_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Сообщений (1)"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="12dp"
+                    android:textColor="@color/black_alpha50"
+                    android:textStyle="normal"
+                    android:textSize="12dp" />
+
+                <ImageView
+                    android:id="@+id/new_comments_icon_image"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="5.5dp"
+                    android:src="@drawable/unread_comment" />
+
+                <TextView
+                    android:id="@+id/client_new_comments_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Комментариев (4)"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:textColor="@color/black_alpha50"
+                    android:textStyle="normal"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+
 
 
         </LinearLayout>

@@ -2,6 +2,7 @@ package co.notifie.app;
 
 import com.google.gson.annotations.Expose;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -38,7 +39,9 @@ public class NotifieClient extends RealmObject {
     @Expose
     private String username;
 
-    //private RealmList<NotifeMessage> messages;
+    private String check_for_notifie;
+
+    private RealmList<NotifeMessage> messages;
 
     public String getAccess_token() {
         return access_token;
@@ -144,7 +147,15 @@ public class NotifieClient extends RealmObject {
         this.username = username;
     }
 
-    /*
+    public String getCheck_for_notifie() {
+        return check_for_notifie;
+    }
+
+    public void setCheck_for_notifie(String check_for_notifie) {
+        this.check_for_notifie = check_for_notifie;
+    }
+
+
     public RealmList<NotifeMessage> getMessages() {
         return messages;
     }
@@ -152,5 +163,5 @@ public class NotifieClient extends RealmObject {
     public void setMessages(RealmList<NotifeMessage> messages) {
         this.messages = messages;
     }
-    */
+
 }

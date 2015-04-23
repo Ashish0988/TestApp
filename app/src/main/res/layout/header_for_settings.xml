@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/actionbar_background"
+    android:paddingTop="16dp"
+    android:paddingBottom="12dp"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:layout_width="80dp"
+        android:id="@+id/avatar"
+        android:background="@drawable/circle"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_height="80dp" />
+
+    <TextView
+        android:id="@+id/user_full_name_in_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ivanov Ivan Ivanovich"
+        android:textColor="@color/white"
+        android:textStyle="normal"
+        android:gravity="center"
+        android:paddingTop="2dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:layout_gravity="center"
+        android:paddingBottom="2dp"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/user_global_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+79003333333"
+        android:textColor="@color/white_alpha80"
+        android:textStyle="normal"
+        android:gravity="center"
+        android:paddingTop="0dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:layout_gravity="center"
+        android:paddingBottom="4dp"
+        android:textSize="16dp" />
+
+
+    <TextView
+        android:id="@+id/user_full_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Вы не будете получать уведомления от выключенных каналов. Но эти уведомления могут быть снова загружены при включении."
+        android:textColor="@color/white_alpha80"
+        android:textStyle="normal"
+        android:gravity="left"
+        android:paddingTop="6dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:layout_gravity="center"
+        android:paddingBottom="0dp"
+        android:textSize="12dp" />
+
+</LinearLayout>

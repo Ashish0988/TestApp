@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/user_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_user_icon" >
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:layout_marginTop="5dp"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:layout_marginLeft="16dp"/>
 
         <TextView android:text="Created At" android:id="@+id/msg_created_at"
@@ -38,11 +38,12 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:layout_marginTop="5dp"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:layout_marginLeft="16dp"/>
 
 
 
+        <!--
         <TextView android:text="@+id/detail_message_text_view"
             android:id="@+id/detail_message_text_view"
             android:layout_width="wrap_content"
@@ -52,6 +53,16 @@
             android:layout_marginBottom="16dp"
             android:textSize="14dp"
             android:layout_height="wrap_content" />
+            -->
+
+        <WebView
+            android:layout_width="match_parent"
+            android:id="@+id/web_view"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 

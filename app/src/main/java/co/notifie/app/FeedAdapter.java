@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import org.joda.time.DateTime;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -48,8 +47,9 @@ public class FeedAdapter extends RealmBaseAdapter<NotifeMessage> implements List
         SimpleDateFormat short_format = new SimpleDateFormat("dd MMMM HH:mm");
         String short_date = "?";
 
-        try {
-            Date date = format.parse(item.getCreated_at());
+        //try {
+            //Date date = format.parse(item.getCreated_at());
+            Date date = item.getCreated_at();
             short_date = short_format.format(date);
 
             TextView createdAtTextView = (TextView) rowView.findViewById(R.id.created_at);
@@ -60,9 +60,9 @@ public class FeedAdapter extends RealmBaseAdapter<NotifeMessage> implements List
 
             createdAtTextView.setText(short_date);
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        //} catch (ParseException e) {
+        //    e.printStackTrace();
+        //}
 
         textView.setText(item.getClient().getName());
         messageText.setText(item.getShort_title());

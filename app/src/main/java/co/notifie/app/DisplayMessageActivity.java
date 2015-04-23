@@ -6,14 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -115,14 +114,21 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
         }
 
-        TextView textView = (TextView) this.findViewById(R.id.detail_message_text_view);
+        //TextView textView = (TextView) this.findViewById(R.id.detail_message_text_view);
 
-        if (textView != null && message != null) {
-            textView.setTextSize(11);
+        if (message != null) {
             String html = message.getText();
+            /*
+            textView.setTextSize(11);
             URLImageParser url_parser = new URLImageParser(textView, this);
             Spanned htmlSpan = Html.fromHtml(html, url_parser, null);
             textView.setText(htmlSpan);
+            */
+
+            String body_style = "<style type='text/css' media='screen'>body {padding:0; margin:0}</style>";
+            WebView webview = (WebView) this.findViewById(R.id.web_view);
+            webview.getSettings().setJavaScriptEnabled(true);
+            webview.loadDataWithBaseURL("", body_style + html, "text/html", "UTF-8", "");
         }
 
         // Display auth_token
@@ -135,7 +141,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
         msgFrom.setText(message.getClient().getName());
         msgSubject.setText(message.getIn_reply_to_screen_name());
-        msgCreatedAt.setText(message.getCreated_at());
+        msgCreatedAt.setText(message.getCreated_at().toString());
 
         String image_url = message.getClient().getImage();
 
@@ -144,7 +150,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 Picasso.with(this) // getBaseContext()
                         .load(image_url)
                         .transform(new CircleTransform())
-                        .resize(80, 80)
+                        .resize(imageView.getLayoutParams().width, imageView.getLayoutParams().height)
                         .centerCrop()
                         .into(imageView);
             }

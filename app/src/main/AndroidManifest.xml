@@ -43,17 +43,18 @@
 
     <application
         xmlns:tools="http://schemas.android.com/tools"
-        android:name="co.notifie.app.Notifie"
+        android:name=".Notifie"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.NoActionBar"
         tools:replace="android:icon,android:theme" >
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity
-            android:name="co.notifie.app.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,9 +63,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="co.notifie.app.DisplayMessageActivity"
+            android:name=".DisplayMessageActivity"
             android:label="@string/title_activity_display_message"
-            android:parentActivityName="co.notifie.app.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/CustomActionBarTheme"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
@@ -72,8 +73,18 @@
                 android:value="co.notifie.app.SwipeActivity" />
         </activity>
 
+        <activity
+            android:name=".DisplayClientActivity"
+            android:label="@string/title_activity_display_client"
+            android:theme="@style/CustomActionBarTheme"
+            android:parentActivityName=".SwipeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="co.notifie.app.SwipeActivity" />
+        </activity>
+
         <receiver
-            android:name="co.notifie.app.GcmBroadcastReceiver"
+            android:name=".GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -82,74 +93,73 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="co.notifie.app.GcmMessageHandler" />
+        <service android:name=".GcmMessageHandler" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="co.notifie.app.TabActivity"
+            android:name=".TabActivity"
             android:label="@string/title_activity_tab" >
         </activity>
         <activity
-            android:name="co.notifie.app.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.notifie.app.MainActivity" />
         </activity>
         <activity
-            android:name="co.notifie.app.SwipeActivity"
+            android:name=".SwipeActivity"
             android:label="@string/title_activity_swipe"
             android:theme="@style/Theme.NoActionBar" >
         </activity>
         <activity
-            android:name="co.notifie.app.SpinnerActivity"
+            android:name=".SpinnerActivity"
             android:label="@string/title_activity_spinner" >
         </activity>
         <activity
-            android:name="co.notifie.app.SignUpActivity"
+            android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName="co.notifie.app.MainActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/TransparentActionBarWithSlide" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.notifie.app.MainActivity" />
         </activity>
         <activity
-            android:name="co.notifie.app.ConfirmationActivity"
+            android:name=".ConfirmationActivity"
             android:label="@string/title_activity_confirmation"
-            android:parentActivityName="co.notifie.app.SignUpActivity"
+            android:parentActivityName=".SignUpActivity"
             android:theme="@style/TransparentActionBarWithSlide" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.notifie.app.SignUpActivity" />
         </activity>
         <activity
-            android:name="co.notifie.app.UploadPhotoActivity"
+            android:name=".UploadPhotoActivity"
             android:label="@string/title_activity_upload_photo"
-            android:parentActivityName="co.notifie.app.ConfirmationActivity"
+            android:parentActivityName=".ConfirmationActivity"
             android:theme="@style/TransparentActionBarWithSlide" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.notifie.app.ConfirmationActivity" />
         </activity>
         <activity
-            android:name="co.notifie.app.SignInActivity"
+            android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in"
-            android:theme="@style/TransparentActionBarWithSlide"
-            android:parentActivityName="co.notifie.app.MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/TransparentActionBarWithSlide" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="co.notifie.app.MainActivity" />
         </activity>
-
-        <activity android:name="com.facebook.LoginActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
     </application>
 

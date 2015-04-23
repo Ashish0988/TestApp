@@ -6,19 +6,26 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.Locale;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 
 public class SwipeActivity extends ActionBarActivity implements
-        FeedFragment.OnFragmentInteractionListener, ClientFragment.OnFragmentInteractionListener {
+        FeedFragment.OnFragmentInteractionListener, ClientFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -39,6 +46,27 @@ public class SwipeActivity extends ActionBarActivity implements
         // ToDo: Something
     }
 
+    public void getCurrentUser() {
+        RestClient.get().getMe(MainActivity.AUTH_TOKEN, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                // success!
+                Notifie app = ((Notifie) getApplicationContext());
+                app.setCurrentUser(user);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+
+                Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +84,8 @@ public class SwipeActivity extends ActionBarActivity implements
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(mViewPager);
+
+        getCurrentUser();
 
     }
 
@@ -109,7 +139,7 @@ public class SwipeActivity extends ActionBarActivity implements
                 case 2: // Fragment # 1 - This will show SecondFragment
                     return FeedFragment.newInstance(1);
                 case 3: // Fragment # 1 - This will show SecondFragment
-                    return FeedFragment.newInstance(3);
+                    return SettingsFragment.newInstance(0);
                 default:
                     return null;
             }
