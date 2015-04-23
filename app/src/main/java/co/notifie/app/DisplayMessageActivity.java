@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +43,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
     public static commentAdapter my_adapter;
     public static ListView listview;
     MaterialEditText composeText;
+
+    WebView web_view;
+    String view_html;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,9 +129,27 @@ public class DisplayMessageActivity extends ActionBarActivity {
             */
 
             String body_style = "<style type='text/css' media='screen'>body {padding:0; margin:0}</style>";
-            WebView webview = (WebView) this.findViewById(R.id.web_view);
-            webview.getSettings().setJavaScriptEnabled(true);
-            webview.loadDataWithBaseURL("", body_style + html, "text/html", "UTF-8", "");
+            web_view = (WebView) this.findViewById(R.id.web_view);
+
+            listview.setAlpha(0.0f);
+
+            web_view.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    loadWebView();
+                    return(true);
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    listview.animate().alpha(1.0f).setDuration(500);
+                }
+            });
+
+            web_view.getSettings().setJavaScriptEnabled(true);
+            view_html = body_style + html;
+            loadWebView();
+
         }
 
         // Display auth_token
@@ -141,7 +162,13 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
         msgFrom.setText(message.getClient().getName());
         msgSubject.setText(message.getIn_reply_to_screen_name());
-        msgCreatedAt.setText(message.getCreated_at().toString());
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        SimpleDateFormat short_format = new SimpleDateFormat("dd MMMM HH:mm");
+        String short_date = "?";
+
+        short_date = short_format.format(message.getCreated_at());
+        msgCreatedAt.setText(short_date);
 
         String image_url = message.getClient().getImage();
 
@@ -159,6 +186,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
         }
 
 
+    }
+
+
+    void loadWebView() {
+        web_view.loadDataWithBaseURL("x-data://base", view_html, "text/html", "UTF-8", null);
     }
 
     //
@@ -382,14 +414,9 @@ public class DisplayMessageActivity extends ActionBarActivity {
             SimpleDateFormat short_format = new SimpleDateFormat("dd MMMM HH:mm");
             String short_date = "?";
 
-            try {
-                Date date = format.parse(item.getCreated_at());
-                short_date = short_format.format(date);
-                textCreatedAt.setText(short_date);
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date date = item.getCreated_at();
+            short_date = short_format.format(date);
+            textCreatedAt.setText(short_date);
 
 
             if (item.getReply().equals("true")) {
@@ -405,7 +432,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
                     Picasso.with(getBaseContext())
                             .load(image_url)
                             .transform(new CircleTransform())
-                            .resize(60, 60)
+                            .resize(imageView.getLayoutParams().width, imageView.getLayoutParams().height)
                             .centerCrop()
                             .into(imageView);
                 }
@@ -422,3 +449,5 @@ public class DisplayMessageActivity extends ActionBarActivity {
     }
 
 }
+
+

@@ -96,6 +96,87 @@
                 android:layout_marginRight="16dp"
                 android:textSize="14sp" />
 
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:id="@+id/has_unread_comments"
+                android:layout_width="match_parent"
+                android:paddingLeft="0dp"
+                android:paddingTop="4dp"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:id="@+id/comment_user_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginRight="10px"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/ic_user_icon" />
+
+                </LinearLayout>
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/unread_comment_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="User name"
+                        android:gravity="left"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="0dp"
+                        android:textColor="@color/black_alpha50"
+                        android:maxLines="1"
+                        android:textStyle="bold"
+                        android:textSize="12dp" />
+
+                        <com.rockerhieu.emojicon.EmojiconTextView
+                            android:id="@+id/unread_comment_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Last comment goes to"
+                            android:textColor="@color/black"
+                            android:paddingRight="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingTop="0dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:layout_marginRight="16dp"
+                            android:textSize="12dp" />
+
+                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/unread_comment_created_at"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Created at time date"
+                        android:gravity="left"
+                        android:layout_marginTop="0dp"
+                        android:layout_marginRight="5dp"
+                        android:textColor="#ccc"
+                        android:maxLines="1"
+                        android:textStyle="normal"
+                        android:textSize="11dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

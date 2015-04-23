@@ -2,6 +2,8 @@ package co.notifie.app;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -17,7 +19,7 @@ public class NotifieComment extends RealmObject {
     private String id;
 
     @Expose
-    private String created_at;
+    private Date created_at;
     @Expose
     private String from_user_id;
     @Expose
@@ -25,13 +27,13 @@ public class NotifieComment extends RealmObject {
     @Expose
     private String readed;
     @Expose
-    private String readed_at;
+    private Date readed_at;
     @Expose
     private String reply;
     @Expose
     private String text;
     @Expose
-    private String updated_at;
+    private Date updated_at;
     @Expose
     private String user_id;
     @Expose
@@ -54,11 +56,11 @@ public class NotifieComment extends RealmObject {
         this.id = id;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
@@ -86,11 +88,11 @@ public class NotifieComment extends RealmObject {
         this.readed = readed;
     }
 
-    public String getReaded_at() {
+    public Date getReaded_at() {
         return readed_at;
     }
 
-    public void setReaded_at(String readed_at) {
+    public void setReaded_at(Date readed_at) {
         this.readed_at = readed_at;
     }
 
@@ -110,11 +112,11 @@ public class NotifieComment extends RealmObject {
         this.text = text;
     }
 
-    public String getUpdated_at() {
+    public Date getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(String updated_at) {
+    public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
 

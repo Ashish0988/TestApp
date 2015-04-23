@@ -24,7 +24,7 @@ import mehdi.sakout.fancybuttons.FancyButton;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://192.168.1.40:3000"; //http://192.168.1.40:3000
+    public final static String NOTIFIE_HOST = "http://notifie.ru"; //http://192.168.1.40:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public final static String AUTH_TOKEN_STRING = "notifie_auth_token";
@@ -126,7 +126,7 @@ public class MainActivity extends ActionBarActivity {
         );
         */
 
-        realm = Realm.getInstance(this, "test16.realm");
+        realm = Realm.getInstance(this, "test17.realm");
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String token = pref.getString(MainActivity.AUTH_TOKEN_STRING, "");

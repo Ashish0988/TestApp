@@ -1,12 +1,15 @@
 package co.notifie.app;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
@@ -73,6 +76,63 @@ public class FeedAdapter extends RealmBaseAdapter<NotifeMessage> implements List
             imageView.setVisibility(View.VISIBLE);
         } else {
             imageView.setVisibility(View.INVISIBLE);
+
+            Log.v("getUnread_comments_sum", " = " + item.getUnread_comments_sum());
+            if (item.getUnread_comments_sum() > 0) {
+                imageView.setImageResource(R.drawable.unread_comment);
+                imageView.setVisibility(View.VISIBLE);
+            }
+        }
+
+        RealmResults<NotifieComment> comments = MainActivity.realm.where(NotifieComment.class)
+                .equalTo("message_id", item.getId())
+                .findAll();
+
+        //comments.sort("id", RealmResults.SORT_ORDER_DESCENDING);
+
+        NotifieComment last_comment = null;
+
+        for ( NotifieComment comment : comments) {
+            if (comment.getReaded_at().getTime() == 0) {
+                last_comment = comment;
+            }
+        }
+
+        if (last_comment != null) {
+            Log.v("Message id:", item.getId() + " last comment:" + last_comment.toString() + " total comments:" + comments.size());
+        }
+
+        if (last_comment != null && last_comment.getReaded_at().getTime() == 0) {
+
+            TextView last_user_name = (TextView) rowView.findViewById(R.id.unread_comment_user_name);
+            TextView last_comment_text = (TextView) rowView.findViewById(R.id.unread_comment_text);
+            TextView last_created_at = (TextView) rowView.findViewById(R.id.unread_comment_created_at);
+            ImageView last_user_avatar = (ImageView) rowView.findViewById(R.id.comment_user_icon);
+
+            date = last_comment.getCreated_at();
+            short_date = short_format.format(date);
+            last_created_at.setText(short_date);
+
+            last_user_name.setText(last_comment.getFrom_user_name() + " –");
+            last_comment_text.setText(last_comment.getText());
+            String image_url = last_comment.getFrom_user_avatar();
+
+            try {
+                if (image_url != null && image_url.length() != 0) {
+                    Picasso.with(context) // getBaseContext()
+                            .load(image_url)
+                            .transform(new CircleTransform())
+                            .resize(last_user_avatar.getLayoutParams().width, last_user_avatar.getLayoutParams().height)
+                            .centerCrop()
+                            .into(last_user_avatar);
+                }
+            } catch (IllegalArgumentException e) {
+                Log.v("Path", image_url);
+            }
+
+
+        } else {
+            rowView.findViewById(R.id.has_unread_comments).setVisibility(View.GONE);
         }
 
         /*

@@ -68,17 +68,27 @@ public class ClientAdapter extends RealmBaseAdapter<NotifieClient> implements Li
                     .findAll();
 
             for ( NotifieComment comment : comments) {
-                if (comment.getReaded_at().length() == 0) {
+                if (comment.getReaded_at().getTime() == 0) {
                     unread_comments += 1;
                 }
             }
 
         }
 
-        String total_messages = "(" + messages.size() + ")";
+        if (unread_messages == 0) {
+            newMessagesCount.setVisibility(View.GONE);
+            rowView.findViewById(R.id.client_new_messages_icon).setVisibility(View.GONE);
+        } else {
+            newMessagesCount.setText("Messages " + unread_messages);
+        }
 
-        newMessagesCount.setText("Сообщений " + unread_messages);
-        newCommentsCount.setText("Комментариев " + unread_comments);
+        if (unread_comments == 0) {
+            newCommentsCount.setVisibility(View.GONE);
+            rowView.findViewById(R.id.client_new_comments_icon).setVisibility(View.GONE);
+
+        } else {
+            newCommentsCount.setText("Comments " + unread_comments);
+        }
 
         /*
         try {
@@ -109,7 +119,7 @@ public class ClientAdapter extends RealmBaseAdapter<NotifieClient> implements Li
                 Picasso.with(context) // getBaseContext()
                         .load(image_url)
                         .transform(new CircleTransform())
-                        .resize(80, 80)
+                        .resize(imageView.getLayoutParams().width, imageView.getLayoutParams().height)
                         .centerCrop()
                         .into(imageView);
             }
