@@ -347,6 +347,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                                         new_messages = MainActivity.realm.where(NotifeMessage.class)
                                                     .equalTo("client.check_for_notifie", "1")
                                                     .findAll();
+                                        new_messages.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
                                         mAdapter.updateRealmResults(new_messages);
                                         mAdapter.notifyDataSetChanged();
                                         break;
@@ -355,6 +356,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                                                 .equalTo("client.check_for_notifie", "1")
                                                 .equalTo("open_at", "")
                                                 .findAll();
+                                        new_messages.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
                                         mAdapter.updateRealmResults(new_messages);
                                         mAdapter.notifyDataSetChanged();
                                         break;
@@ -363,6 +365,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                                                 .equalTo("client.check_for_notifie", "1")
                                                 .greaterThan("unread_comments_sum", 0)
                                                 .findAll();
+                                        new_messages.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
                                         mAdapter.updateRealmResults(new_messages);
                                         mAdapter.notifyDataSetChanged();
                                         break;

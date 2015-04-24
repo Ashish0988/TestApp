@@ -117,9 +117,12 @@ public class SwipeActivity extends ActionBarActivity implements
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter
+            implements PagerSlidingTabStrip.IconTabProvider
+    {
 
-        private int tabIcons[] = {R.drawable.ic_action_clock, R.drawable.ic_action_wifi, R.drawable.ic_action_heart, R.drawable.ic_action_filter};
+        private int tabIcons[] = {R.drawable.nav_action_clock, R.drawable.nav_action_wifi, R.drawable.nav_action_heart, R.drawable.nav_action_settings};
+        private int currentPageSelected = 0;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
