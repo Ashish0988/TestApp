@@ -6,16 +6,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import java.lang.reflect.Field;
 import java.util.Locale;
 
 import retrofit.Callback;
@@ -36,6 +39,7 @@ public class SwipeActivity extends ActionBarActivity implements
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+    PagerSlidingTabStrip tabsStrip;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -81,9 +85,61 @@ public class SwipeActivity extends ActionBarActivity implements
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         // Give the PagerSlidingTabStrip the ViewPager
-        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(mViewPager);
+
+        Field field = null;
+        try {
+            field = PagerSlidingTabStrip.class.getDeclaredField("tabsContainer");
+            field.setAccessible(true);
+            LinearLayout tabsContainer = (LinearLayout) field.get(tabsStrip);
+            tabsContainer.getChildAt(0).setSelected(true);
+            field.setAccessible(false);
+
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            private int currentPageSelected = 0;
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.v("onPageSelected", tabsStrip.getClass().toString());
+
+                Field field = null;
+                try {
+                    field = PagerSlidingTabStrip.class.getDeclaredField("tabsContainer");
+                    field.setAccessible(true);
+                    LinearLayout tabsContainer = (LinearLayout) field.get(tabsStrip);
+                    tabsContainer.getChildAt(currentPageSelected).setSelected(false);
+                    currentPageSelected = position;
+                    tabsContainer.getChildAt(position).setSelected(true);
+                    field.setAccessible(false);
+
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         getCurrentUser();
 
@@ -112,7 +168,6 @@ public class SwipeActivity extends ActionBarActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -126,6 +181,11 @@ public class SwipeActivity extends ActionBarActivity implements
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+
         }
 
         @Override
