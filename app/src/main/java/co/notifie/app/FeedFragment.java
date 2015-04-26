@@ -167,11 +167,12 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
         if (page == 1) { // Favorites
             actionsMenu.setVisibility(View.INVISIBLE);
 
-            filter_header.setText("Избранное");
+            filter_header.setText(R.string.favorites_filter);
 
         } else { // Feed
 
-            options = new String[] {"Все сообщения (" + messages.size() + ")", "Новые сообщения", "С новыми комментариями"};
+            options = new String[] {getText(R.string.all_messages_filter) + " (" + messages.size() + ")",
+                    getText(R.string.new_messages_filter) + "", getText(R.string.new_comments_filter) + ""};
 
             filter_header.setText(options[MainActivity.filter_option]);
 
@@ -338,9 +339,9 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                 "Все сообщения (" + total_count + ")", "Новые сообщения (" + new_count + ")", "С новыми комментариями (" + count + ")"
         };*/
 
-        options[0] = "Все сообщения (" + total_count + ")";
-        options[1] = "Новые сообщения (" + new_count + ")";
-        options[2] = "С новыми комментариями (" + count + ")";
+        options[0] = getText(R.string.all_messages_filter) + " (" + total_count + ")";
+        options[1] = getText(R.string.new_messages_filter)  + " (" + new_count + ")";
+        options[2] = getText(R.string.new_comments_filter) + " (" + count + ")";
 
         final ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.select_dialog_singlechoice, android.R.id.text1, options);
@@ -356,7 +357,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                                 MainActivity.filter_option = which;
                             }
                         })
-                .setPositiveButton("OK",
+                .setPositiveButton(R.string.ok,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
 
@@ -393,7 +394,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
 
                             }
                         })
-                .setNegativeButton("ОТМЕНА",
+                .setNegativeButton(R.string.cancel,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
 

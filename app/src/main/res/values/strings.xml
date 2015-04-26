@@ -19,7 +19,7 @@
     <string name="action_sign_up">Sign Up</string>
     <string name="notifie_slogan">Better way to communicate</string>
     <string name="login">Log In</string>
-    <string name="filter">Filter</string>
+    <string name="filter">Filter messages</string>
     <string name="favorites_empty_title">Oops!</string>
     <string name="favorites_empty_sub_title">Check your filter. Nothing found</string>
     <string name="title_activity_sign_up">Sign Up</string>
@@ -29,4 +29,12 @@
     <string name="facebook_app_id">1432645900347134</string>
     <string name="title_activity_display_client">DisplayClientActivity</string>
     <string name="client_feed">Feed</string>
+    <string name="channel_ask">Ask channel</string>
+    <string name="all_messages_filter">All messages</string>
+    <string name="new_messages_filter">New messages</string>
+    <string name="new_comments_filter">Messages with new comments</string>
+    <string name="favorites_filter">Favorites messages</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
+    <string name="message_in_settings_header">List of connected channels. You can switch any into do not disturb mode</string>
 </resources>

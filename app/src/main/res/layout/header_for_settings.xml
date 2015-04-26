@@ -51,7 +51,7 @@
         android:id="@+id/user_full_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Вы не будете получать уведомления от выключенных каналов. Но эти уведомления могут быть снова загружены при включении."
+        android:text="@string/message_in_settings_header"
         android:textColor="@color/white_alpha80"
         android:textStyle="normal"
         android:gravity="left"
