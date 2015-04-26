@@ -4,17 +4,47 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:background="@color/actionbar_background"
-    android:paddingTop="16dp"
+    android:paddingTop="14dp"
     android:paddingBottom="12dp"
     android:layout_height="wrap_content">
 
-    <ImageButton
-        android:layout_width="80dp"
-        android:id="@+id/avatar"
-        android:background="@drawable/circle"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_height="80dp" />
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageButton
+            android:layout_width="80dp"
+            android:id="@+id/avatar"
+            android:background="@drawable/circle"
+            android:layout_gravity="center"
+            android:layout_height="80dp" />
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="32dp"
+            android:paddingLeft="0dp"
+            android:paddingBottom="0dp"
+            android:paddingRight="0dp"
+            android:paddingTop="0dp"
+            android:textStyle="normal"
+            android:layout_gravity="center"
+            fancy:borderColor="@color/actionbar_background"
+            fancy:borderWidth="1dp"
+            fancy:defaultColor="@color/actionbar_background_alpha05"
+            fancy:focusColor="@color/black_alpha50"
+            fancy:iconPosition="left"
+            fancy:radius="20dp"
+            fancy:fontIconSize="10px"
+            fancy:fontIconResource="&#xF030;"
+            fancy:text=""
+            fancy:textColor="@color/actionbar_background" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/user_full_name_in_settings"
@@ -24,7 +54,7 @@
         android:textColor="@color/white"
         android:textStyle="normal"
         android:gravity="center"
-        android:paddingTop="2dp"
+        android:paddingTop="7dp"
         android:paddingRight="16dp"
         android:paddingLeft="16dp"
         android:layout_gravity="center"

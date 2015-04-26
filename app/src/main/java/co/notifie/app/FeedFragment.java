@@ -43,6 +43,8 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final int LOAD_PER_PAGE = 25;
+
     // TODO: Rename and change types of parameters
     private int page;
     private String title;
@@ -195,7 +197,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
             mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    loadMessages();
+                    loadMessages(1, LOAD_PER_PAGE);
                 }
             });
         }
@@ -204,11 +206,23 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
         mListView = (AbsListView) view.findViewById(R.id.listview);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
+        mListView.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                loadMessages(page, LOAD_PER_PAGE);
+                Log.v("Loading.......", "page = " + page + " totalItemsCount= " + totalItemsCount);
+            }
+        });
+
         View empty_view = view.findViewById(R.id.empty_list);
         mListView.setEmptyView(empty_view);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+
+        loadMessages(1, LOAD_PER_PAGE);
 
         return view;
     }
@@ -279,9 +293,9 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
     //
     // Load Messages From Server
     //
-    public void loadMessages() {
+    public void loadMessages(int page, int per_page) {
 
-        RestClient.get().getMessages(MainActivity.AUTH_TOKEN, 1, 50, new Callback<MessagesResponce>() {
+        RestClient.get().getMessages(MainActivity.AUTH_TOKEN, page, per_page, new Callback<MessagesResponce>() {
             @Override
             public void success(MessagesResponce messagesResponce, Response response) {
                 // success!

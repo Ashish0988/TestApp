@@ -79,7 +79,7 @@ public class ClientAdapter extends RealmBaseAdapter<NotifieClient> implements Li
             newMessagesCount.setVisibility(View.GONE);
             rowView.findViewById(R.id.client_new_messages_icon).setVisibility(View.GONE);
         } else {
-            newMessagesCount.setText("Messages " + unread_messages);
+            newMessagesCount.setText("" + unread_messages);
         }
 
         if (unread_comments == 0) {
@@ -87,7 +87,7 @@ public class ClientAdapter extends RealmBaseAdapter<NotifieClient> implements Li
             rowView.findViewById(R.id.client_new_comments_icon).setVisibility(View.GONE);
 
         } else {
-            newCommentsCount.setText("Comments " + unread_comments);
+            newCommentsCount.setText("" + unread_comments);
         }
 
         /*
