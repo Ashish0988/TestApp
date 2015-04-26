@@ -38,7 +38,7 @@ public class NotifieClient extends RealmObject {
     private String url;
     @Expose
     private String username;
-
+    @Expose
     private String check_for_notifie;
 
     private RealmList<NotifeMessage> messages;

@@ -8,16 +8,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+
+import me.leolin.shortcutbadger.ShortcutBadgeException;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 /**
  * Created by thunder on 04.04.15.
  */
 
 public class GcmMessageHandler extends IntentService {
-    String mes;
+    String message;
+    String title;
     private Handler handler;
     public GcmMessageHandler() {
         super("GcmMessageHandler");
@@ -39,9 +42,9 @@ public class GcmMessageHandler extends IntentService {
         // in your BroadcastReceiver.
         String messageType = gcm.getMessageType(intent);
 
-        mes = extras.getString("title");
+        title = extras.getString("title");
+        message = extras.getString("message");
         showToast();
-        Log.i("GCM", "Received : (" + messageType + ")  " + extras.getString("title"));
 
         GcmBroadcastReceiver.completeWakefulIntent(intent);
 
@@ -60,16 +63,23 @@ public class GcmMessageHandler extends IntentService {
 
                 Notification noti = new Notification.Builder(getApplicationContext())
                         .setContentTitle("Notifie")
-                        .setContentText(mes)
+                        .setContentText(title + " – " + message)
                         .setAutoCancel(true)
                         .setContentIntent(contentIntent)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.ic_notification_icon)
                         .build();
 
                 NotificationManager notificationManager =
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
                 notificationManager.notify(0, noti);
+
+                int badgeCount = Integer.parseInt(message);
+                try {
+                    ShortcutBadger.setBadge(getApplicationContext(), badgeCount);
+                } catch (ShortcutBadgeException e) {
+                    //handle the Exception
+                }
             }
         });
 

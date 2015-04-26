@@ -2,13 +2,22 @@ package co.notifie.app;
 
 import com.google.gson.annotations.Expose;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
+
 /**
  * Created by thunder on 01.04.15.
  */
-public class User {
+
+@RealmClass
+public class User extends RealmObject {
 
     @Expose
+    @PrimaryKey
     private String id;
+
     private String avatar_file_name;
     private String avatar_content_type;
     private String avatar_file_size;
@@ -29,6 +38,9 @@ public class User {
     private String updated_at;
     @Expose
     private String avatar_url;
+
+    @Expose
+    private RealmList<NotifieSettings> settings;
 
     public String getId() {
         return id;
@@ -148,5 +160,13 @@ public class User {
 
     public void setAvatar_url(String avatar_url) {
         this.avatar_url = avatar_url;
+    }
+
+    public RealmList<NotifieSettings> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(RealmList<NotifieSettings> settings) {
+        this.settings = settings;
     }
 }

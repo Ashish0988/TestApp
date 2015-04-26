@@ -104,12 +104,13 @@
     <orderEntry type="library" exported="" name="play-services-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-7.0.0" level="project" />
-    <orderEntry type="library" exported="" name="joda-time-2.7-no-tzdb" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="joda-time-2.7-no-tzdb" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-wearable-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-wallet-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-cast-7.0.0" level="project" />
+    <orderEntry type="library" exported="" name="ShortcutBadger-1.0.9" level="project" />
     <orderEntry type="library" exported="" name="play-services-maps-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.0.0" level="project" />
     <orderEntry type="library" exported="" name="pagerslidingtabstrip-1.0.1" level="project" />

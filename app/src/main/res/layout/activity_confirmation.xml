@@ -28,6 +28,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
+                android:paddingBottom="16dp"
                 android:layout_height="wrap_content">
 
                 <com.rengwuxian.materialedittext.MaterialEditText
@@ -58,13 +59,24 @@
 
             </LinearLayout>
 
-
-            <Button android:id="@+id/confirmation_button"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginTop="16dp" android:text="Confirm"
-                style="?android:attr/borderlessButtonStyle"
-                android:textStyle="normal" />
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/confirmation_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="9dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="9dp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                fancy:borderColor="#FFFFFF"
+                fancy:borderWidth="1dp"
+                fancy:defaultColor="@color/clear"
+                fancy:focusColor="@color/black_alpha10"
+                fancy:iconPosition="left"
+                fancy:radius="2dp"
+                fancy:text="CONFIRM"
+                fancy:textColor="#FFFFFF" />
 
             <LinearLayout
                 android:layout_width="fill_parent"

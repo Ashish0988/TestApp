@@ -51,6 +51,9 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
     private static SwipeRefreshLayout mSwipeRefreshLayout;
     private static RealmResults<NotifeMessage> new_messages;
 
+    TextView filter_header;
+    String[] options;
+
     /**
      * The fragment's ListView/GridView.
      */
@@ -156,13 +159,21 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
         listview.addHeaderView(header, null, false);
         */
 
+        filter_header = (TextView) view.findViewById(R.id.feed_header_text_1);
+
         final FloatingActionsMenu actionsMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
 
 
         if (page == 1) { // Favorites
             actionsMenu.setVisibility(View.INVISIBLE);
 
+            filter_header.setText("Избранное");
+
         } else { // Feed
+
+            options = new String[] {"Все сообщения (" + messages.size() + ")", "Новые сообщения", "С новыми комментариями"};
+
+            filter_header.setText(options[MainActivity.filter_option]);
 
             FloatingActionButton filterButton = (FloatingActionButton) view.findViewById(R.id.action_filter);
             filterButton.setOnClickListener(new View.OnClickListener() {
@@ -322,10 +333,17 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
         long count = messages.where().greaterThan("unread_comments_sum", 0).findAll().size();
         long new_count = messages.where().equalTo("open_at", "").findAll().size();
 
-        final ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
-                R.layout.select_dialog_singlechoice, android.R.id.text1, new String[] {
+        /*
+        String[] options = new String[] {
                 "Все сообщения (" + total_count + ")", "Новые сообщения (" + new_count + ")", "С новыми комментариями (" + count + ")"
-        });
+        };*/
+
+        options[0] = "Все сообщения (" + total_count + ")";
+        options[1] = "Новые сообщения (" + new_count + ")";
+        options[2] = "С новыми комментариями (" + count + ")";
+
+        final ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.select_dialog_singlechoice, android.R.id.text1, options);
 
         final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setSingleChoiceItems(adapter,
@@ -341,6 +359,8 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                 .setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
+
+                                filter_header.setText(options[MainActivity.filter_option]);
 
                                 switch (MainActivity.filter_option) {
                                     case 0:

@@ -5,6 +5,7 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -32,6 +33,14 @@ public interface Api {
     @GET("/api/v1/me")
     void getMe(@Header("Authorization") String authorization,
                 Callback<User> callback);
+
+    @PUT("/api/v1/me")
+    void putMe(@Header("Authorization") String authorization, @Query("new_user_name") String new_user_name, @Query("device_token") String device_token,
+               Callback<User> callback);
+
+    @POST("/api/v1/change_settings")
+    void postSettings(@Header("Authorization") String authorization, @Query("client_id") String clientId, @Query("allow_for_notifie") String allow,
+                  Callback<SettingsResponce> callback);
 
     @GET("/api/v1/messages.json")
     void getMessages(@Header("Authorization") String authorization, @Query("page") int page, @Query("per_page") int per_page,

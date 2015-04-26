@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -19,12 +21,15 @@ import java.io.IOException;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import mehdi.sakout.fancybuttons.FancyButton;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://notifie.ru"; //http://192.168.1.40:3000
+    public final static String NOTIFIE_HOST = "http://192.168.1.37:3000"; //http://192.168.1.40:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public final static String AUTH_TOKEN_STRING = "notifie_auth_token";
@@ -43,6 +48,28 @@ public class MainActivity extends ActionBarActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }*/
 
+    public void putUserToken(String token) {
+
+        RestClient.get().putMe(MainActivity.AUTH_TOKEN, "", token, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                // success!
+                // you get the point...
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error" + error);
+
+                Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
+    }
+
     public void getRegId(){
         new AsyncTask<Void, Void, String>() {
             @Override
@@ -55,6 +82,8 @@ public class MainActivity extends ActionBarActivity {
                     regid = gcm.register(PROJECT_NUMBER);
                     msg = "Device registered, registration ID=" + regid;
                     Log.i("GCM",  msg);
+                    putUserToken(regid);
+
 
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
@@ -126,20 +155,12 @@ public class MainActivity extends ActionBarActivity {
         );
         */
 
-        realm = Realm.getInstance(this, "test17.realm");
+        realm = Realm.getInstance(this, "test21.realm");
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String token = pref.getString(MainActivity.AUTH_TOKEN_STRING, "");
 
         if (token != null && token.length() > 0) {
-
-            RealmResults<NotifieClient> clients = MainActivity.realm.where(NotifieClient.class).findAll();
-
-            MainActivity.realm.beginTransaction();
-            for (int i = 0; i < clients.size(); i++) {
-                clients.get(i).setCheck_for_notifie("1");
-            }
-            MainActivity.realm.commitTransaction();
 
             AUTH_TOKEN = token;
             Intent intent = new Intent(this, SwipeActivity.class);

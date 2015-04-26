@@ -62,4 +62,5 @@ dependencies {
     compile 'com.pnikosis:materialish-progress:1.5'
     // compile 'com.soundcloud.android:android-crop:0.9.10@aar'
     compile 'com.facebook.android:facebook-android-sdk:3.22.0'
+    compile 'me.leolin:ShortcutBadger:1.0.+@aar'
 }

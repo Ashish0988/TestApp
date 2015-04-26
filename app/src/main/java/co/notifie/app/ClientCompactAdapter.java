@@ -2,6 +2,7 @@ package co.notifie.app;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 
 import io.realm.RealmResults;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by thunder on 16.04.15.
@@ -47,6 +52,12 @@ public class ClientCompactAdapter extends ClientAdapter {
 
         check_box.setTag(position);
 
+        if (item.getCheck_for_notifie().equals("1")) {
+            check_box.setChecked(true);
+        } else {
+            check_box.setChecked(false);
+        }
+
         check_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                  @Override
                                                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -60,15 +71,26 @@ public class ClientCompactAdapter extends ClientAdapter {
                                                         item.setCheck_for_notifie("0");
                                                      }
                                                      MainActivity.realm.commitTransaction();
+
+                                                     postSettings(item.getId(), item.getCheck_for_notifie());
                                                  }
                                              }
         );
 
-        if (item.getCheck_for_notifie().equals("1")) {
-            check_box.setChecked(true);
-        } else {
-            check_box.setChecked(false);
-        }
+        /*
+        Notifie app = ((Notifie) context.getApplicationContext());
+        User currentUser = app.getCurrentUser();
+
+        Boolean allow_notification = true;
+        for (NotifieSettings set : currentUser.getSettings()) {
+
+            if (set.getClient_id().equals(item.getId())) {
+                if (set.getAllow_notification().equals("false")) {
+                    allow_notification = false;
+                }
+            }
+
+        }*/
 
 
         /*
@@ -109,6 +131,33 @@ public class ClientCompactAdapter extends ClientAdapter {
         }
 
         return rowView;
+    }
+
+    //
+    // Post Change Settings Allow For Notifie
+    //
+    public void postSettings(String client_id, String allow) {
+
+
+        RestClient.get().postSettings(MainActivity.AUTH_TOKEN, client_id, allow, new Callback<SettingsResponce>() {
+            @Override
+            public void success(SettingsResponce settingsResponce, Response response) {
+                // success!
+                // you get the point...
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error" + error);
+
+                Toast toast = Toast.makeText(context.getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
+
     }
 
     public RealmResults<NotifieClient> getRealmResults() {

@@ -10,10 +10,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -29,7 +29,7 @@ public class ConfirmationActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation);
 
-        Button signUpButton = (Button) findViewById(R.id.confirmation_button);
+        FancyButton signUpButton = (FancyButton) findViewById(R.id.confirmation_button);
         codeText = (EditText)  findViewById(R.id.confirmation_code);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -86,9 +86,9 @@ public class ConfirmationActivity extends ActionBarActivity {
                 toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
                 toast.show();
 
-                Intent intent = new Intent(getBaseContext(), UploadPhotoActivity.class);
-                intent.putExtra("confirmation_code_message", "none");
-                startActivity(intent);
+                //Intent intent = new Intent(getBaseContext(), UploadPhotoActivity.class);
+                //intent.putExtra("confirmation_code_message", "none");
+                //startActivity(intent);
             }
         });
     }

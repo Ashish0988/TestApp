@@ -63,6 +63,9 @@ public class SignUpActivity extends ActionBarActivity {
                 Log.i("confirmation_code = ", confirmation_code);
 
                 // you get the point...
+                Intent intent = new Intent(getBaseContext(), ConfirmationActivity.class);
+                intent.putExtra("confirmation_code_message", "1234");
+                startActivity(intent);
             }
 
             @Override
@@ -75,9 +78,6 @@ public class SignUpActivity extends ActionBarActivity {
                 toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
                 toast.show();
 
-                Intent intent = new Intent(getBaseContext(), ConfirmationActivity.class);
-                intent.putExtra("confirmation_code_message", "1234");
-                startActivity(intent);
             }
         });
     }
