@@ -22,6 +22,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -44,6 +45,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
     private static final String ARG_PARAM2 = "param2";
 
     private static final int LOAD_PER_PAGE = 25;
+    public static Realm realm;
 
     // TODO: Rename and change types of parameters
     private int page;
@@ -103,9 +105,15 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
                 */
 
+        if (MainActivity.realm == null) {
+            realm = Realm.getInstance(getActivity(), MainActivity.REALM_DATABASE);
+        } else {
+            realm = MainActivity.realm;
+        }
+
 
         if (page == 1) { // Favorites
-            messages = MainActivity.realm.where(NotifeMessage.class)
+            messages = realm.where(NotifeMessage.class)
                     .equalTo("favorited", "true")
                     .findAll();
 
@@ -121,7 +129,8 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
             RealmQuery<NotifeMessage> msg_query = MainActivity.realm.where(NotifeMessage.class);
             */
 
-            messages = MainActivity.realm.where(NotifeMessage.class)
+
+            messages = realm.where(NotifeMessage.class)
                     .equalTo("client.check_for_notifie", "1")
                     .findAll();
 
@@ -187,6 +196,15 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                 }
             });
 
+            FloatingActionButton composeButton = (FloatingActionButton) view.findViewById(R.id.action_compose);
+            composeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    actionsMenu.collapse();
+                    showComposeActivity();
+                }
+            });
+
         }
 
         // Create Swipe Refresh
@@ -225,6 +243,11 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
         loadMessages(1, LOAD_PER_PAGE);
 
         return view;
+    }
+
+    private void showComposeActivity() {
+        Intent intent = new Intent(getActivity(), AskActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -305,9 +328,9 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                 // Store At Database
                 //
 
-                MainActivity.realm.beginTransaction();
-                MainActivity.realm.copyToRealmOrUpdate(messages);
-                MainActivity.realm.commitTransaction();
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(messages);
+                realm.commitTransaction();
 
                 /*
                 RealmResults<NotifeMessage> result2 =
@@ -379,7 +402,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
 
                                 switch (MainActivity.filter_option) {
                                     case 0:
-                                        new_messages = MainActivity.realm.where(NotifeMessage.class)
+                                        new_messages = realm.where(NotifeMessage.class)
                                                     .equalTo("client.check_for_notifie", "1")
                                                     .findAll();
                                         new_messages.sort("created_at", RealmResults.SORT_ORDER_DESCENDING);
@@ -387,7 +410,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                                         mAdapter.notifyDataSetChanged();
                                         break;
                                     case 1:
-                                        new_messages = MainActivity.realm.where(NotifeMessage.class)
+                                        new_messages = realm.where(NotifeMessage.class)
                                                 .equalTo("client.check_for_notifie", "1")
                                                 .equalTo("open_at", "")
                                                 .findAll();
@@ -396,7 +419,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                                         mAdapter.notifyDataSetChanged();
                                         break;
                                     case 2:
-                                        new_messages = MainActivity.realm.where(NotifeMessage.class)
+                                        new_messages = realm.where(NotifeMessage.class)
                                                 .equalTo("client.check_for_notifie", "1")
                                                 .greaterThan("unread_comments_sum", 0)
                                                 .findAll();

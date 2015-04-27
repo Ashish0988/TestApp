@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@color/actionbar_background_alpha05"
+    tools:context="co.notifie.app.AskActivity">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_height="wrap_content">
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/spinner"
+            app:ms_multiline="false"
+            app:ms_hint="@string/select_channel"
+            app:ms_floatingLabelText="@string/selected_channel"
+            app:ms_baseColor="@color/actionbar_background"
+            app:ms_highlightColor="@color/black_alpha50"
+            app:ms_errorColor="@color/actionbar_background"
+            app:ms_thickness="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <fr.ganfra.materialspinner.MaterialSpinner
+            android:id="@+id/template_spinner"
+            app:ms_multiline="false"
+            app:ms_hint="@string/select_subject"
+            app:ms_floatingLabelText="@string/selected_subject"
+            app:ms_baseColor="@color/actionbar_background"
+            app:ms_highlightColor="@color/black_alpha50"
+            app:ms_errorColor="@color/actionbar_background"
+            app:ms_thickness="1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:id="@+id/button"
+            />
+
+     </LinearLayout>
+
+
+</RelativeLayout>

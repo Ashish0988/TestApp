@@ -35,6 +35,7 @@ public class MainActivity extends ActionBarActivity {
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public final static String AUTH_TOKEN_STRING = "notifie_auth_token";
+    public final static String REALM_DATABASE = "test21.realm";
     public static String AUTH_TOKEN;
 
     public static Realm realm;
@@ -157,7 +158,7 @@ public class MainActivity extends ActionBarActivity {
         );
         */
 
-        realm = Realm.getInstance(this, "test21.realm");
+        realm = Realm.getInstance(this, REALM_DATABASE);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String token = pref.getString(MainActivity.AUTH_TOKEN_STRING, "");
@@ -210,9 +211,6 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
         }
 
 

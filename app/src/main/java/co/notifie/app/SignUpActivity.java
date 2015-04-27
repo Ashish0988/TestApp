@@ -1,6 +1,7 @@
 package co.notifie.app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.PhoneNumberFormattingTextWatcher;
@@ -9,6 +10,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -34,6 +36,29 @@ public class SignUpActivity extends ActionBarActivity {
         phoneText = (EditText) findViewById(R.id.phone);
         //phoneText.setText("+7");
         phoneText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
+        Button terms = (Button) findViewById(R.id.terms);
+        Button privacy = (Button) findViewById(R.id.privacy);
+
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "http://notifie.ru/legal";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
+
+        privacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "http://notifie.ru/privacy";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
 
         FancyButton signUpButton = (FancyButton) findViewById(R.id.sign_up_button);
         signUpButton.setOnClickListener(new View.OnClickListener() {

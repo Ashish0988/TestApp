@@ -71,7 +71,7 @@
             fancy:focusColor="@color/black_alpha10"
             fancy:iconPosition="left"
             fancy:radius="2dp"
-            fancy:text="SIGN UP"
+            fancy:text="@string/sign_up"
             fancy:textColor="#FFFFFF" />
 
     </LinearLayout>
@@ -112,7 +112,7 @@
             fancy:focusColor="@color/black_alpha10"
             fancy:iconPosition="left"
             fancy:radius="2dp"
-            fancy:text="Sign In"
+            fancy:text="@string/sign_in"
             fancy:textColor="#FFFFFF" />
 
 

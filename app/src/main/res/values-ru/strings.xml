@@ -37,4 +37,20 @@
     <string name="ok">OK</string>
     <string name="cancel">ОТМЕНА</string>
     <string name="message_in_settings_header">Вы не будете получать уведомления от выключенных каналов, но эти уведомления могут быть снова загружены при включении.</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="sign_in">Войти</string>
+    <string name="terms_of_serivice">Условия и положения </string>
+    <string name="privacy">Политика конфиденциальности</string>
+    <string name="sign_up_accept">Регистрируясь вы принимаете наши условия и положения, а также политику конфиденциальности</string>
+    <string name="sign_up_email">Адрес электронной почты</string>
+    <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_phone">Телефон в формате +7 900 900-00-00</string>
+    <string name="sign_up_phone_hint">Телефон</string>
+    <string name="sign_up_password_hint">Пароль</string>
+    <string name="sign_up_password">Пароль не менее 6 символов</string>
+    <string name="title_activity_ask">Написать</string>
+    <string name="select_channel">Выберите канал</string>
+    <string name="selected_channel">Канал</string>
+    <string name="select_subject">Выберите тему</string>
+    <string name="selected_subject">Тема</string>
 </resources>

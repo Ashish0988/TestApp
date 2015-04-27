@@ -25,9 +25,9 @@
                 android:singleLine="true"
                 android:inputType="textEmailAddress"
                 app:met_primaryColor="@color/white"
-                app:met_floatingLabelText="Email"
+                app:met_floatingLabelText="@string/sign_up_email"
                 app:met_errorColor="#ddaa00"
-                android:hint="Email"/>
+                android:hint="@string/sign_up_email_hint"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/phone"
@@ -39,9 +39,9 @@
                 android:singleLine="true"
                 android:inputType="phone"
                 app:met_primaryColor="@color/white"
-                app:met_floatingLabelText="Phone format +7 900 900-00-00"
+                app:met_floatingLabelText="@string/sign_up_phone"
                 app:met_errorColor="#ddaa00"
-                android:hint="Phone"/>
+                android:hint="@string/sign_up_phone_hint"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/password"
@@ -53,9 +53,9 @@
                 android:singleLine="true"
                 android:inputType="textPassword"
                 app:met_primaryColor="@color/white"
-                app:met_floatingLabelText="Password length is minimum 6 chart"
+                app:met_floatingLabelText="@string/sign_up_password"
                 app:met_errorColor="#ddaa00"
-                android:hint="Password"/>
+                android:hint="@string/sign_up_password_hint"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -67,15 +67,16 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:paddingTop="16dp"
+                    android:paddingBottom="3dp"
                     android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/login_text_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Siging up you are accept our terms of service and privacy"
+                        android:text="@string/sign_up_accept"
                         android:textColor="@color/white_alpha80"
                         android:textStyle="normal"
                         android:textSize="12dp" />
@@ -84,24 +85,27 @@
 
                 <LinearLayout
                     android:layout_width="fill_parent"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:layout_height="wrap_content">
 
                     <Button android:id="@+id/terms"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="Terms Of Service"
+                        android:text="@string/terms_of_serivice"
                         style="?android:attr/borderlessButtonStyle"
                         android:textSize="12dp"
                         android:minHeight="12dp"
+                        android:padding="0dp"
                         android:textColor="@color/white"
                         android:textStyle="normal" />
 
 
                     <Button android:id="@+id/privacy"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="Privacy"
+                        android:text="@string/privacy"
                         style="?android:attr/borderlessButtonStyle"
                         android:textSize="12dp"
+                        android:layout_marginLeft="5dp"
+                        android:padding="0dp"
                         android:minHeight="12dp"
                         android:textColor="@color/white"
                         android:textStyle="normal" />
@@ -126,7 +130,7 @@
                 fancy:focusColor="@color/black_alpha10"
                 fancy:iconPosition="left"
                 fancy:radius="2dp"
-                fancy:text="SIGN UP"
+                fancy:text="@string/sign_up"
                 fancy:textColor="#FFFFFF" />
 
         </LinearLayout>

@@ -5,7 +5,7 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_display_message">Сообщение</string>
+    <string name="title_activity_display_message">Message</string>
     <string name="action_call">Call</string>
     <string name="delete_all">Delete All</string>
     <string name="compose_message">Reply</string>
@@ -37,4 +37,21 @@
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
     <string name="message_in_settings_header">List of connected channels. You can switch any into do not disturb mode</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="sign_in">Sign In</string>
+    <string name="terms_of_serivice">Terms Of Service</string>
+    <string name="privacy">Privacy</string>
+    <string name="sign_up_accept">Siging up you are accept our terms of service and privacy</string>
+    <string name="sign_up_email">Email</string>
+    <string name="sign_up_email_hint">Email</string>
+    <string name="sign_up_phone">Phone format +7 900 900-00-00</string>
+    <string name="sign_up_phone_hint">Phone</string>
+    <string name="sign_up_password_hint">Password</string>
+    <string name="sign_up_password">Password length is minimum 6 chart</string>
+    <string name="title_activity_ask">Compose</string>
+    <string name="select_channel">Select Channel</string>
+    <string name="selected_channel">Selected Channel</string>
+    <string name="select_subject">Select Subject</string>
+    <string name="selected_subject">Selected Subject</string>
+
 </resources>
