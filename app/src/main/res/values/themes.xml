@@ -7,11 +7,31 @@
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="colorPrimaryDark">@color/actionbar_background</item>
     </style>
 
     <style name="Theme.NoActionBar" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/actionbar_background</item>
+    </style>
+
+    <style name="Theme.NoActionBarColorStatusBar" parent="Theme.AppCompat.Light">
+
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/actionbar_background</item>
+
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/actionbar_background</item>
+
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/actionbar_background</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight & colorSwitchThumbNormal. -->
     </style>
 
     <!-- ActionBar styles -->
@@ -21,5 +41,6 @@
 
         <!-- Support library compatibility -->
         <item name="background">@color/actionbar_background</item>
+        <item name="colorPrimaryDark">@color/actionbar_background</item>
     </style>
 </resources>

@@ -3,6 +3,7 @@ package co.notifie.app;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.facebook.AppEventsLogger;
@@ -159,6 +161,11 @@ public class MainActivity extends ActionBarActivity {
         */
 
         realm = Realm.getInstance(this, REALM_DATABASE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.status_bar_color));
+        }
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String token = pref.getString(MainActivity.AUTH_TOKEN_STRING, "");
