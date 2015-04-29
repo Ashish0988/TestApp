@@ -99,7 +99,7 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_main_no_button, container, false);
+        View view = inflater.inflate(R.layout.client_fragment, container, false);
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(R.id.listview);

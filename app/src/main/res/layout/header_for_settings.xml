@@ -87,7 +87,7 @@
         android:gravity="left"
         android:paddingTop="6dp"
         android:paddingRight="16dp"
-        android:paddingLeft="16dp"
+        android:paddingLeft="20dp"
         android:layout_gravity="center"
         android:paddingBottom="0dp"
         android:textSize="12dp" />

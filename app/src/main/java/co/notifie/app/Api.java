@@ -4,10 +4,13 @@ import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Header;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 
 /**
  * Created by thunder on 01.04.15.
@@ -30,9 +33,14 @@ public interface Api {
     void singUp(@Body UserRequestWrapper user,
                 Callback<AuthResponce> callback);
 
+    @Multipart
+    @POST("/api/v1/me/avatar")
+    void postAvatar(@Header("Authorization") String authorization, @Part("image") TypedFile file,
+                    Callback<User> callback);
+
     @GET("/api/v1/me")
     void getMe(@Header("Authorization") String authorization,
-                Callback<User> callback);
+               Callback<User> callback);
 
     @PUT("/api/v1/me")
     void putMe(@Header("Authorization") String authorization, @Query("new_user_name") String new_user_name, @Query("device_token") String device_token,

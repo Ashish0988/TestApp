@@ -4,6 +4,7 @@
     <color name="actionbar_background_pressed">#ff78116a</color>
     <color name="status_bar_color">#92197D</color>
     <color name="actionbar_background_alpha05">#FDF9FC</color>
+    <color name="header_background_color">#99F6F2F5</color>
     <color name="black">#000000</color>
     <color name="black_alpha10">#0F000000</color>
     <color name="black_alpha50">#88000000</color>
@@ -14,4 +15,6 @@
     <color name="light_gray">#ddd</color>
     <color name="gray">#888</color>
     <color name="clear">#00000000</color>
+
+
 </resources>
