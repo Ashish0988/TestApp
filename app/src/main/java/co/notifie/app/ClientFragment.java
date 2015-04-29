@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -28,6 +29,7 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
     // TODO: Rename and change types of parameters
     private int page;
     private String title;
+    Realm realm;
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,7 +79,14 @@ public class ClientFragment extends Fragment implements AbsListView.OnItemClickL
                 */
 
         // Build the query looking at all clients:
-        RealmQuery<NotifieClient> query = MainActivity.realm.where(NotifieClient.class);
+
+        if (MainActivity.realm == null) {
+            realm = Realm.getInstance(getActivity(), MainActivity.REALM_DATABASE);
+        } else {
+            realm = MainActivity.realm;
+        }
+
+        RealmQuery<NotifieClient> query = realm.where(NotifieClient.class);
 
         // Add query conditions:
         query.equalTo("check_for_notifie", "1");

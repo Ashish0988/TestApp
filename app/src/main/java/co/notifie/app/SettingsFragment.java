@@ -5,6 +5,8 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,11 +27,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Request;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
+import java.io.FileOutputStream;
 
 import io.realm.RealmResults;
+import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -57,6 +66,7 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
     private AbsListView mListView;
 
     ImageButton avatarButton;
+    FancyButton photoButton;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -127,6 +137,15 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
         TextView userPhoneText = (TextView) header.findViewById(R.id.user_global_phone);
         avatarButton = (ImageButton) header.findViewById(R.id.avatar);
 
+        photoButton = (FancyButton) header.findViewById(R.id.change_photo_button);
+
+        photoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openFacebookSession();
+            }
+        });
+
         if (userNameText != null) {
             userNameText.setText(currentUser.getFull_name());
         }
@@ -153,9 +172,11 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
         avatarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto, 1);//one can be replaced with any action code
+
+                //Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                startActivityForResult(takePhoto, 1);//one can be replaced with any action code
             }
         });
 
@@ -167,7 +188,6 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
         return view;
     }
 
-    Uri outputUri;
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
@@ -199,6 +219,79 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
             }
         }
     }
+
+    private void openFacebookSession(){
+
+        Session.openActiveSession(getActivity(), true, new Session.StatusCallback() {
+            @Override
+            public void call(Session session, SessionState state, Exception exception) {
+                if (exception != null) {
+                    Log.d("Facebook", exception.getMessage());
+                }
+                Log.d("Facebook", "Session State: " + session.getState());
+                // you can make request to the /me API or do other stuff like post, etc. here
+                if (session.isOpened()) {
+
+                    Request.newMeRequest(session, new Request.GraphUserCallback() {
+                        @Override
+                        public void onCompleted(GraphUser graphUser, com.facebook.Response response) {
+                            try {
+                                String imgUrl = "http://graph.facebook.com/" + graphUser.getId() + "/picture?type=large";
+
+
+                                Picasso.with(getActivity())
+                                        .load(imgUrl)
+                                        .transform(new CircleTransform())
+                                        .resize(avatarButton.getLayoutParams().width, avatarButton.getLayoutParams().height)
+                                        .centerCrop()
+                                        .into(avatarButton);
+
+                                Target target = new Target() {
+
+                                    @Override
+                                    public void onPrepareLoad(Drawable arg0) {
+                                        return;
+                                    }
+
+                                    @Override
+                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom arg1) {
+
+                                        try {
+                                            File file = new File(Environment.getExternalStorageDirectory().getPath() +"/" + "user_avatar.jpg");
+
+                                            file.createNewFile();
+                                            FileOutputStream ostream = new FileOutputStream(file);
+                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, ostream);
+                                            ostream.close();
+
+                                            TypedFile typed_file = new TypedFile("image/*", file);
+                                            postAvatar(typed_file);
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onBitmapFailed(Drawable arg0) {
+                                        return;
+                                    }
+                                };
+
+                                Picasso.with(getActivity())
+                                        .load(imgUrl)
+                                        .into(target);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).executeAsync();
+                }
+            }
+        });
+    }
+
 
     public void postAvatar(TypedFile avatar) {
 

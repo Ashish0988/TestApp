@@ -22,7 +22,7 @@
             android:layout_height="80dp" />
 
         <mehdi.sakout.fancybuttons.FancyButton
-            android:id="@+id/send_button"
+            android:id="@+id/change_photo_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -39,7 +39,7 @@
             fancy:focusColor="@color/black_alpha50"
             fancy:iconPosition="left"
             fancy:radius="20dp"
-            fancy:fontIconSize="10px"
+            fancy:fontIconSize="5dp"
             fancy:fontIconResource="&#xF030;"
             fancy:text=""
             fancy:textColor="@color/actionbar_background" />

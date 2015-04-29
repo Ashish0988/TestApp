@@ -53,6 +53,6 @@
     <string name="selected_channel">Канал</string>
     <string name="select_subject">Выберите тему</string>
     <string name="selected_subject">Тема</string>
-    <string name="client_feed_header">Подключенные каналы</string>
+    <string name="client_feed_header">Избранные каналы</string>
 
 </resources>
