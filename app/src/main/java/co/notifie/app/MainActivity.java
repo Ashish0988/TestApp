@@ -33,11 +33,11 @@ import retrofit.client.Response;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://notifie.ru"; //http://192.168.1.40:3000
+    public final static String NOTIFIE_HOST = "http://192.168.1.48:3000"; //http://192.168.1.40:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public final static String AUTH_TOKEN_STRING = "notifie_auth_token";
-    public final static String REALM_DATABASE = "test21.realm";
+    public final static String REALM_DATABASE = "test24.realm";
     public static String AUTH_TOKEN;
 
     public static Realm realm;

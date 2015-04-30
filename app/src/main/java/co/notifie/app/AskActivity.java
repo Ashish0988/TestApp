@@ -2,14 +2,21 @@ package co.notifie.app;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import java.util.List;
+
 import fr.ganfra.materialspinner.MaterialSpinner;
+import io.realm.Realm;
 import io.realm.RealmResults;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class AskActivity extends ActionBarActivity {
@@ -19,16 +26,26 @@ public class AskActivity extends ActionBarActivity {
     RealmResults <NotifieClient> clients;
     String[] subjects;
     ArrayAdapter<String> adapter2;
+    public static Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ask);
 
-        clients = MainActivity.realm.where(NotifieClient.class)
+        if (MainActivity.realm == null) {
+            realm = Realm.getInstance(this, MainActivity.REALM_DATABASE);
+        } else {
+            realm = MainActivity.realm;
+        }
+
+        loadClients();
+
+        clients = realm.where(NotifieClient.class)
+                .greaterThan("templates_count", 0)
+                .equalTo("check_for_notifie", "1")
                 .findAll();
 
-        //ClientAdapter adapter = new ClientCompactAdapter(this, android.R.layout.simple_spinner_item, clients, true);
         String[] client_names = new String[clients.size()];
 
         for(int i = 0; i < clients.size(); i++) {
@@ -52,7 +69,8 @@ public class AskActivity extends ActionBarActivity {
 
                 if (client != null) {
 
-                    RealmResults <NotifeMessage> messages = MainActivity.realm.where(NotifeMessage.class)
+                    /*
+                    RealmResults <NotifeMessage> messages = realm.where(NotifeMessage.class)
                             .equalTo("client_id", client.getId())
                             .findAll();
 
@@ -61,6 +79,18 @@ public class AskActivity extends ActionBarActivity {
                     for (int i = 0; i < messages.size(); i++) {
                         client_subject[i] = messages.get(i).getShort_title();
                     }
+                    */
+
+                    RealmResults <NotifieTemplate> messages = realm.where(NotifieTemplate.class)
+                            .equalTo("client_id", client.getId())
+                            .findAll();
+
+                    String[] client_subject = new String[messages.size()];
+
+                    for (int i = 0; i < messages.size(); i++) {
+                        client_subject[i] = messages.get(i).getRu_name();
+                    }
+
 
                     adapter2 = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, client_subject);
                     adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -107,5 +137,31 @@ public class AskActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //
+    // Load Messages From Server
+    //
+    public void loadClients() {
+
+        RestClient.get().getClients(MainActivity.AUTH_TOKEN, new Callback<ClientsResponce>() {
+            @Override
+            public void success(ClientsResponce clientsResponce, Response response) {
+                // success!
+                List<NotifieClient> clients = clientsResponce.getClients();
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(clients);
+                realm.commitTransaction();
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error body:" + error.getBody());
+            }
+        });
+
     }
 }

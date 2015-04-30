@@ -41,7 +41,13 @@ public class NotifieClient extends RealmObject {
     @Expose
     private String check_for_notifie;
 
+    @Expose
+    private int templates_count;
+
     private RealmList<NotifeMessage> messages;
+
+    @Expose
+    private RealmList<NotifieTemplate> templates;
 
     public String getAccess_token() {
         return access_token;
@@ -164,4 +170,19 @@ public class NotifieClient extends RealmObject {
         this.messages = messages;
     }
 
+    public RealmList<NotifieTemplate> getTemplates() {
+        return templates;
+    }
+
+    public void setTemplates(RealmList<NotifieTemplate> templates) {
+        this.templates = templates;
+    }
+
+    public int getTemplates_count() {
+        return templates_count;
+    }
+
+    public void setTemplates_count(int templates_count) {
+        this.templates_count = templates_count;
+    }
 }

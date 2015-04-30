@@ -29,6 +29,10 @@ public interface Api {
     void searchForClient(@Header("Authorization") String authorization,
                Callback<SearchClientsResponce> callback);
 
+    @GET("/api/v1/clients")
+    void getClients(@Header("Authorization") String authorization,
+                         Callback<ClientsResponce> callback);
+
     @POST("/users.json")
     void singUp(@Body UserRequestWrapper user,
                 Callback<AuthResponce> callback);
