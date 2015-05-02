@@ -1,9 +1,12 @@
 package co.notifie.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -11,16 +14,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -133,18 +140,33 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
         Notifie app = ((Notifie) getActivity().getApplicationContext());
         User currentUser = app.getCurrentUser();
 
+        if (currentUser == null) {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+            return view;
+        }
+
         TextView userNameText = (TextView) header.findViewById(R.id.user_full_name_in_settings);
         TextView userPhoneText = (TextView) header.findViewById(R.id.user_global_phone);
         avatarButton = (ImageButton) header.findViewById(R.id.avatar);
 
         photoButton = (FancyButton) header.findViewById(R.id.change_photo_button);
-
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openFacebookSession();
+                showFilterDialog();
             }
         });
+
+        /*
+        ImageButton hiddenSettings = (ImageButton) header.findViewById(R.id.hidden_settings);
+        hiddenSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(hiddenSettings);
+            }
+        });
+        */
 
         if (userNameText != null) {
             userNameText.setText(currentUser.getFull_name());
@@ -173,10 +195,7 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
             @Override
             public void onClick(View v) {
 
-                //Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                Intent takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                startActivityForResult(takePhoto, 1);//one can be replaced with any action code
+                showFilterDialog();
             }
         });
 
@@ -191,8 +210,6 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-        //Session.getActiveSession().onActivityResult(this, requestCode, resultCode, imageReturnedIntent);
 
         if (requestCode == 1 && resultCode != 0)
         {
@@ -223,6 +240,7 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
     private void openFacebookSession(){
 
         Session.openActiveSession(getActivity(), true, new Session.StatusCallback() {
+
             @Override
             public void call(Session session, SessionState state, Exception exception) {
                 if (exception != null) {
@@ -505,4 +523,59 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
+    public int filter_option;
+
+    public void showFilterDialog() {
+
+        String[] options = new String[] {
+                getText(R.string.take_photo).toString(), getText(R.string.take_photo_from_facebook).toString()
+        };
+
+
+        final ListAdapter adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.select_dialog_singlechoice, android.R.id.text1, options);
+
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setSingleChoiceItems(adapter,
+                        filter_option,
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
+                                filter_option = which;
+                            }
+                        })
+                .setPositiveButton(R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                switch (filter_option) {
+                                    case 0:
+                                        //Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                        Intent takePhoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                        startActivityForResult(takePhoto, 1);//one can be replaced with any action code
+                                        break;
+                                    case 1:
+                                        openFacebookSession();
+                                        break;
+
+                                }
+
+                            }
+                        })
+                .setNegativeButton(R.string.cancel,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                            }
+                        })
+                .show();
+
+        dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(R.color.actionbar_background);
+        dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(R.color.actionbar_background);
+
+    }
+
 }

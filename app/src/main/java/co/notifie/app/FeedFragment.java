@@ -439,6 +439,9 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
                         })
                 .show();
 
+        dialog.getButton(dialog.BUTTON_NEGATIVE).setTextColor(R.color.actionbar_background);
+        dialog.getButton(dialog.BUTTON_POSITIVE).setTextColor(R.color.actionbar_background);
+
         // Change the title divider
         /*
         final Resources res = getResources();

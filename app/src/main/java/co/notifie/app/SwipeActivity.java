@@ -1,16 +1,23 @@
 package co.notifie.app;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.facebook.Session;
 
 import java.lang.reflect.Field;
 import java.util.Locale;
@@ -30,7 +38,7 @@ import retrofit.client.Response;
 
 public class SwipeActivity extends ActionBarActivity implements
         FeedFragment.OnFragmentInteractionListener, ClientFragment.OnFragmentInteractionListener,
-        SettingsFragment.OnFragmentInteractionListener {
+        SettingsFragment.OnFragmentInteractionListener, PopupMenu.OnMenuItemClickListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -53,6 +61,23 @@ public class SwipeActivity extends ActionBarActivity implements
     }
 
     public void getCurrentUser() {
+        Notifie app = ((Notifie) getApplicationContext());
+        User user = app.getCurrentUser();
+
+        if (user == null) {
+
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            String udid =  pref.getString(MainActivity.CURRENT_USER_UDID, "");
+
+            user = MainActivity.realm.where(User.class)
+                    .equalTo("device_token", udid)
+                    .findFirst();
+
+            if (user != null) {
+                app.setCurrentUser(user);
+            }
+        }
+
         RestClient.get().getMe(MainActivity.AUTH_TOKEN, new Callback<User>() {
             @Override
             public void success(User user, Response response) {
@@ -72,6 +97,20 @@ public class SwipeActivity extends ActionBarActivity implements
             }
         });
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (Session.getActiveSession() != null) {
+            Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+        }
+    }
+
+    /*
+    @Override
+    public void onBackPressed() {
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,6 +314,83 @@ public class SwipeActivity extends ActionBarActivity implements
             View rootView = inflater.inflate(R.layout.fragment_swipe, container, false);
             return rootView;
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.submenu_logout:
+
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setTitle(getText(R.string.log_out).toString());
+                alertDialog.setMessage(getText(R.string.are_you_sure).toString());
+
+                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getText(R.string.cancel).toString(),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.ok).toString(),
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                logOut();
+                            }
+                        });
+
+                alertDialog.show();
+                alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(R.color.actionbar_background);
+                alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(R.color.actionbar_background);
+
+
+                /*
+                new AlertDialogWrapper.Builder(this)
+                        .setTitle(R.string.log_out)
+                        .setMessage(R.string.are_you_sure)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                logOut();
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+
+                        */
+
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void logOut() {
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor ed = pref.edit();
+        ed.putString(MainActivity.AUTH_TOKEN_STRING, "");
+        ed.apply();
+        MainActivity.logOut();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        this.finish();
+
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.actions, popup.getMenu());
+        popup.setOnMenuItemClickListener(this);
+        popup.show();
     }
 
 }

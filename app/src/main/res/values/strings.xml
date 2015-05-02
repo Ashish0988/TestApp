@@ -56,6 +56,13 @@
     <string name="client_feed_header">Favorite Channels</string>
     <string name="send_request">SEND</string>
     <string name="send_request_helper">If channel support template request to it\'s data you can select channel and subject for automatic request any data</string>
-
+    <string name="cant_be_blank">Can\'t be blank</string>
+    <string name="is_invalid">Is invalid</string>
+    <string name="is_too_short_minimum_is_6_characters">Is too short (minimum is 6 characters)</string>
+    <string name="has_already_been_taken">Has already been taken</string>
+    <string name="take_photo">Take photo</string>
+    <string name="take_photo_from_facebook">Take photo from Facebook</string>
+    <string name="log_out">Log Out</string>
+    <string name="are_you_sure">Are you sure?</string>
 
 </resources>

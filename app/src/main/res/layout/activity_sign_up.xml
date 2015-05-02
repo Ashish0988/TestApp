@@ -26,7 +26,7 @@
                 android:inputType="textEmailAddress"
                 app:met_primaryColor="@color/white"
                 app:met_floatingLabelText="@string/sign_up_email"
-                app:met_errorColor="#ddaa00"
+                app:met_errorColor="@color/error_color"
                 android:hint="@string/sign_up_email_hint"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -40,7 +40,7 @@
                 android:inputType="phone"
                 app:met_primaryColor="@color/white"
                 app:met_floatingLabelText="@string/sign_up_phone"
-                app:met_errorColor="#ddaa00"
+                app:met_errorColor="@color/error_color"
                 android:hint="@string/sign_up_phone_hint"/>
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -54,7 +54,7 @@
                 android:inputType="textPassword"
                 app:met_primaryColor="@color/white"
                 app:met_floatingLabelText="@string/sign_up_password"
-                app:met_errorColor="#ddaa00"
+                app:met_errorColor="@color/error_color"
                 android:hint="@string/sign_up_password_hint"/>
 
             <LinearLayout

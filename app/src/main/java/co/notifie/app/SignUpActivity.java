@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -93,16 +97,90 @@ public class SignUpActivity extends ActionBarActivity {
                 startActivity(intent);
             }
 
+            private String getStringResourceByName(String aString) {
+                String packageName = getPackageName();
+
+                String error_id = aString.replaceAll("\\s+", "_").replace(" ", "_")
+                        .replace("'", "").replace(".", "_").replace(",", "_").replace("(", "").replace(")", "");
+                int resId = getResources().getIdentifier(error_id, "string", packageName);
+                if (resId == 0) {
+                    return aString;
+                }
+                return getString(resId);
+            }
+
             @Override
             public void failure(RetrofitError error) {
                 // something went wrong
-                String json =  new String(((TypedByteArray)error.getResponse().getBody()).getBytes());
-                Log.e("App", "Error" + json);
 
-                Toast toast = Toast.makeText(getApplicationContext(), json, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
-                toast.show();
+                String return_string = null;
 
+                if (error.getResponse() != null) {
+                    return_string = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
+                } else {
+
+                    Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 0);
+                    toast.show();
+                    return;
+                }
+
+                JSONObject jsnobject = null;
+                try {
+                    jsnobject = new JSONObject(return_string);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JSONObject errorsObject = null;
+                try {
+                    errorsObject = jsnobject.getJSONObject("errors");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (errorsObject != null)
+                for(int i = 0; i < errorsObject.names().length(); i++) {
+                    String key = "";
+                    try {
+                        key = errorsObject.names().getString(i);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    JSONArray valueArray = null;
+                    try {
+                        valueArray = errorsObject.getJSONArray(errorsObject.names().getString(i));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    String value = "";
+                    if (valueArray != null)
+                        for (int j = 0; j < valueArray.length(); j++) {
+                            try {
+                                value += getStringResourceByName(valueArray.getString(j));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+
+                    if (key.equals("email")) {
+                        emailText.setError(value);
+                    }
+
+                    if (key.equals("phone")) {
+                        phoneText.setError(value);
+                    }
+
+                    if (key.equals("password")) {
+                        passwordText.setError(value);
+                    }
+                }
+
+
+                //emailText.setError(json);
             }
         });
     }

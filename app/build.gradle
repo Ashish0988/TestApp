@@ -68,4 +68,6 @@ dependencies {
         exclude group: 'com.nineoldandroids', module: 'library'
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
+
+    // compile 'com.afollestad:material-dialogs:0.7.3.1'
 }

@@ -1,11 +1,13 @@
 package co.notifie.app;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
@@ -37,6 +39,11 @@ public class AskActivity extends ActionBarActivity {
             realm = Realm.getInstance(this, MainActivity.REALM_DATABASE);
         } else {
             realm = MainActivity.realm;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.status_bar_color));
         }
 
         loadClients();
@@ -164,4 +171,5 @@ public class AskActivity extends ActionBarActivity {
         });
 
     }
+
 }

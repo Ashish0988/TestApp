@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="actionbar_background">#ff9e1b89</color>
+    <color name="error_color">#bbff8bdf</color>
     <color name="actionbar_background_pressed">#ff78116a</color>
     <color name="status_bar_color">#92197D</color>
     <color name="actionbar_background_alpha05">#FDF9FC</color>

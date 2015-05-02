@@ -55,5 +55,14 @@
     <string name="selected_subject">Тема</string>
     <string name="client_feed_header">Избранные каналы</string>
     <string name="send_request">Отправить</string>
+    <string name="cant_be_blank">Не может быть пустым</string>
+    <string name="send_request_helper">Выберите канал и шаблон запроса</string>
+    <string name="is_invalid">Неверный формат</string>
+    <string name="is_too_short_minimum_is_6_characters">Слишком короткий (минимум 6 символов)</string>
+    <string name="has_already_been_taken">Уже зарегистрирован</string>
+    <string name="take_photo">Снять фото</string>
+    <string name="take_photo_from_facebook">Загрузить фото с Facebook</string>
+    <string name="log_out">Выйти</string>
+    <string name="are_you_sure">Вы уверены?</string>
 
 </resources>
