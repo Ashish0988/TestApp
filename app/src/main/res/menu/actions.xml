@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/submenu_terms"
-        android:title="@string/terms_of_serivice"
-        />
-
-    <item android:id="@+id/submenu_privacy"
-        android:title="@string/privacy"
-        />
 
     <item android:id="@+id/submenu_logout"
         android:title="@string/log_out"

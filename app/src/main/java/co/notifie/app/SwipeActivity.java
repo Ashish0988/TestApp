@@ -1,7 +1,5 @@
 package co.notifie.app;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -31,6 +29,7 @@ import com.facebook.Session;
 import java.lang.reflect.Field;
 import java.util.Locale;
 
+import me.drakeet.materialdialog.MaterialDialog;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -316,11 +315,13 @@ public class SwipeActivity extends ActionBarActivity implements
         }
     }
 
+    MaterialDialog mMaterialDialog;
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.submenu_logout:
-
+                /*
                 AlertDialog alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle(getText(R.string.log_out).toString());
                 alertDialog.setMessage(getText(R.string.are_you_sure).toString());
@@ -343,28 +344,27 @@ public class SwipeActivity extends ActionBarActivity implements
                 alertDialog.show();
                 alertDialog.getButton(alertDialog.BUTTON_NEGATIVE).setTextColor(R.color.actionbar_background);
                 alertDialog.getButton(alertDialog.BUTTON_POSITIVE).setTextColor(R.color.actionbar_background);
+                */
 
 
-                /*
-                new AlertDialogWrapper.Builder(this)
+                 mMaterialDialog = new MaterialDialog(this)
                         .setTitle(R.string.log_out)
                         .setMessage(R.string.are_you_sure)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
+                        .setPositiveButton(getText(R.string.ok).toString(), new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                            public void onClick(View v) {
+                                mMaterialDialog.dismiss();
                                 logOut();
                             }
                         })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getText(R.string.cancel).toString(), new View.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                            public void onClick(View v) {
+                                mMaterialDialog.dismiss();
                             }
-                        }).show();
+                        });
 
-                        */
+                mMaterialDialog.show();
 
                 return true;
             default:
