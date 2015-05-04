@@ -6,59 +6,94 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="8dp"
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/user_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_user_icon" >
-        </ImageView>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
 
-        <TextView android:text="Message From" android:id="@+id/msg_from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginTop="5dp"
-            android:textSize="14dp"
-            android:layout_marginLeft="16dp"/>
+            <ImageView
+                android:id="@+id/user_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_user_icon" >
+            </ImageView>
 
-        <TextView android:text="Created At" android:id="@+id/msg_created_at"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black_alpha50"
-            android:layout_marginTop="5dp"
-            android:textSize="14dp"
-            android:layout_marginLeft="16dp"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView android:text="Message Subject" android:id="@+id/msg_subject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginTop="5dp"
-            android:textSize="14dp"
-            android:layout_marginLeft="16dp"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView android:text="Message From" android:id="@+id/msg_from"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"
+                        android:textSize="16dp"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView android:text="Created At" android:id="@+id/msg_created_at"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black_alpha50"
+                        android:layout_marginTop="5dp"
+                        android:gravity="right"
+                        android:textSize="12dp"
+                        android:layout_marginLeft="16dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView android:text="Message Subject" android:id="@+id/msg_subject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_weight="1"
+                        android:layout_marginTop="4dp"
+                        android:textSize="16dp"/>
+
+                    <ImageButton
+                        android:id="@+id/fav_button"
+                        android:gravity="right"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="4dp"
+                        android:onClick="toggleFavorites"
+                        android:background="@drawable/favorite_heart"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
 
-        <!--
-        <TextView android:text="@+id/detail_message_text_view"
-            android:id="@+id/detail_message_text_view"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:textSize="14dp"
-            android:layout_height="wrap_content" />
-            -->
+        </LinearLayout>
 
         <WebView
             android:layout_width="match_parent"
             android:id="@+id/web_view"
-            android:layout_marginTop="4dp"
+            android:longClickable="false"
+            android:clickable="false"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"

@@ -84,6 +84,16 @@ public class FeedAdapter extends RealmBaseAdapter<NotifeMessage> implements List
             }
         }
 
+        TextView heartIcon = (TextView) rowView.findViewById(R.id.fav_text_addon);
+        String item_fav = item.getFavorited();
+
+        if (item_fav != null && item_fav.equals("true")) {
+            heartIcon.setVisibility(View.VISIBLE);
+        } else {
+            heartIcon.setVisibility(View.GONE);
+        }
+
+
         RealmResults<NotifieComment> comments = MainActivity.realm.where(NotifieComment.class)
                 .equalTo("message_id", item.getId())
                 .findAll();

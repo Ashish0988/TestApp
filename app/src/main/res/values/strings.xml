@@ -20,8 +20,8 @@
     <string name="notifie_slogan">Better way to communicate</string>
     <string name="login">Log In</string>
     <string name="filter">Filter messages</string>
-    <string name="favorites_empty_title">Oops!</string>
-    <string name="favorites_empty_sub_title">Check your filter. Nothing found</string>
+    <string name="favorites_empty_title">Oops! Empty</string>
+    <string name="favorites_empty_sub_title">Hearts is for favorites. Store here important converstations</string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_confirmation">ConfirmationActivity</string>
     <string name="title_activity_upload_photo">UploadPhotoActivity</string>
@@ -64,5 +64,6 @@
     <string name="take_photo_from_facebook">Take photo from Facebook</string>
     <string name="log_out">Log Out</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="favotite_message">Favorite</string>
 
 </resources>

@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:paddingLeft="0dp"
+    android:paddingLeft="6dp"
     android:layout_height="wrap_content" >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,7 +16,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5px"
+            android:layout_marginRight="8px"
             android:layout_marginTop="0dp"
             android:src="@drawable/ic_user_icon" />
 

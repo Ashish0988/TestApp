@@ -20,8 +20,8 @@
     <string name="notifie_slogan">Общение с бизнесом</string>
     <string name="login">Войти</string>
     <string name="filter">Фильтр сообщений</string>
-    <string name="favorites_empty_title">Упс!</string>
-    <string name="favorites_empty_sub_title">Ничего не найдено. Проверьте фильтры</string>
+    <string name="favorites_empty_title">Упс! Пусто</string>
+    <string name="favorites_empty_sub_title">Сердца для избранных. Сохраните здесь важные сообщения</string>
     <string name="title_activity_sign_up">Регистрация</string>
     <string name="title_activity_confirmation">ConfirmationActivity</string>
     <string name="title_activity_upload_photo">UploadPhotoActivity</string>
@@ -64,5 +64,6 @@
     <string name="take_photo_from_facebook">Загрузить фото с Facebook</string>
     <string name="log_out">Выйти</string>
     <string name="are_you_sure">Вы уверены?</string>
+    <string name="favotite_message">Избранное</string>
 
 </resources>

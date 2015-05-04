@@ -154,6 +154,8 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
 
         mAdapter = new FeedAdapter(getActivity(), R.layout.message_cell, messages, true);
 
+        loadMessages(1, LOAD_PER_PAGE);
+
     }
 
     @Override

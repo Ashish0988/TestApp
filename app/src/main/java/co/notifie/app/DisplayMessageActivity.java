@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -65,6 +66,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 String comment_to_send = composeText.getText().toString();
 
                 if (comment_to_send.length() > 0) {
+                    composeText.setText("");
                     postComment(comment_to_send);
                 }
             }
@@ -150,12 +152,32 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     listview.animate().alpha(1.0f).setDuration(500);
+
+                    /*
+                    composeText.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Do after 1000ms
+                                    listview.smoothScrollToPosition(my_adapter.getCount());
+                                }
+                            }, 1000);
+
+                        }
+                    });
+                    */
                 }
             });
 
             web_view.getSettings().setJavaScriptEnabled(true);
             view_html = body_style + html;
             loadWebView();
+
+            setupHeart(message.getFavorited());
 
         }
 
@@ -192,12 +214,60 @@ public class DisplayMessageActivity extends ActionBarActivity {
             Log.v("Path", image_url);
         }
 
-
     }
 
 
     void loadWebView() {
         web_view.loadDataWithBaseURL("x-data://base", view_html, "text/html", "UTF-8", null);
+    }
+
+    public void setupHeart(String favorited) {
+        ImageButton btn = (ImageButton) findViewById(R.id.fav_button);
+
+        MainActivity.realm.beginTransaction();
+        if (favorited != null && favorited.equals("true")) {
+            btn.setSelected(true);
+            message.setFavorited("true");
+        } else {
+            btn.setSelected(false);
+            message.setFavorited("false");
+        }
+        MainActivity.realm.commitTransaction();
+
+    }
+
+
+    public void toggleFavorites(View v) {
+
+        /*MainActivity.realm.beginTransaction();
+        if (message.getFavorited().equals("true")) {
+            message.setFavorited("false");
+        } else {
+            message.setFavorited("true");
+        }
+        MainActivity.realm.commitTransaction();*/
+
+
+        RestClient.get().toggleMessage(MainActivity.AUTH_TOKEN, message.getId(), new Callback<NotifeMessage>() {
+            @Override
+            public void success(NotifeMessage resp_message, Response response) {
+                // success!
+                setupHeart(resp_message.getFavorited());
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+                Log.e("App", "Error" + error);
+
+                Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
+
+
     }
 
     //

@@ -58,9 +58,9 @@ public interface Api {
     void getMessages(@Header("Authorization") String authorization, @Query("page") int page, @Query("per_page") int per_page,
                Callback<MessagesResponce> callback);
 
-    @GET("/api/v1/messages/{id}")
-    void getMessage(@Header("Authorization") String authorization, @Path("id") int id,
-                     Callback<MessagesResponce> callback);
+    @PUT("/api/v1/messages/{id}/toggle")
+    void toggleMessage(@Header("Authorization") String authorization, @Path("id") String id,
+                     Callback<NotifeMessage> callback);
 
     @POST("/api/v1/messages")
     void postMessage(@Header("Authorization") String authorization, @Body MessagePostWrapper message,

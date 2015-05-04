@@ -37,6 +37,7 @@ import retrofit.client.Response;
 
 public class SwipeActivity extends ActionBarActivity implements
         FeedFragment.OnFragmentInteractionListener, ClientFragment.OnFragmentInteractionListener,
+        FavoritesFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener, PopupMenu.OnMenuItemClickListener {
 
     /**
@@ -246,7 +247,7 @@ public class SwipeActivity extends ActionBarActivity implements
                 case 1: // Fragment # 0 - This will show FirstFragment different title
                     return ClientFragment.newInstance(0);
                 case 2: // Fragment # 1 - This will show SecondFragment
-                    return FeedFragment.newInstance(1);
+                    return FavoritesFragment.newInstance(0);
                 case 3: // Fragment # 1 - This will show SecondFragment
                     return SettingsFragment.newInstance(0);
                 default:
