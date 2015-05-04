@@ -46,6 +46,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
     public static commentAdapter my_adapter;
     public static ListView listview;
     MaterialEditText composeText;
+    ImageButton favorite_button;
 
     WebView web_view;
     String view_html;
@@ -58,6 +59,14 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
         composeText = (MaterialEditText) findViewById(R.id.compose_message);
         composeText.setHideUnderline(true);
+
+        composeText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //listview.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+                //listview.setStackFromBottom(true);
+            }
+        });
 
         FancyButton sendMessageButton = (FancyButton) findViewById(R.id.send_button);
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
@@ -116,6 +125,16 @@ public class DisplayMessageActivity extends ActionBarActivity {
                             .where(NotifieComment.class)
                             .equalTo("message_id", message_id)
                             .findAll();
+
+            favorite_button = (ImageButton) header.findViewById(R.id.fav_button);
+            favorite_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toggleFavorites();
+                }
+            });
+
+            setupHeart(message.getFavorited());
 
             //comments.sort("id", RealmResults.SORT_ORDER_DESCENDING);
 
@@ -177,8 +196,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
             view_html = body_style + html;
             loadWebView();
 
-            setupHeart(message.getFavorited());
-
         }
 
         // Display auth_token
@@ -222,31 +239,19 @@ public class DisplayMessageActivity extends ActionBarActivity {
     }
 
     public void setupHeart(String favorited) {
-        ImageButton btn = (ImageButton) findViewById(R.id.fav_button);
 
-        MainActivity.realm.beginTransaction();
         if (favorited != null && favorited.equals("true")) {
-            btn.setSelected(true);
-            message.setFavorited("true");
+            favorite_button.setSelected(true);
         } else {
-            btn.setSelected(false);
-            message.setFavorited("false");
+            favorite_button.setSelected(false);
         }
-        MainActivity.realm.commitTransaction();
 
     }
 
 
-    public void toggleFavorites(View v) {
+    public void toggleFavorites() {
 
-        /*MainActivity.realm.beginTransaction();
-        if (message.getFavorited().equals("true")) {
-            message.setFavorited("false");
-        } else {
-            message.setFavorited("true");
-        }
-        MainActivity.realm.commitTransaction();*/
-
+        favorite_button.setPressed(true);
 
         RestClient.get().toggleMessage(MainActivity.AUTH_TOKEN, message.getId(), new Callback<NotifeMessage>() {
             @Override
@@ -310,39 +315,6 @@ public class DisplayMessageActivity extends ActionBarActivity {
         });
 
     }
-
-    /*
-    public void sendMessage() {
-
-        String message_text = composeText.getText().toString();
-
-        MessagePostWrapper params = new MessagePostWrapper();
-        NotifeMessage new_message = new NotifeMessage();
-
-        new_message.setText(message_text);
-
-        params.setMessage(new_message);
-
-        RestClient.get().postMessage(MainActivity.AUTH_TOKEN, params, new Callback<MessagesResponce>() {
-            @Override
-            public void success(MessagesResponce messageResponce, Response response) {
-                // success!
-
-                // you get the point...
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                // something went wrong
-                Log.e("App", "Error" + error);
-
-                Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-        });
-
-    }*/
 
     public static void reloadComments() {
         if (message != null) {

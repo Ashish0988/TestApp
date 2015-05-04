@@ -67,16 +67,17 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:layout_weight="1"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="1dp"
                         android:textSize="16dp"/>
 
                     <ImageButton
                         android:id="@+id/fav_button"
                         android:gravity="right"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="4dp"
-                        android:onClick="toggleFavorites"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:scaleType="center"
+                        android:padding="5dp"
+                        android:layout_marginTop="0dp"
                         android:background="@drawable/favorite_heart"
                         />
 
@@ -93,6 +94,7 @@
             android:id="@+id/web_view"
             android:longClickable="false"
             android:clickable="false"
+            android:focusable="false"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"

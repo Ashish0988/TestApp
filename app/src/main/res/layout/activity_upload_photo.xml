@@ -19,13 +19,44 @@
             android:layout_height="wrap_content" android:orientation="vertical">
 
 
-            <ImageButton
-                android:layout_width="80dp"
-                android:id="@+id/avatar"
-                android:background="@drawable/circle"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:layout_height="80dp" />
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <ImageButton
+                    android:layout_width="80dp"
+                    android:id="@+id/avatar"
+                    android:background="@drawable/circle"
+                    android:layout_gravity="center"
+                    android:layout_height="80dp" />
+
+                <mehdi.sakout.fancybuttons.FancyButton
+                    android:id="@+id/change_photo_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginLeft="32dp"
+                    android:paddingLeft="0dp"
+                    android:paddingBottom="0dp"
+                    android:paddingRight="0dp"
+                    android:paddingTop="0dp"
+                    android:textStyle="normal"
+                    android:layout_gravity="center"
+                    fancy:borderColor="@color/actionbar_background"
+                    fancy:borderWidth="1dp"
+                    fancy:defaultColor="@color/actionbar_background_alpha05"
+                    fancy:focusColor="@color/black_alpha50"
+                    fancy:iconPosition="left"
+                    fancy:radius="20dp"
+                    fancy:fontIconSize="5dp"
+                    fancy:fontIconResource="&#xF030;"
+                    fancy:text=""
+                    fancy:textColor="@color/actionbar_background" />
+
+            </FrameLayout>
+
 
             <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/full_name"
@@ -38,9 +69,9 @@
                 android:singleLine="true"
                 android:textSize="14dp"
                 app:met_primaryColor="@color/white"
-                app:met_floatingLabelText="Name"
-                app:met_errorColor="#ddaa00"
-                android:hint="Name"/>
+                app:met_floatingLabelText="@string/full_name"
+                app:met_errorColor="@color/error_color"
+                android:hint="@string/full_name"/>
 
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/progress_wheel"
@@ -57,12 +88,12 @@
                 android:id="@+id/login_text_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Almost Done. We're suggest upload your photo to make conversation more personal"
+                android:text="@string/almost_done"
                 android:textColor="@color/white_alpha80"
                 android:textStyle="normal"
                 android:gravity="center"
-                android:paddingTop="16dp"
-                android:paddingBottom="12dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:textSize="12dp" />
 
             <LinearLayout
@@ -89,7 +120,7 @@
                     fancy:focusColor="@color/black_alpha10"
                     fancy:iconPosition="left"
                     fancy:radius="2dp"
-                    fancy:text="Get Facebook Photo"
+                    fancy:text="@string/upload_photo"
                     fancy:textColor="#FFFFFF" />
 
                 <mehdi.sakout.fancybuttons.FancyButton
@@ -104,11 +135,12 @@
                     android:layout_gravity="center"
                     fancy:borderColor="#FFFFFF"
                     fancy:borderWidth="1dp"
+                    fancy:textSize="12px"
                     fancy:defaultColor="@color/clear"
                     fancy:focusColor="@color/black_alpha10"
                     fancy:iconPosition="left"
                     fancy:radius="2dp"
-                    fancy:text="SAVE"
+                    fancy:text="@string/save"
                     fancy:textColor="#FFFFFF" />
 
              </LinearLayout>

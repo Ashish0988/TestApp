@@ -93,7 +93,7 @@ public class SignUpActivity extends ActionBarActivity {
 
                 // you get the point...
                 Intent intent = new Intent(getBaseContext(), ConfirmationActivity.class);
-                intent.putExtra("confirmation_code_message", "1234");
+                intent.putExtra("confirmation_code_message", confirmation_code);
                 startActivity(intent);
             }
 
@@ -178,7 +178,6 @@ public class SignUpActivity extends ActionBarActivity {
                         passwordText.setError(value);
                     }
                 }
-
 
                 //emailText.setError(json);
             }

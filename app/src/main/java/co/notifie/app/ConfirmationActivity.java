@@ -93,6 +93,12 @@ public class ConfirmationActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        // your code.
+        codeText.setError(getString(R.string.cant_be_blank));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

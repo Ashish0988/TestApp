@@ -6,18 +6,15 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.mime.TypedByteArray;
 
 
 public class SignInActivity extends ActionBarActivity {
@@ -87,6 +84,7 @@ public class SignInActivity extends ActionBarActivity {
                 ed.apply();
 
                 Intent intent = new Intent(getBaseContext(), SwipeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
 
             }
@@ -95,12 +93,8 @@ public class SignInActivity extends ActionBarActivity {
             public void failure(RetrofitError error) {
                 // something went wrong
 
-                String json =  new String(((TypedByteArray)error.getResponse().getBody()).getBytes());
-                Log.e("App", "Error" + json);
-
-                Toast toast = Toast.makeText(getApplicationContext(), json, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
-                toast.show();
+                emailText.setError(error.toString());
+                passwordText.setError(error.toString());
             }
         });
     }

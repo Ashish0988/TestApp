@@ -124,20 +124,12 @@
         <activity
             android:name=".ConfirmationActivity"
             android:label="@string/title_activity_confirmation"
-            android:parentActivityName=".SignUpActivity"
             android:theme="@style/TransparentActionBarWithSlide" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="co.notifie.app.SignUpActivity" />
         </activity>
         <activity
             android:name=".UploadPhotoActivity"
             android:label="@string/title_activity_upload_photo"
-            android:parentActivityName=".ConfirmationActivity"
             android:theme="@style/TransparentActionBarWithSlide" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="co.notifie.app.ConfirmationActivity" />
         </activity>
         <activity
             android:name=".SignInActivity"

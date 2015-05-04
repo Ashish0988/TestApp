@@ -65,5 +65,18 @@
     <string name="log_out">Log Out</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="favotite_message">Favorite</string>
+    <string name="sign_in_password">Password</string>
+    <string name="feed_empty_title">Oops!</string>
+    <string name="feed_empty_sub_title">No data found! Check your filters</string>
+    <string name="almost_done">Almost Done. We are suggest upload your photo to make conversation more personal</string>
+    <string name="full_name">Full Name</string>
+    <string name="save">Save</string>
+    <string name="enter_confirmation_code">Enter confirmation code texted you</string>
+    <string name="confirm_code">Confirm Code</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_subtitle">Keep calm and wait for code. Sometimes delay may be about one minute</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="upload_photo">Upload Photo</string>
+
 
 </resources>

@@ -12,17 +12,18 @@
         android:layout_height="match_parent">
 
         <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
-            android:padding="20dp"
+            android:padding="16dp"
             android:layout_height="wrap_content" android:orientation="vertical">
 
             <TextView
                 android:id="@+id/email_label"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Enter comfiration code texted you"
+                android:text="@string/enter_confirmation_code"
                 android:gravity="center"
                 android:textColor="@color/white_alpha80"
                 android:paddingRight="16dp"
+                android:paddingBottom="16dp"
                 android:textSize="12dp" />
 
             <LinearLayout
@@ -41,9 +42,9 @@
                     android:singleLine="true"
                     android:inputType="number"
                     app:met_primaryColor="@color/white_alpha50"
-                    app:met_floatingLabelText="Confirm code"
-                    app:met_errorColor="#ddaa00"
-                    android:hint="Code"/>
+                    app:met_floatingLabelText="@string/confirm_code"
+                    app:met_errorColor="@color/error_color"
+                    android:hint="@string/confirm_code"/>
 
                 <!--
                 <EditText android:id="@+id/confirmation_code" android:layout_width="match_parent"
@@ -75,7 +76,7 @@
                 fancy:focusColor="@color/black_alpha10"
                 fancy:iconPosition="left"
                 fancy:radius="2dp"
-                fancy:text="CONFIRM"
+                fancy:text="@string/confirm"
                 fancy:textColor="#FFFFFF" />
 
             <LinearLayout
@@ -94,7 +95,7 @@
                         android:id="@+id/login_text_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Plase wait. Code may delivered within one minute"
+                        android:text="@string/confirm_subtitle"
                         android:textColor="@color/white_alpha80"
                         android:textStyle="normal"
                         android:textSize="12dp" />
@@ -108,7 +109,7 @@
 
                     <Button android:id="@+id/resend_code"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="Resend Code"
+                        android:text="@string/resend_code"
                         style="?android:attr/borderlessButtonStyle"
                         android:textSize="12dp"
                         android:minHeight="12dp"

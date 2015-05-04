@@ -22,8 +22,6 @@ import java.io.IOException;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import me.leolin.shortcutbadger.ShortcutBadgeException;
-import me.leolin.shortcutbadger.ShortcutBadger;
 import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -191,13 +189,6 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        int badgeCount = 0;
-        try {
-            ShortcutBadger.setBadge(getApplicationContext(), badgeCount);
-        } catch (ShortcutBadgeException e) {
-            //handle the Exception
-        }
     }
 
     public void attemptLogin() {

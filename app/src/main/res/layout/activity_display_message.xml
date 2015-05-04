@@ -29,6 +29,8 @@
             android:background="@color/white"
             android:paddingLeft="0dp"
             android:paddingRight="0dp"
+            android:stackFromBottom="false"
+            android:transcriptMode="alwaysScroll"
             android:paddingBottom="10dp"
             android:clipToPadding="false"
             />

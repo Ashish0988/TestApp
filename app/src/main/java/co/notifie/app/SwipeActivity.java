@@ -30,6 +30,8 @@ import java.lang.reflect.Field;
 import java.util.Locale;
 
 import me.drakeet.materialdialog.MaterialDialog;
+import me.leolin.shortcutbadger.ShortcutBadgeException;
+import me.leolin.shortcutbadger.ShortcutBadger;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -190,6 +192,18 @@ public class SwipeActivity extends ActionBarActivity implements
 
         getCurrentUser();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        int badgeCount = 0;
+        try {
+            ShortcutBadger.setBadge(getApplicationContext(), badgeCount);
+        } catch (ShortcutBadgeException e) {
+            //handle the Exception
+        }
     }
 
 

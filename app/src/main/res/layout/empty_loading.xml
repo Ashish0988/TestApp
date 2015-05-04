@@ -17,5 +17,26 @@
         wheel:matProg_barWidth="3dp"
         wheel:matProg_progressIndeterminate="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="@string/feed_empty_title"
+        android:textSize="16dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/gray"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:paddingTop="1dp"
+        android:paddingLeft="80dp"
+        android:paddingRight="80dp"
+        android:textSize="12dp"
+        android:textColor="@color/gray"
+        android:paddingBottom="0dp"
+        android:text="@string/feed_empty_sub_title"
+        android:layout_height="wrap_content" />
+
 
 </LinearLayout>

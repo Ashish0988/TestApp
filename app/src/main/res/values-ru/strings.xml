@@ -65,5 +65,18 @@
     <string name="log_out">Выйти</string>
     <string name="are_you_sure">Вы уверены?</string>
     <string name="favotite_message">Избранное</string>
+    <string name="sign_in_password">Пароль</string>
+    <string name="feed_empty_title">Упс!</string>
+    <string name="feed_empty_sub_title">Нет данных. Проверьте фильтры</string>
+    <string name="almost_done">Последний штрих. Советуем загузить фото, чтобы сделать переписку более личной</string>
+    <string name="full_name">Полное имя</string>
+    <string name="save">Сохранить</string>
+    <string name="enter_confirmation_code">Введите код, высланный вам по СМС</string>
+    <string name="confirm_code">Код подтверждения</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="confirm_subtitle">Код может быть получен с задержкой, подождите около минуты если код не получен</string>
+    <string name="resend_code">Выслать новый код</string>
+    <string name="upload_photo">Загрузить фото</string>
+
 
 </resources>

@@ -25,9 +25,9 @@
                 android:singleLine="true"
                 android:inputType="textEmailAddress"
                 app:met_primaryColor="@color/white"
-                app:met_floatingLabelText="Email"
-                app:met_errorColor="#ddaa00"
-                android:hint="Email"/>
+                app:met_floatingLabelText="@string/sign_up_email"
+                app:met_errorColor="@color/error_color"
+                android:hint="@string/sign_up_email"/>
 
 
             <com.rengwuxian.materialedittext.MaterialEditText
@@ -40,9 +40,9 @@
                 android:singleLine="true"
                 android:inputType="textPassword"
                 app:met_primaryColor="@color/white"
-                app:met_floatingLabelText="Password"
-                app:met_errorColor="#ddaa00"
-                android:hint="Password"/>
+                app:met_floatingLabelText="@string/sign_in_password"
+                app:met_errorColor="@color/error_color"
+                android:hint="@string/sign_in_password"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -70,7 +70,7 @@
                 fancy:focusColor="@color/black_alpha10"
                 fancy:iconPosition="left"
                 fancy:radius="2dp"
-                fancy:text="LOG IN"
+                fancy:text="@string/login"
                 fancy:textColor="#FFFFFF" />
 
         </LinearLayout>
