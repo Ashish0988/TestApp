@@ -68,7 +68,7 @@ public class UploadPhotoActivity extends ActionBarActivity {
         faceBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFilterDialog();
+                openFacebookSession();
             }
         });
 
@@ -79,7 +79,16 @@ public class UploadPhotoActivity extends ActionBarActivity {
         avatarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showFilterDialog();
+                openFacebookSession();
+            }
+        });
+
+        FancyButton mini_photo_button = (FancyButton) findViewById(R.id.change_photo_button);
+
+        mini_photo_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFacebookSession();
             }
         });
 
@@ -102,6 +111,25 @@ public class UploadPhotoActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         // your code.
+    }
+
+    public void postAvatar(TypedFile avatar) {
+
+        RestClient.get().postAvatar(MainActivity.AUTH_TOKEN, avatar, new Callback<User>() {
+            @Override
+            public void success(User user, Response response) {
+                // success!
+                Notifie app = ((Notifie) getApplicationContext());
+                app.setCurrentUser(user);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // something went wrong
+
+                Log.e("RetrofitError.....", error.toString());
+            }
+        });
     }
 
     @Override
@@ -250,7 +278,7 @@ public class UploadPhotoActivity extends ActionBarActivity {
             File file = new File(real_path);
 
             TypedFile typed_file = new TypedFile("image/*", file);
-            SettingsFragment.postAvatar(typed_file);
+            postAvatar(typed_file);
 
             try {
                 //Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
@@ -315,10 +343,11 @@ public class UploadPhotoActivity extends ActionBarActivity {
                                             file.createNewFile();
                                             FileOutputStream ostream = new FileOutputStream(file);
                                             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, ostream);
+                                            ostream.getFD().sync();
                                             ostream.close();
 
                                             TypedFile typed_file = new TypedFile("image/*", file);
-                                            SettingsFragment.postAvatar(typed_file);
+                                            postAvatar(typed_file);
 
                                         } catch (Exception e) {
                                             e.printStackTrace();

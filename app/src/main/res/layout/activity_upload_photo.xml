@@ -68,7 +68,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textSize="14dp"
-                android:inputType="textPersonName"
+                android:inputType="textPersonName|textCapWords"
                 app:met_primaryColor="@color/white"
                 app:met_floatingLabelText="@string/full_name"
                 app:met_errorColor="@color/error_color"
@@ -121,7 +121,7 @@
                     fancy:focusColor="@color/black_alpha10"
                     fancy:iconPosition="left"
                     fancy:radius="2dp"
-                    fancy:text="@string/upload_photo"
+                    fancy:text="@string/take_photo_from_facebook"
                     fancy:textColor="#FFFFFF" />
 
                 <mehdi.sakout.fancybuttons.FancyButton

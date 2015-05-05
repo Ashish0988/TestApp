@@ -136,7 +136,10 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
         User currentUser = app.getCurrentUser();
 
         if (currentUser == null) {
+
+            MainActivity.logOut(getActivity().getBaseContext());
             Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             return view;
         }
@@ -209,27 +212,59 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
         if (requestCode == 1 && resultCode != 0)
         {
             Uri imageUri = imageReturnedIntent.getData();
-
             String real_path = getPath(getActivity(), imageUri);
             File file = new File(real_path);
 
             TypedFile typed_file = new TypedFile("image/*", file);
-            postAvatar(typed_file);
+            postAvatar(typed_file, ((Notifie) getActivity().getApplicationContext()));
 
-            try {
-                //Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-
-                Picasso.with(getActivity()) // getBaseContext()
-                        .load(imageUri)
-                        .transform(new CircleTransform())
-                        .resize(avatarButton.getLayoutParams().width, avatarButton.getLayoutParams().height)
-                        .centerCrop()
-                        .into(avatarButton);
-
-            } catch (Exception e) {
-
-            }
         }
+    }
+
+    public void prepareAvatar(final Uri img_url, final ImageButton avatar_button, final Activity activity) {
+
+        final Notifie notifie_app = ((Notifie) activity.getApplicationContext());
+
+        Target target = new Target() {
+
+            @Override
+            public void onPrepareLoad(Drawable arg0) {
+                return;
+            }
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom arg1) {
+
+                try {
+                    File file = new File(Environment.getExternalStorageDirectory().getPath() +"/" + "user_avatar.jpg");
+
+                    file.createNewFile();
+                    FileOutputStream ostream = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, ostream);
+                    ostream.getFD().sync();
+                    ostream.close();
+
+                    TypedFile typed_file = new TypedFile("image/*", file);
+
+                    postAvatar(typed_file, notifie_app);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable arg0) {
+                return;
+            }
+        };
+
+        Picasso.with(activity)
+                .load(img_url)
+                .transform(new CircleTransform())
+                .resize(avatar_button.getLayoutParams().width, avatar_button.getLayoutParams().height)
+                .centerCrop()
+                .into(target);
     }
 
     private void openFacebookSession(){
@@ -249,51 +284,10 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
                         @Override
                         public void onCompleted(GraphUser graphUser, com.facebook.Response response) {
                             try {
-                                String imgUrl = "http://graph.facebook.com/" + graphUser.getId() + "/picture?type=large";
+                                String addr = "http://graph.facebook.com/" + graphUser.getId() + "/picture?type=large";
+                                Uri image_url = Uri.parse(addr);
 
-
-                                Picasso.with(getActivity())
-                                        .load(imgUrl)
-                                        .transform(new CircleTransform())
-                                        .resize(avatarButton.getLayoutParams().width, avatarButton.getLayoutParams().height)
-                                        .centerCrop()
-                                        .into(avatarButton);
-
-                                Target target = new Target() {
-
-                                    @Override
-                                    public void onPrepareLoad(Drawable arg0) {
-                                        return;
-                                    }
-
-                                    @Override
-                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom arg1) {
-
-                                        try {
-                                            File file = new File(Environment.getExternalStorageDirectory().getPath() +"/" + "user_avatar.jpg");
-
-                                            file.createNewFile();
-                                            FileOutputStream ostream = new FileOutputStream(file);
-                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 80, ostream);
-                                            ostream.close();
-
-                                            TypedFile typed_file = new TypedFile("image/*", file);
-                                            postAvatar(typed_file);
-
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onBitmapFailed(Drawable arg0) {
-                                        return;
-                                    }
-                                };
-
-                                Picasso.with(getActivity())
-                                        .load(imgUrl)
-                                        .into(target);
+                                prepareAvatar(image_url, avatarButton, getActivity());
 
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -306,22 +300,32 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
     }
 
 
-    public static void postAvatar(TypedFile avatar) {
+    public void postAvatar(TypedFile avatar, final Notifie notifie_app) {
 
-        RestClient.get().postAvatar(MainActivity.AUTH_TOKEN, avatar, new Callback<User>() {
-            @Override
-            public void success(User user, Response response) {
-                // success!
+            RestClient.get().postAvatar(MainActivity.AUTH_TOKEN, avatar, new Callback<User>() {
+                @Override
+                public void success(User user, Response response) {
+                    // success!
+                    notifie_app.setCurrentUser(user);
 
-            }
+                    String image_url = MainActivity.NOTIFIE_HOST + user.getAvatar_url();
+                    if (image_url != null && image_url.length() != 0) {
+                        Picasso.with(getActivity())
+                                .load(image_url)
+                                .transform(new CircleTransform())
+                                .resize(avatarButton.getLayoutParams().width, avatarButton.getLayoutParams().height)
+                                .centerCrop()
+                                .into(avatarButton);
+                    }
+                }
 
-            @Override
-            public void failure(RetrofitError error) {
-                // something went wrong
+                @Override
+                public void failure(RetrofitError error) {
+                    // something went wrong
 
-                Log.e("RetrofitError.....", error.toString());
-            }
-        });
+                    Log.e("RetrofitError.....", error.toString());
+                }
+            });
     }
 
     @Override

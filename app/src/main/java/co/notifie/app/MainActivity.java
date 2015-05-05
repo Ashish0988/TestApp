@@ -1,5 +1,6 @@
 package co.notifie.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -31,7 +32,7 @@ import retrofit.client.Response;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://192.168.1.34:3000"; //http://192.168.1.34:3000
+    public final static String NOTIFIE_HOST = "http://notifie.ru"; //http://192.168.1.34:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public final static String AUTH_TOKEN_STRING = "notifie_auth_token";
@@ -225,7 +226,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
         if (id == R.id.action_delete_all) {
-            logOut();
             return true;
         }
 
@@ -233,7 +233,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    public static void logOut() {
+    public static void logOut(Context context) {
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor ed = pref.edit();
+        ed.putString(MainActivity.AUTH_TOKEN_STRING, "");
+        ed.apply();
 
         realm.beginTransaction();
         RealmResults<NotifeMessage> result = realm.where(NotifeMessage.class).findAll();

@@ -21,7 +21,7 @@
     <string name="login">Log In</string>
     <string name="filter">Filter messages</string>
     <string name="favorites_empty_title">Oops! Empty</string>
-    <string name="favorites_empty_sub_title">Hearts is for favorites. Store here important converstations</string>
+    <string name="favorites_empty_sub_title">Hearts are for favorites. Store here important converstations</string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_confirmation">ConfirmationActivity</string>
     <string name="title_activity_upload_photo">UploadPhotoActivity</string>
@@ -41,13 +41,13 @@
     <string name="sign_in">Sign In</string>
     <string name="terms_of_serivice">Terms Of Service</string>
     <string name="privacy">Privacy</string>
-    <string name="sign_up_accept">Siging up you are accept our terms of service and privacy</string>
+    <string name="sign_up_accept">Signing up you are accept our terms of service and privacy</string>
     <string name="sign_up_email">Email</string>
     <string name="sign_up_email_hint">Email</string>
-    <string name="sign_up_phone">Phone format +7 900 900-00-00</string>
+    <string name="sign_up_phone">Phone with country code</string>
     <string name="sign_up_phone_hint">Phone</string>
     <string name="sign_up_password_hint">Password</string>
-    <string name="sign_up_password">Password length is minimum 6 chart</string>
+    <string name="sign_up_password">Password length is minimum 6 chars</string>
     <string name="title_activity_ask">Compose</string>
     <string name="select_channel">Select Channel</string>
     <string name="selected_channel">Selected Channel</string>
@@ -55,9 +55,9 @@
     <string name="selected_subject">Selected Subject</string>
     <string name="client_feed_header">Favorite Channels</string>
     <string name="send_request">SEND</string>
-    <string name="send_request_helper">If channel support template request to it\'s data you can select channel and subject for automatic request any data</string>
+    <string name="send_request_helper">If channel support template request to its API you can select channel and subject for automatic request any data</string>
     <string name="cant_be_blank">Can\'t be blank</string>
-    <string name="is_invalid">Is invalid</string>
+    <string name="is_invalid">Invalid</string>
     <string name="is_too_short_minimum_is_6_characters">Is too short (minimum is 6 characters)</string>
     <string name="has_already_been_taken">Has already been taken</string>
     <string name="take_photo">Take photo</string>
@@ -71,7 +71,7 @@
     <string name="almost_done">Almost Done. We are suggest upload your photo to make conversation more personal</string>
     <string name="full_name">Full Name</string>
     <string name="save">Save</string>
-    <string name="enter_confirmation_code">Enter confirmation code texted you</string>
+    <string name="enter_confirmation_code">Enter confirmation code texted to you</string>
     <string name="confirm_code">Confirm Code</string>
     <string name="confirm">Confirm</string>
     <string name="confirm_subtitle">Keep calm and wait for code. Sometimes delay may be about one minute</string>

@@ -210,7 +210,7 @@ public class SwipeActivity extends ActionBarActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_swipe, menu);
+        // getMenuInflater().inflate(R.menu.menu_swipe, menu);
         return true;
     }
 
@@ -389,12 +389,9 @@ public class SwipeActivity extends ActionBarActivity implements
 
     public void logOut() {
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor ed = pref.edit();
-        ed.putString(MainActivity.AUTH_TOKEN_STRING, "");
-        ed.apply();
-        MainActivity.logOut();
+        MainActivity.logOut(getBaseContext());
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         this.finish();
 

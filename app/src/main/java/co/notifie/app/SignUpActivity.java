@@ -101,6 +101,7 @@ public class SignUpActivity extends ActionBarActivity {
                 // you get the point...
                 Intent intent = new Intent(getBaseContext(), ConfirmationActivity.class);
                 intent.putExtra("confirmation_code_message", confirmation_code);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
 
