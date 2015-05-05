@@ -31,7 +31,7 @@ import retrofit.client.Response;
 public class MainActivity extends ActionBarActivity {
 
     public final static String EXTRA_MESSAGE = "co.notifie.test_app.MESSAGE";
-    public final static String NOTIFIE_HOST = "http://192.168.1.34:3000"; //http://192.168.1.40:3000
+    public final static String NOTIFIE_HOST = "http://192.168.1.34:3000"; //http://192.168.1.34:3000
     public final static String TAG = "Notifie";
     public final static String PROJECT_NUMBER = "981231673984";
     public final static String AUTH_TOKEN_STRING = "notifie_auth_token";
@@ -204,7 +204,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        // getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

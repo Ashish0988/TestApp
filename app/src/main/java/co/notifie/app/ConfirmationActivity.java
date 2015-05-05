@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit.Callback;
@@ -80,15 +78,8 @@ public class ConfirmationActivity extends ActionBarActivity {
                 // something went wrong
 
                 String json = new String(((TypedByteArray) error.getResponse().getBody()).getBytes());
-                Log.e("App", "Error" + json);
+                codeText.setError(json);
 
-                Toast toast = Toast.makeText(getApplicationContext(), json, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
-                toast.show();
-
-                //Intent intent = new Intent(getBaseContext(), UploadPhotoActivity.class);
-                //intent.putExtra("confirmation_code_message", "none");
-                //startActivity(intent);
             }
         });
     }
@@ -103,7 +94,7 @@ public class ConfirmationActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_confirmation, menu);
+        // getMenuInflater().inflate(R.menu.menu_confirmation, menu);
         return true;
     }
 

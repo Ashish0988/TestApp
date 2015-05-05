@@ -1,12 +1,12 @@
 package co.notifie.app;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -14,15 +14,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -32,7 +28,6 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Session;
@@ -311,7 +306,7 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
     }
 
 
-    public void postAvatar(TypedFile avatar) {
+    public static void postAvatar(TypedFile avatar) {
 
         RestClient.get().postAvatar(MainActivity.AUTH_TOKEN, avatar, new Callback<User>() {
             @Override
@@ -325,9 +320,6 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
                 // something went wrong
 
                 Log.e("RetrofitError.....", error.toString());
-                Toast toast = Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.TOP | Gravity.CENTER, 0, 0);
-                toast.show();
             }
         });
     }
@@ -404,6 +396,7 @@ public class SettingsFragment extends Fragment implements AbsListView.OnItemClic
      * @param uri The Uri to query.
      * @author paulburke
      */
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;

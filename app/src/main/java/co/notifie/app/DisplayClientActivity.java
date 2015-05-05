@@ -1,12 +1,14 @@
 package co.notifie.app;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -53,12 +55,17 @@ public class DisplayClientActivity extends ActionBarActivity implements AbsListV
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         mListView.setOnItemClickListener(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.status_bar_color));
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_display_client, menu);
+        // getMenuInflater().inflate(R.menu.menu_display_client, menu);
         return true;
     }
 

@@ -68,6 +68,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textSize="14dp"
+                android:inputType="textPersonName"
                 app:met_primaryColor="@color/white"
                 app:met_floatingLabelText="@string/full_name"
                 app:met_errorColor="@color/error_color"
