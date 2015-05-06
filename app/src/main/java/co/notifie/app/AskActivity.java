@@ -4,18 +4,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import java.util.List;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import mehdi.sakout.fancybuttons.FancyButton;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -26,9 +29,12 @@ public class AskActivity extends ActionBarActivity {
     MaterialSpinner spinner;
     MaterialSpinner template_spinner;
     RealmResults <NotifieClient> clients;
+    RealmResults <NotifieTemplate> templates;
     String[] subjects;
     ArrayAdapter<String> adapter2;
     public static Realm realm;
+    String selected_client_id;
+    String selected_template_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,14 +94,16 @@ public class AskActivity extends ActionBarActivity {
                     }
                     */
 
-                    RealmResults <NotifieTemplate> messages = realm.where(NotifieTemplate.class)
+                    selected_client_id = client.getId();
+
+                    templates = realm.where(NotifieTemplate.class)
                             .equalTo("client_id", client.getId())
                             .findAll();
 
-                    String[] client_subject = new String[messages.size()];
+                    String[] client_subject = new String[templates.size()];
 
-                    for (int i = 0; i < messages.size(); i++) {
-                        client_subject[i] = messages.get(i).getRu_name();
+                    for (int i = 0; i < templates.size(); i++) {
+                        client_subject[i] = templates.get(i).getRu_name();
                     }
 
 
@@ -121,13 +129,43 @@ public class AskActivity extends ActionBarActivity {
         template_spinner = (MaterialSpinner) findViewById(R.id.template_spinner);
         template_spinner.setAdapter(adapter2);
 
+        template_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                NotifieTemplate template = null;
+
+                if (position >= 0) {
+                    template = templates.get(position);
+                    if (template != null) {
+                        selected_template_id = template.getId();
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        FancyButton send_button = (FancyButton) findViewById(R.id.send_request);
+        send_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selected_client_id != null && selected_template_id != null) {
+                    postTemplate(selected_client_id, selected_template_id);
+                }
+            }
+        });
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_ask, menu);
+        //getMenuInflater().inflate(R.menu.menu_ask, menu);
         return true;
     }
 
@@ -170,6 +208,24 @@ public class AskActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    public void postTemplate(String channel_id, String template_id) {
+
+        RestClient.get().postChannelTemplate(MainActivity.AUTH_TOKEN, channel_id, template_id, new Callback<EmptyResponce>() {
+
+            @Override
+            public void success(EmptyResponce resp, Response response) {
+                finish();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast toast = Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
     }
 
 }

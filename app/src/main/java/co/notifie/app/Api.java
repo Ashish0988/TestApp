@@ -70,8 +70,16 @@ public interface Api {
     void getMessageComments(@Header("Authorization") String authorization, @Path("id") String id,
                     Callback<CommentsResponce> callback);
 
+    @PUT("/api/v1/messages/{id}/comments")
+    void putMessageComments(@Header("Authorization") String authorization, @Path("id") String id,
+                            Callback<NotifeMessage> callback);
+
     @POST("/api/v1/messages/{id}/comments")
     void postComment(@Header("Authorization") String authorization, @Path("id") String id, @Body CommentPostWrapper comment,
                      Callback<CommentsResponce> callback);
+
+    @POST("/api/v1/channel_template")
+    void postChannelTemplate(@Header("Authorization") String authorization, @Query("client_id") String client_id,
+                             @Query("template_id") String template_id, Callback<EmptyResponce> callback);
 
 }

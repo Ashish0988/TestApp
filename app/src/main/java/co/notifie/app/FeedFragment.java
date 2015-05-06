@@ -154,7 +154,7 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
 
         mAdapter = new FeedAdapter(getActivity(), R.layout.message_cell, messages, true);
 
-        loadMessages(1, LOAD_PER_PAGE);
+        //loadMessages(1, LOAD_PER_PAGE);
 
     }
 
@@ -242,9 +242,13 @@ public class FeedFragment extends Fragment implements AbsListView.OnItemClickLis
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 
-        //loadMessages(1, LOAD_PER_PAGE);
-
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        loadMessages(1, LOAD_PER_PAGE);
     }
 
     private void showComposeActivity() {

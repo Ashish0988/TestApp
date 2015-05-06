@@ -134,7 +134,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 }
             });
 
-            setupHeart(message.getFavorited());
+            setupHeart(message.getFavorited(), message);
 
             //comments.sort("id", RealmResults.SORT_ORDER_DESCENDING);
 
@@ -238,7 +238,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
         web_view.loadDataWithBaseURL("x-data://base", view_html, "text/html", "UTF-8", null);
     }
 
-    public void setupHeart(String favorited) {
+    public void setupHeart(String favorited, NotifeMessage setup_message) {
 
         if (favorited != null && favorited.equals("true")) {
             favorite_button.setSelected(true);
@@ -257,7 +257,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
             @Override
             public void success(NotifeMessage resp_message, Response response) {
                 // success!
-                setupHeart(resp_message.getFavorited());
+                setupHeart(resp_message.getFavorited(), message);
 
             }
 
@@ -325,7 +325,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
     //
     // Load Messages From Server
     //
-    public static void loadComments(String comment_id, final Boolean scroll_down) {
+    public static void loadComments(final String comment_id, final Boolean scroll_down) {
 
         RestClient.get().getMessageComments(MainActivity.AUTH_TOKEN, comment_id, new Callback<CommentsResponce>() {
             @Override
@@ -348,12 +348,28 @@ public class DisplayMessageActivity extends ActionBarActivity {
                     }
                 }
 
+                RestClient.get().putMessageComments(MainActivity.AUTH_TOKEN, comment_id, new Callback<NotifeMessage>() {
+
+                    @Override
+                    public void success(NotifeMessage message, Response response) {
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // something went wrong
                 Log.e("App", "Error" + error);
+
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
 

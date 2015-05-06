@@ -192,18 +192,18 @@ public class SwipeActivity extends ActionBarActivity implements
 
         getCurrentUser();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         int badgeCount = 0;
         try {
             ShortcutBadger.setBadge(getApplicationContext(), badgeCount);
         } catch (ShortcutBadgeException e) {
             //handle the Exception
         }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
 
